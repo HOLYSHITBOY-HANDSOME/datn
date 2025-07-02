@@ -52,8 +52,6 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
 
         timer = new Timer(20, this);
         timer.start();
-        
-        birdImage = new ImageIcon(getClass().getResource("/flappybird/image/uia.jpg")).getImage();
 
         addPipe(true);
         addPipe(true);
@@ -123,7 +121,8 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         super.paintComponent(g);
         g.setColor(Color.green.darker());
         g.fillRect(0, HEIGHT - 100, WIDTH, 100);
-        g.drawImage(birdImage, 100, birdY, BIRD_SIZE, BIRD_SIZE, null);
+        g.setColor(Color.red);
+        g.fillRect(100, birdY, BIRD_SIZE, BIRD_SIZE);
         g.setColor(Color.green);
         for (Rectangle pipe : pipes) {
             g.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
