@@ -13,5 +13,6 @@ public class BoardGame {
     public static void main(String[] args) {
         System.out.println("Hello World!");
         System.out.println("hello cac ban");
+        System.out.println("hello");
     }
 }
