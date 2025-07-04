@@ -20,12 +20,12 @@
 ---
 <p align="center">
   <a href="https://github.com/jacksonks0104">
-    <img src="https://avatars.githubusercontent.com/jacksonks0104" width="80" height="80" style="border-radius: 50%; object-fit: cover;" />
+    <img src="https://avatars.githubusercontent.com/jacksonks0104" width="60" height="60" style="border-radius:50%; object-fit:cover;" />
   </a>
   <a href="https://github.com/Bill269">
-    <img src="https://avatars.githubusercontent.com/Bill269" width="80" height="80" style="border-radius: 50%; object-fit: cover;" />
+    <img src="https://avatars.githubusercontent.com/Bill269" width="60" height="60" style="border-radius:50%; object-fit:cover;" />
   </a>
   <a href="https://github.com/hoengggg">
-    <img src="https://avatars.githubusercontent.com/hoengggg" width="80" height="80" style="border-radius: 50%; object-fit: cover;" />
+    <img src="https://avatars.githubusercontent.com/hoengggg" width="60" height="60" style="border-radius:50%; object-fit:cover;" />
   </a>
 </p>
