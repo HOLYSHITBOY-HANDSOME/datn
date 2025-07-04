@@ -17,3 +17,25 @@
 - Ứng dụng được phát triển bằng Java trên môi trường NetBeans, sử dụng SQL Server làm hệ quản trị cơ sở dữ liệu để lưu trữ và quản lý dữ liệu hệ thống.
 
 ---
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/jacksonks0104">
+        <img src="https://avatars.githubusercontent.com/jacksonks0104" width="80px;" alt=""/>
+        <br /><sub><b>jacksonks0104</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Bill269">
+        <img src="https://avatars.githubusercontent.com/Bill269" width="80px;" alt=""/>
+        <br /><sub><b>Bill269</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/hoengggg">
+        <img src="https://avatars.githubusercontent.com/hoengggg" width="80px;" alt=""/>
+        <br /><sub><b>hoengggg</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
