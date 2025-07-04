@@ -18,7 +18,7 @@
 
 🌠 Members
 ---
-<p align="center">
+<p>
   <a href="https://github.com/jacksonks0104">
     <img src="https://avatars.githubusercontent.com/jacksonks0104" width="60" height="60" style="border-radius:50%; object-fit:cover;" />
   </a>
