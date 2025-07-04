@@ -15,3 +15,17 @@
 - Đây là lần đầu tiên chúng tôi phát triển một dự án về game nên có thể chưa thực sự hoàn thiện hoặc chuyên nghiệp.
 
 - Ứng dụng được phát triển bằng Java trên môi trường NetBeans, sử dụng SQL Server làm hệ quản trị cơ sở dữ liệu để lưu trữ và quản lý dữ liệu hệ thống.
+
+🌠 Members
+---
+<p>
+  <a href="https://github.com/jacksonks0104">
+    <img src="https://avatars.githubusercontent.com/jacksonks0104" width="50" height="50" style="border-radius: 100%; object-fit:cover;" />
+  </a>
+  <a href="https://github.com/Bill269">
+    <img src="https://avatars.githubusercontent.com/Bill269" width="50" height="50" style="border-radius:100%; object-fit:cover;" />
+  </a>
+  <a href="https://github.com/hoengggg">
+    <img src="https://avatars.githubusercontent.com/hoengggg" width="50" height="50" style="border-radius:100%; object-fit:cover;" />
+  </a>
+</p>
