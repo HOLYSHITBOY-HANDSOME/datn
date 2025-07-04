@@ -16,16 +16,25 @@
 
 - Ứng dụng được phát triển bằng Java trên môi trường NetBeans, sử dụng SQL Server làm hệ quản trị cơ sở dữ liệu để lưu trữ và quản lý dữ liệu hệ thống.
 
-🌠 Members
 ---
+
+## 🌠 Members 
+
+This project was proudly developed by our team of students at FPT Polytechnic. Each member played an essential role in coding, designing, and building features for this game application. The avatars below represent our GitHub profiles — feel free to explore them to see more of our work!
 <p>
   <a href="https://github.com/jacksonks0104">
-    <img src="https://avatars.githubusercontent.com/jacksonks0104" width="50" height="50" style="border-radius: 100%; object-fit:cover;" />
+    <img src="https://avatars.githubusercontent.com/jacksonks0104" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
   <a href="https://github.com/Bill269">
-    <img src="https://avatars.githubusercontent.com/Bill269" width="50" height="50" style="border-radius:100%; object-fit:cover;" />
+    <img src="https://avatars.githubusercontent.com/Bill269" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
   <a href="https://github.com/hoengggg">
-    <img src="https://avatars.githubusercontent.com/hoengggg" width="50" height="50" style="border-radius:100%; object-fit:cover;" />
+    <img src="https://avatars.githubusercontent.com/hoengggg" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
+  </a>
+  <a href="https://github.com/HOLYSHITBOY-HANDSOME">
+    <img src="https://avatars.githubusercontent.com/HOLYSHITBOY-HANDSOME" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
+  </a>
+  <a href="https://github.com/thanhdat1234522">
+    <img src="https://avatars.githubusercontent.com/thanhdat1234522" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
 </p>
