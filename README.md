@@ -16,8 +16,9 @@
 
 - Ứng dụng được phát triển bằng Java trên môi trường NetBeans, sử dụng SQL Server làm hệ quản trị cơ sở dữ liệu để lưu trữ và quản lý dữ liệu hệ thống.
 
-## 🌠 Members 
 ---
+
+## 🌠 Members 
 
 This project was proudly developed by our team of students at FPT Polytechnic. Each member played an essential role in coding, designing, and building features for this game application. The avatars below represent our GitHub profiles — feel free to explore them to see more of our work!
 <p>
