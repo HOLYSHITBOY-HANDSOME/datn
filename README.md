@@ -18,17 +18,17 @@
 
 🌠 Members 
 ---
-<p>
+<p align="center">
   <a href="https://github.com/jacksonks0104">
-    <img src="https://avatars.githubusercontent.com/jacksonks0104" width="50" height="50" style="border-radius: 100%; object-fit:cover;" />
+    <img src="https://avatars.githubusercontent.com/jacksonks0104" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
   <a href="https://github.com/Bill269">
-    <img src="https://avatars.githubusercontent.com/Bill269" width="50" height="50" style="border-radius:100%; object-fit:cover;" />
+    <img src="https://avatars.githubusercontent.com/Bill269" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
   <a href="https://github.com/hoengggg">
-    <img src="https://avatars.githubusercontent.com/hoengggg" width="50" height="50" style="border-radius:100%; object-fit:cover;" />
+    <img src="https://avatars.githubusercontent.com/hoengggg" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
   <a href="https://github.com/HOLYSHITBOY-HANDSOME">
-    <img src="https://avatars.githubusercontent.com/hoengggg" width="50" height="50" style="border-radius:100%; object-fit:cover;" />
+    <img src="https://avatars.githubusercontent.com/HOLYSHITBOY-HANDSOME" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
 </p>
