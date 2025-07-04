@@ -18,6 +18,7 @@
 
 🌠 Members 
 ---
+### This project was proudly developed by our team of students at FPT Polytechnic. Each member played an essential role in coding, designing, and building features for this game application. The avatars below represent our GitHub profiles — feel free to explore them to see more of our work!
 <p>
   <a href="https://github.com/jacksonks0104">
     <img src="https://avatars.githubusercontent.com/jacksonks0104" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
