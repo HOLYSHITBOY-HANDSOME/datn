@@ -34,4 +34,7 @@ This project was proudly developed by our team of students at FPT Polytechnic. E
   <a href="https://github.com/HOLYSHITBOY-HANDSOME">
     <img src="https://avatars.githubusercontent.com/HOLYSHITBOY-HANDSOME" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
   </a>
+  <a href="https://github.com/thanhdat1234522">
+    <img src="https://avatars.githubusercontent.com/thanhdat1234522" width="50" height="50" style="border-radius:50%; object-fit:cover; margin: 0 12px; box-shadow: 0 0 5px rgba(0,0,0,0.15);" />
+  </a>
 </p>
