@@ -15,3 +15,5 @@
 - Đây là lần đầu tiên chúng tôi phát triển một dự án về game nên có thể chưa thực sự hoàn thiện hoặc chuyên nghiệp.
 
 - Ứng dụng được phát triển bằng Java trên môi trường NetBeans, sử dụng SQL Server làm hệ quản trị cơ sở dữ liệu để lưu trữ và quản lý dữ liệu hệ thống.
+
+---
