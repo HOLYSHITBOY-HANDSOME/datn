@@ -59,7 +59,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
         jLabel1.setFont(new java.awt.Font("Unispace", 1, 18)); // NOI18N
         jLabel1.setText("user");
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, -1));
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 51));
@@ -101,12 +101,22 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         btnPacman.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnPacman.setForeground(new java.awt.Color(255, 255, 255));
         btnPacman.setText("PacMan");
+        btnPacman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPacmanActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, 137, -1));
 
         btnShot.setBackground(new java.awt.Color(153, 0, 102));
         btnShot.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnShot.setForeground(new java.awt.Color(255, 255, 255));
         btnShot.setText("Bắn Gà");
+        btnShot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShotActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 137, -1));
 
         btnSnake.setBackground(new java.awt.Color(153, 0, 102));
@@ -144,7 +154,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnChangePasswordActionPerformed(evt);
             }
         });
-        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, 137, -1));
+        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 137, -1));
 
         btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUserManager.setText("Quản lý người dùng");
@@ -192,7 +202,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         });
         jPanel5.add(btnHistoryManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 400, 170, -1));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Home.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/User (1).png"))); // NOI18N
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -251,6 +261,14 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         // TODO add your handling code here:
         this.showRanSanMoiGame();
     }//GEN-LAST:event_btnSnakeActionPerformed
+
+    private void btnShotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShotActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnShotActionPerformed
+
+    private void btnPacmanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPacmanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPacmanActionPerformed
 
     /**
      * @param args the command line arguments
