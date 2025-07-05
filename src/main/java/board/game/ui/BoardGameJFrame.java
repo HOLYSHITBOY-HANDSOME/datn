@@ -168,6 +168,11 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         btnSnake.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSnake.setForeground(new java.awt.Color(255, 255, 255));
         btnSnake.setText("Rắn Săn Mồi");
+        btnSnake.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSnakeActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, 137, -1));
 
         btnTank.setBackground(new java.awt.Color(153, 0, 102));
@@ -320,6 +325,11 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         // TODO add your handling code here:
         this.showFlappyBirdGame();
     }//GEN-LAST:event_btnFlappyActionPerformed
+
+    private void btnSnakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSnakeActionPerformed
+        // TODO add your handling code here:
+        this.showRanSanMoiGame();
+    }//GEN-LAST:event_btnSnakeActionPerformed
 
     /**
      * @param args the command line arguments

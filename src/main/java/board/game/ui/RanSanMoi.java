@@ -92,10 +92,14 @@ public class RanSanMoi extends JPanel implements ActionListener, KeyListener {
     private void move() {
         Point head = new Point(snake.get(0));
         switch (direction) {
-            case 'U' -> head.y--;
-            case 'D' -> head.y++;
-            case 'L' -> head.x--;
-            case 'R' -> head.x++;
+            case 'U' ->
+                head.y--;
+            case 'D' ->
+                head.y++;
+            case 'L' ->
+                head.x--;
+            case 'R' ->
+                head.x++;
         }
         snake.add(0, head);
         if (head.equals(food)) {
@@ -155,10 +159,14 @@ public class RanSanMoi extends JPanel implements ActionListener, KeyListener {
                 int offsetX = 0, offsetY = 0;
 
                 switch (direction) {
-                    case 'U' -> offsetY = -2;
-                    case 'D' -> offsetY = 2;
-                    case 'L' -> offsetX = -2;
-                    case 'R' -> offsetX = 2;
+                    case 'U' ->
+                        offsetY = -2;
+                    case 'D' ->
+                        offsetY = 2;
+                    case 'L' ->
+                        offsetX = -2;
+                    case 'R' ->
+                        offsetX = 2;
                 }
 
                 int px = p.x * TILE_SIZE;
@@ -192,35 +200,48 @@ public class RanSanMoi extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!running) return;
+        if (!running) {
+            return;
+        }
 
         char newDir = switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP -> 'U';
-            case KeyEvent.VK_DOWN -> 'D';
-            case KeyEvent.VK_LEFT -> 'L';
-            case KeyEvent.VK_RIGHT -> 'R';
-            default -> direction;
+            case KeyEvent.VK_UP ->
+                'U';
+            case KeyEvent.VK_DOWN ->
+                'D';
+            case KeyEvent.VK_LEFT ->
+                'L';
+            case KeyEvent.VK_RIGHT ->
+                'R';
+            default ->
+                direction;
         };
 
-        if ((direction == 'U' && newDir != 'D') ||
-            (direction == 'D' && newDir != 'U') ||
-            (direction == 'L' && newDir != 'R') ||
-            (direction == 'R' && newDir != 'L')) {
+        if ((direction == 'U' && newDir != 'D')
+                || (direction == 'D' && newDir != 'U')
+                || (direction == 'L' && newDir != 'R')
+                || (direction == 'R' && newDir != 'L')) {
             direction = newDir;
         }
     }
 
-    @Override public void keyReleased(KeyEvent e) {}
-    @Override public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 
-    public static void main(String[] args) {
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    public static void showGame() {
         JFrame frame = new JFrame("Rắn Săn Mồi");
         RanSanMoi gamePanel = new RanSanMoi();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ nhưng không tắt app
         frame.add(gamePanel);
         frame.pack();
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
 }

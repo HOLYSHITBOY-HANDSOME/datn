@@ -82,4 +82,9 @@ public interface BoardGameController {
     default void showFlappyBirdGame() {
         new FlappyBird(); // Gọi constructor bạn vừa thêm
     }
+
+    default void showRanSanMoiGame() {
+        RanSanMoi.showGame();
+    }
+
 }
