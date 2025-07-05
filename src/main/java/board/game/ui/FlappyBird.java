@@ -17,7 +17,8 @@ import java.util.Random;
  */
 public class FlappyBird {
 
-    public static void main(String[] args) {
+    
+    public FlappyBird(){
         JFrame frame = new JFrame("Flappy Bird - Java");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -25,6 +26,10 @@ public class FlappyBird {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        new FlappyBird();
     }
 }
 
