@@ -59,7 +59,7 @@ public class LoginJDialog extends javax.swing.JDialog {
         jButton2.setBackground(new java.awt.Color(204, 0, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Đăng ký?");
+        jButton2.setText("Đăng ký");
 
         Loginbtn.setBackground(new java.awt.Color(204, 0, 204));
         Loginbtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

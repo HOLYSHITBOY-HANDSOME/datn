@@ -30,15 +30,10 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private void initComponents() {
 
         jPanel5 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         btnDoiDiem = new javax.swing.JButton();
-        btnRank = new javax.swing.JButton();
-        btnHistory = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         btnFlappy = new javax.swing.JButton();
         btnPacman = new javax.swing.JButton();
         btnShot = new javax.swing.JButton();
@@ -54,7 +49,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         btnStatManager = new javax.swing.JButton();
-        btnRankManager = new javax.swing.JButton();
         btnHistoryManager = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
@@ -63,35 +57,9 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jPanel5.setBackground(new java.awt.Color(153, 153, 153));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel4.setBackground(new java.awt.Color(153, 0, 102));
-
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Điểm");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap(148, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(15, 15, 15))
-        );
-
-        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, -1, -1));
-
         jLabel1.setFont(new java.awt.Font("Unispace", 1, 18)); // NOI18N
-        jLabel1.setText("jLabel1");
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
+        jLabel1.setText("user");
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, -1, -1));
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 51));
@@ -101,7 +69,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 137, -1));
+        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 137, -1));
 
         btnDoiDiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDoiDiem.setText("Đổi điểm");
@@ -110,36 +78,13 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnDoiDiemActionPerformed(evt);
             }
         });
-        jPanel5.add(btnDoiDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 137, -1));
-
-        btnRank.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRank.setText("Bảng xếp hạng");
-        btnRank.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRankActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 137, -1));
-
-        btnHistory.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnHistory.setText("Lịch sử");
-        btnHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHistoryActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 137, -1));
+        jPanel5.add(btnDoiDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 370, 170, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Chào mừng: (User)");
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Stats: (highest score)");
-        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, -1, -1));
 
         btnFlappy.setBackground(new java.awt.Color(153, 0, 102));
         btnFlappy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -150,19 +95,19 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnFlappyActionPerformed(evt);
             }
         });
-        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 137, -1));
+        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 137, -1));
 
         btnPacman.setBackground(new java.awt.Color(153, 0, 102));
         btnPacman.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnPacman.setForeground(new java.awt.Color(255, 255, 255));
         btnPacman.setText("PacMan");
-        jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, 137, -1));
+        jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 137, -1));
 
         btnShot.setBackground(new java.awt.Color(153, 0, 102));
         btnShot.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnShot.setForeground(new java.awt.Color(255, 255, 255));
         btnShot.setText("Bắn Gà");
-        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, 137, -1));
+        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, 137, -1));
 
         btnSnake.setBackground(new java.awt.Color(153, 0, 102));
         btnSnake.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -173,7 +118,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnSnakeActionPerformed(evt);
             }
         });
-        jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, 137, -1));
+        jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 200, 137, -1));
 
         btnTank.setBackground(new java.awt.Color(153, 0, 102));
         btnTank.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -184,13 +129,13 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnTankActionPerformed(evt);
             }
         });
-        jPanel5.add(btnTank, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 140, -1));
+        jPanel5.add(btnTank, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 140, -1));
 
         btnBom.setBackground(new java.awt.Color(153, 0, 102));
         btnBom.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnBom.setForeground(new java.awt.Color(255, 255, 255));
         btnBom.setText("Dò Mìn");
-        jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 320, 137, -1));
+        jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 137, -1));
 
         btnChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnChangePassword.setText("Đổi mật khẩu");
@@ -199,7 +144,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnChangePasswordActionPerformed(evt);
             }
         });
-        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 137, -1));
+        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 137, -1));
 
         btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUserManager.setText("Quản lý người dùng");
@@ -211,23 +156,23 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 440, 170, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Pacman.png"))); // NOI18N
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, -1, -1));
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 130, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png"))); // NOI18N
         jLabel7.setToolTipText("");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, -1, -1));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 130, -1, -1));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/snake.png"))); // NOI18N
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 240, -1, -1));
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 200, -1, -1));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/bomb.png"))); // NOI18N
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 320, -1, -1));
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 270, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/chicken.png"))); // NOI18N
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, -1, -1));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 200, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/xetang.png"))); // NOI18N
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 320, -1, -1));
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, -1, -1));
 
         btnStatManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnStatManager.setText("Thống kê");
@@ -236,16 +181,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnStatManagerActionPerformed(evt);
             }
         });
-        jPanel5.add(btnStatManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, 170, -1));
-
-        btnRankManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRankManager.setText("Quản lý BXH");
-        btnRankManager.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRankManagerActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnRankManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 390, 170, -1));
+        jPanel5.add(btnStatManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 370, 170, -1));
 
         btnHistoryManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHistoryManager.setText("Quản lý lịch sử");
@@ -286,16 +222,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         this.showChangePasswordJDilog(this);
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
-    private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
-        // TODO add your handling code here:
-        this.showHistoryJDialog(this);
-    }//GEN-LAST:event_btnHistoryActionPerformed
-
-    private void btnRankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRankActionPerformed
-        // TODO add your handling code here:
-        this.showRankJDialog(this);
-    }//GEN-LAST:event_btnRankActionPerformed
-
     private void btnDoiDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiDiemActionPerformed
         // TODO add your handling code here:
         this.showDoidiemJDialog(this);
@@ -305,11 +231,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         // TODO add your handling code here:
         this.showThongKeManagerJDialog(this);
     }//GEN-LAST:event_btnStatManagerActionPerformed
-
-    private void btnRankManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRankManagerActionPerformed
-        // TODO add your handling code here:
-        this.showRankManagerJDialog(this);
-    }//GEN-LAST:event_btnRankManagerActionPerformed
 
     private void btnUserManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserManagerActionPerformed
         // TODO add your handling code here:
@@ -372,11 +293,8 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private javax.swing.JButton btnChangePassword;
     private javax.swing.JButton btnDoiDiem;
     private javax.swing.JButton btnFlappy;
-    private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnHistoryManager;
     private javax.swing.JButton btnPacman;
-    private javax.swing.JButton btnRank;
-    private javax.swing.JButton btnRankManager;
     private javax.swing.JButton btnShot;
     private javax.swing.JButton btnSnake;
     private javax.swing.JButton btnStatManager;
@@ -387,14 +305,11 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
 
