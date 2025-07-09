@@ -14,7 +14,8 @@ import java.util.List;
  *
  * @author LAPTOP LE SON
  */
-public class UserDAOimpl implements UserDAO{
+public class UserDAOimpl implements UserDAO {
+
     String createSql = "INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?)";
     String updateSql = "UPDATE Users SET tennguoidung=?, matkhau=?, trangthai=?, vaitro=?, email=?, sdt=? WHERE idnguoidung=?";
     String deleteSql = "DELETE FROM Users WHERE idnguoidung=?";
@@ -27,8 +28,8 @@ public class UserDAOimpl implements UserDAO{
             entity.getIdNguoiDung(),
             entity.getTenNguoiDung(),
             entity.getMatKhau(),
-            entity.getTrangThai(),
-            entity.getVaiTro(),
+            entity.isTrangThai(),
+            entity.isVaiTro(),
             entity.getEmail(),
             entity.getSdt()
         };
@@ -41,8 +42,8 @@ public class UserDAOimpl implements UserDAO{
         Object[] args = {
             entity.getTenNguoiDung(),
             entity.getMatKhau(),
-            entity.getTrangThai(),
-            entity.getVaiTro(),
+            entity.isTrangThai(),
+            entity.isVaiTro(),
             entity.getEmail(),
             entity.getSdt(),
             entity.getIdNguoiDung()
@@ -57,11 +58,17 @@ public class UserDAOimpl implements UserDAO{
 
     @Override
     public List<User> findAll() {
-       return XQuery.getBeanList(User.class, findAllSql);
+        return XQuery.getBeanList(User.class, findAllSql);
     }
 
     @Override
     public User findById(String id) {
-       return XQuery.getSingleBean(User.class, findByIdSql, id);
+        return XQuery.getSingleBean(User.class, findByIdSql, id);
+    }
+
+    @Override
+    public void updatePassword(String username, String newPassword) {
+        String sql = "UPDATE Users SET matkhau=? WHERE idnguoidung=?";
+        XJdbc.executeUpdate(sql, newPassword, username);
     }
 }

@@ -20,4 +20,7 @@ public interface UserDAO extends CrudDAO<User, String>{
 //
 //    // Lọc người dùng theo vai trò (admin/user)
 //    List<User> findByVaiTro(String vaiTro);
+    
+    void updatePassword(String username, String newPassword);
+    
 }
