@@ -210,4 +210,16 @@ public class Pacman extends JPanel implements ActionListener, KeyListener {
 
     
     private int score = 0;
+    
+    
+    public static void showGame1() {
+        JFrame frame = new JFrame("Pacman");
+        Pacman gamePanel = new Pacman();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ nhưng không tắt app
+        frame.add(gamePanel);
+        frame.pack();
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 }

@@ -5,6 +5,7 @@
 package board.game.entity;
 
 import lombok.*;
+import java.util.Date;
 
 /**
  *
@@ -14,13 +15,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Diem {
 
-    private String idNguoiDung;    // PK
-    private String tenNguoiDung;
-    private String matKhau;
-    private String trangThai;
-    private String vaiTro;         // admin / user
-    private String email;
-    private String sdt;
+    private int idDiem;            // PK, auto-increment
+    private String idNguoiDung;    // FK → Users
+    private String idGame;         // FK → Game
+    private int diemSo;
+    private Date ngayChoi;
 }

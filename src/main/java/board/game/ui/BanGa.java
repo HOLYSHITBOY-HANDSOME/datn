@@ -198,4 +198,15 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     private long lastShootTime = 0;
     private final int SHOOT_DELAY = 300; // milliseconds
 
+    
+    public static void showGame2() {
+        JFrame frame = new JFrame("Bắn gà");
+        BanGa gamePanel = new BanGa();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ nhưng không tắt app
+        frame.add(gamePanel);
+        frame.pack();
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 }

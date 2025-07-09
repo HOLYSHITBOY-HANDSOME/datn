@@ -48,7 +48,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        btnStatManager = new javax.swing.JButton();
         btnHistoryManager = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
@@ -78,7 +77,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnDoiDiemActionPerformed(evt);
             }
         });
-        jPanel5.add(btnDoiDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 330, 170, -1));
+        jPanel5.add(btnDoiDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -145,6 +144,11 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         btnBom.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnBom.setForeground(new java.awt.Color(255, 255, 255));
         btnBom.setText("Dò Mìn");
+        btnBom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBomActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 230, 137, -1));
 
         btnChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -184,15 +188,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/xetang.png"))); // NOI18N
         jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, -1, -1));
 
-        btnStatManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnStatManager.setText("Thống kê");
-        btnStatManager.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStatManagerActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnStatManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 330, 170, -1));
-
         btnHistoryManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHistoryManager.setText("Quản lý lịch sử");
         btnHistoryManager.addActionListener(new java.awt.event.ActionListener() {
@@ -221,6 +216,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
     private void btnTankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTankActionPerformed
         // TODO add your handling code here:
+        this.showTank();
     }//GEN-LAST:event_btnTankActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -236,11 +232,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         // TODO add your handling code here:
         this.showDoidiemJDialog(this);
     }//GEN-LAST:event_btnDoiDiemActionPerformed
-
-    private void btnStatManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatManagerActionPerformed
-        // TODO add your handling code here:
-        this.showThongKeManagerJDialog(this);
-    }//GEN-LAST:event_btnStatManagerActionPerformed
 
     private void btnUserManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserManagerActionPerformed
         // TODO add your handling code here:
@@ -264,11 +255,18 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
     private void btnShotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShotActionPerformed
         // TODO add your handling code here:
+        this.showBanGaGame();
     }//GEN-LAST:event_btnShotActionPerformed
 
     private void btnPacmanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPacmanActionPerformed
         // TODO add your handling code here:
+        this.showPacManGame();
     }//GEN-LAST:event_btnPacmanActionPerformed
+
+    private void btnBomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBomActionPerformed
+        // TODO add your handling code here:
+        this.showDoMin();
+    }//GEN-LAST:event_btnBomActionPerformed
 
     /**
      * @param args the command line arguments
@@ -315,7 +313,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private javax.swing.JButton btnPacman;
     private javax.swing.JButton btnShot;
     private javax.swing.JButton btnSnake;
-    private javax.swing.JButton btnStatManager;
     private javax.swing.JButton btnTank;
     private javax.swing.JButton btnUserManager;
     private javax.swing.JButton jButton6;

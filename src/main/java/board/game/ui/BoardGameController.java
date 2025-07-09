@@ -86,5 +86,21 @@ public interface BoardGameController {
     default void showRanSanMoiGame() {
         RanSanMoi.showGame();
     }
+    
+    default void showPacManGame(){
+        Pacman.showGame1();
+    }
+    
+    default void showBanGaGame(){
+        BanGa.showGame2();
+    }
+    
+    default void showTank(){
+        BattleCity.showGame3();
+    }
+    
+    default void showDoMin(){
+        DoMin.showGame4();
+    }
 
 }

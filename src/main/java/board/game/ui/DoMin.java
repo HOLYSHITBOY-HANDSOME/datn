@@ -12,7 +12,8 @@ import java.awt.event.*;
  *
  * @author DELL
  */
-public class DoMin extends JFrame {
+public class DoMin extends JPanel {
+
     private final int ROWS = 40;
     private final int COLS = 75;
     private final int MINES = 300;
@@ -27,8 +28,6 @@ public class DoMin extends JFrame {
     private JButton replayButton;
 
     public DoMin() {
-        setTitle("Dò Mìn");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         boardPanel = new JPanel(new GridLayout(ROWS, COLS));
@@ -39,10 +38,6 @@ public class DoMin extends JFrame {
         add(replayButton, BorderLayout.SOUTH);
 
         initGame();
-
-        setSize(950, 600);
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     private void initGame() {
@@ -59,12 +54,16 @@ public class DoMin extends JFrame {
                 buttons[row][col].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (gameOver) return;
+                        if (gameOver) {
+                            return;
+                        }
 
                         if (SwingUtilities.isRightMouseButton(e)) {
                             toggleFlag(r, c);
                         } else {
-                            if (!flagged[r][c]) handleClick(r, c);
+                            if (!flagged[r][c]) {
+                                handleClick(r, c);
+                            }
                         }
                     }
                 });
@@ -86,7 +85,9 @@ public class DoMin extends JFrame {
     }
 
     private void toggleFlag(int r, int c) {
-        if (revealed[r][c]) return;
+        if (revealed[r][c]) {
+            return;
+        }
 
         flagged[r][c] = !flagged[r][c];
         buttons[r][c].setText(flagged[r][c] ? "🚩" : "");
@@ -133,7 +134,9 @@ public class DoMin extends JFrame {
     }
 
     private void reveal(int r, int c) {
-        if (r < 0 || r >= ROWS || c < 0 || c >= COLS || revealed[r][c] || flagged[r][c]) return;
+        if (r < 0 || r >= ROWS || c < 0 || c >= COLS || revealed[r][c] || flagged[r][c]) {
+            return;
+        }
 
         revealed[r][c] = true;
         int count = countAdjacentMines(r, c);
@@ -178,5 +181,15 @@ public class DoMin extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(DoMin::new);
+    }
+
+    public static void showGame4() {
+        JFrame frame = new JFrame("Dò Mìn");
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.add(new DoMin()); // Thêm JPanel vào JFrame
+    frame.pack(); // Tự động fit size
+    frame.setSize(950, 600); // Hoặc giữ nguyên size nếu bạn muốn cố định
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
     }
 }

@@ -14,13 +14,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Game {
 
-    private String idNguoiDung;    // PK
-    private String tenNguoiDung;
-    private String matKhau;
+    private String idGame;     // PK
+    private String tenGame;
+    private String moTa;
     private String trangThai;
-    private String vaiTro;         // admin / user
-    private String email;
-    private String sdt;
 }

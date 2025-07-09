@@ -15,6 +15,7 @@ import javax.swing.Timer;
  * @author DELL
  */
 public class BattleCity extends JPanel implements KeyListener, ActionListener {
+
     Timer gameLoop = new Timer(50, this); // 20 FPS
     Timer spawnTimer;
 
@@ -38,6 +39,7 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
     java.util.List<Bullet> enemyBullets = new ArrayList<>();
 
     class Enemy {
+
         int x, y, dir;
         int stepCounter = 0;
         int fireCooldown = 0;
@@ -51,10 +53,14 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
         void move() {
             int dx = 0, dy = 0;
             switch (dir) {
-                case 0 -> dy = -TILE_SIZE / 4;
-                case 1 -> dx = TILE_SIZE / 4;
-                case 2 -> dy = TILE_SIZE / 4;
-                case 3 -> dx = -TILE_SIZE / 4;
+                case 0 ->
+                    dy = -TILE_SIZE / 4;
+                case 1 ->
+                    dx = TILE_SIZE / 4;
+                case 2 ->
+                    dy = TILE_SIZE / 4;
+                case 3 ->
+                    dx = -TILE_SIZE / 4;
             }
             int nextX = x + dx;
             int nextY = y + dy;
@@ -92,12 +98,6 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
     java.util.List<Enemy> enemies = new ArrayList<>();
 
     public BattleCity() {
-        frame = new JFrame("Battle City - Java Swing");
-        frame.setSize(COLS * TILE_SIZE + 16, ROWS * TILE_SIZE + 100);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(this);
-        frame.setResizable(false);
-
         retryButton = new JButton("Retry");
         retryButton.setBounds(110, 250, 100, 40);
         retryButton.addActionListener(e -> resetGame());
@@ -117,8 +117,6 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
         this.setFocusable(true);
         this.requestFocusInWindow();
         this.addKeyListener(this);
-
-        frame.setVisible(true);
 
         initMap();
         gameLoop.start();
@@ -176,10 +174,14 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
             for (int j = 0; j < COLS; j++) {
                 int tile = map[i][j];
                 switch (tile) {
-                    case 1 -> g.setColor(new Color(188, 66, 66));
-                    case 2 -> g.setColor(Color.GRAY);
-                    case 3 -> g.setColor(Color.BLACK);
-                    default -> g.setColor(Color.BLACK);
+                    case 1 ->
+                        g.setColor(new Color(188, 66, 66));
+                    case 2 ->
+                        g.setColor(Color.GRAY);
+                    case 3 ->
+                        g.setColor(Color.BLACK);
+                    default ->
+                        g.setColor(Color.BLACK);
                 }
                 if (tile != 0) {
                     g.fillRect(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -195,18 +197,28 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
             int midX = playerX + TILE_SIZE / 2;
             int midY = playerY + TILE_SIZE / 2;
             switch (playerDir) {
-                case 0 -> g.fillRect(midX - 2, playerY - 6, 4, 6);
-                case 1 -> g.fillRect(playerX + TILE_SIZE, midY - 2, 6, 4);
-                case 2 -> g.fillRect(midX - 2, playerY + TILE_SIZE, 4, 6);
-                case 3 -> g.fillRect(playerX - 6, midY - 2, 6, 4);
+                case 0 ->
+                    g.fillRect(midX - 2, playerY - 6, 4, 6);
+                case 1 ->
+                    g.fillRect(playerX + TILE_SIZE, midY - 2, 6, 4);
+                case 2 ->
+                    g.fillRect(midX - 2, playerY + TILE_SIZE, 4, 6);
+                case 3 ->
+                    g.fillRect(playerX - 6, midY - 2, 6, 4);
             }
         }
 
         g.setColor(Color.WHITE);
-        for (Bullet b : bullets) b.draw(g);
+        for (Bullet b : bullets) {
+            b.draw(g);
+        }
         g.setColor(Color.RED);
-        for (Bullet b : enemyBullets) b.draw(g);
-        for (Enemy e : enemies) e.draw(g);
+        for (Bullet b : enemyBullets) {
+            b.draw(g);
+        }
+        for (Enemy e : enemies) {
+            e.draw(g);
+        }
 
         if (gameOver) {
             g.setColor(Color.RED);
@@ -224,17 +236,32 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (gameOver || gameWin) return;
+        if (gameOver || gameWin) {
+            return;
+        }
 
         int code = e.getKeyCode();
         int dx = 0, dy = 0;
 
         switch (code) {
-            case KeyEvent.VK_UP -> { playerDir = 0; dy = -TILE_SIZE; }
-            case KeyEvent.VK_RIGHT -> { playerDir = 1; dx = TILE_SIZE; }
-            case KeyEvent.VK_DOWN -> { playerDir = 2; dy = TILE_SIZE; }
-            case KeyEvent.VK_LEFT -> { playerDir = 3; dx = -TILE_SIZE; }
-            case KeyEvent.VK_SPACE -> fire();
+            case KeyEvent.VK_UP -> {
+                playerDir = 0;
+                dy = -TILE_SIZE;
+            }
+            case KeyEvent.VK_RIGHT -> {
+                playerDir = 1;
+                dx = TILE_SIZE;
+            }
+            case KeyEvent.VK_DOWN -> {
+                playerDir = 2;
+                dy = TILE_SIZE;
+            }
+            case KeyEvent.VK_LEFT -> {
+                playerDir = 3;
+                dx = -TILE_SIZE;
+            }
+            case KeyEvent.VK_SPACE ->
+                fire();
         }
 
         int nextX = playerX + dx;
@@ -255,15 +282,23 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (gameOver || gameWin) return;
+        if (gameOver || gameWin) {
+            return;
+        }
 
-        for (Bullet b : bullets) b.move();
+        for (Bullet b : bullets) {
+            b.move();
+        }
         bullets.removeIf(b -> b.outOfBounds() || b.hitWall() || b.hitEnemy());
 
-        for (Bullet b : enemyBullets) b.move();
+        for (Bullet b : enemyBullets) {
+            b.move();
+        }
         enemyBullets.removeIf(b -> b.outOfBounds() || b.hitWall() || b.hitPlayer());
 
-        for (Enemy en : enemies) en.move();
+        for (Enemy en : enemies) {
+            en.move();
+        }
 
         if (enemies.isEmpty()) {
             gameWin = true;
@@ -276,12 +311,15 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
         int row = y / TILE_SIZE;
         int col = x / TILE_SIZE;
 
-        if (row < 0 || col < 0 || row >= ROWS || col >= COLS) return true;
+        if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
+            return true;
+        }
 
         return map[row][col] == 1 || map[row][col] == 2;
     }
 
     class Bullet {
+
         int x, y, dir;
         int speed = 8;
         boolean isPlayer;
@@ -295,10 +333,14 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
 
         void move() {
             switch (dir) {
-                case 0 -> y -= speed;
-                case 1 -> x += speed;
-                case 2 -> y += speed;
-                case 3 -> x -= speed;
+                case 0 ->
+                    y -= speed;
+                case 1 ->
+                    x += speed;
+                case 2 ->
+                    y += speed;
+                case 3 ->
+                    x -= speed;
             }
         }
 
@@ -314,7 +356,9 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
                     map[row][col] = 0;
                     return true;
                 }
-                if (map[row][col] == 2) return true;
+                if (map[row][col] == 2) {
+                    return true;
+                }
                 if (map[row][col] == 3) {
                     gameOver = true;
                     return true;
@@ -324,8 +368,8 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
         }
 
         boolean hitPlayer() {
-            if (!isPlayer && x >= playerX && x <= playerX + TILE_SIZE &&
-                    y >= playerY && y <= playerY + TILE_SIZE) {
+            if (!isPlayer && x >= playerX && x <= playerX + TILE_SIZE
+                    && y >= playerY && y <= playerY + TILE_SIZE) {
                 gameOver = true;
                 return true;
             }
@@ -336,8 +380,8 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
             if (isPlayer) {
                 for (int i = 0; i < enemies.size(); i++) {
                     Enemy en = enemies.get(i);
-                    if (x >= en.x && x <= en.x + TILE_SIZE &&
-                        y >= en.y && y <= en.y + TILE_SIZE) {
+                    if (x >= en.x && x <= en.x + TILE_SIZE
+                            && y >= en.y && y <= en.y + TILE_SIZE) {
                         enemies.remove(i);
                         return true;
                     }
@@ -351,10 +395,25 @@ public class BattleCity extends JPanel implements KeyListener, ActionListener {
         }
     }
 
-    public void keyReleased(KeyEvent e) {}
-    public void keyTyped(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    }
+
+    public void keyTyped(KeyEvent e) {
+    }
 
     public static void main(String[] args) {
         new BattleCity();
+    }
+
+    public static void showGame3() {
+        JFrame frame = new JFrame("Battle City - Java Swing");
+        BattleCity gamePanel = new BattleCity();
+
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.add(gamePanel);
+        frame.setSize(450, 500); // hoặc COLS * TILE_SIZE + padding
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

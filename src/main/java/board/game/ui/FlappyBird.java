@@ -20,7 +20,7 @@ public class FlappyBird {
     
     public FlappyBird(){
         JFrame frame = new JFrame("Flappy Bird - Java");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         frame.add(new GamePanel());
         frame.pack();
