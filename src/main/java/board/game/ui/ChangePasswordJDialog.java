@@ -50,11 +50,11 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 0, 255));
+        jPanel1.setBackground(new java.awt.Color(51, 0, 102));
         jPanel1.setForeground(new java.awt.Color(204, 0, 204));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Source Code Pro", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Barlow Condensed ExtraBold", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Đổi mật khẩu");
 

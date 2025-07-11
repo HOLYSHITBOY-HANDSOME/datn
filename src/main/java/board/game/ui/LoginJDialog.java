@@ -4,6 +4,10 @@
  */
 package board.game.ui;
 
+import board.game.ui.BoardGameJFrame;
+import board.game.util.XJdbc;
+import java.awt.Frame;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,8 +22,13 @@ public class LoginJDialog extends javax.swing.JDialog {
     public LoginJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
+private boolean loginSuccessful = false;
 
+public boolean isLoginSuccessful() {
+    return loginSuccessful;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,14 +43,14 @@ public class LoginJDialog extends javax.swing.JDialog {
         txtPassWord = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnSignUp = new javax.swing.JButton();
         Loginbtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEnd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -56,10 +65,15 @@ public class LoginJDialog extends javax.swing.JDialog {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Mật khẩu");
 
-        jButton2.setBackground(new java.awt.Color(204, 0, 204));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Đăng ký");
+        btnSignUp.setBackground(new java.awt.Color(204, 0, 204));
+        btnSignUp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSignUp.setForeground(new java.awt.Color(255, 255, 255));
+        btnSignUp.setText("Đăng ký");
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignUpActionPerformed(evt);
+            }
+        });
 
         Loginbtn.setBackground(new java.awt.Color(204, 0, 204));
         Loginbtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -88,7 +102,7 @@ public class LoginJDialog extends javax.swing.JDialog {
                         .addGap(135, 135, 135)
                         .addComponent(Loginbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(53, 53, 53)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -108,7 +122,7 @@ public class LoginJDialog extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Loginbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(105, 105, 105))))
         );
 
@@ -127,13 +141,13 @@ public class LoginJDialog extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(0, 100, 0));
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png"))); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(255, 0, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Kết thúc");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEnd.setBackground(new java.awt.Color(255, 0, 0));
+        btnEnd.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnEnd.setForeground(new java.awt.Color(255, 255, 255));
+        btnEnd.setText("Kết thúc");
+        btnEnd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEndActionPerformed(evt);
             }
         });
 
@@ -158,7 +172,7 @@ public class LoginJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel3)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -176,7 +190,7 @@ public class LoginJDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(184, 184, 184)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,21 +200,45 @@ public class LoginJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+            System.exit(0);
+    }//GEN-LAST:event_btnEndActionPerformed
 
     private void LoginbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginbtnActionPerformed
         // TODO add your handling code here:
-        String username = txtUserName.getText().trim();
-    String password = txtPassWord.getText();
+           String user = txtUserName.getText().trim();
+        String pass = txtPassWord.getText().trim();
 
-    if (username.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
-        return;
+        if (user.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ đủ tên đăng nhập và mật khẩu");
+            return;
+        }
+
+        try {
+            String sql = "SELECT * FROM Users WHERE tennguoidung = ? AND matkhau = ?";
+            ResultSet rs = XJdbc.executeQuery(sql, user, pass);
+
+            if (rs.next()) {
+    JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+    loginSuccessful = true; // Đánh dấu đăng nhập thành công
+    this.dispose(); // Đóng dialog
+} else {
+                JOptionPane.showMessageDialog(this, "Sai tên đăng nhập hoặc mật khẩu");
+            }
+
+            rs.getStatement().getConnection().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL!");
+        }
     }//GEN-LAST:event_LoginbtnActionPerformed
-    }
+    
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
+        // TODO add your handling code here:
+         new SignUpJDialog((Frame) this.getParent(), true).setVisible(true);
+    }//GEN-LAST:event_btnSignUpActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -229,24 +267,35 @@ public class LoginJDialog extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                LoginJDialog dialog = new LoginJDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+     try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        });
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    java.awt.EventQueue.invokeLater(() -> {
+        LoginJDialog dialog = new LoginJDialog(null, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        // Sau khi Login đóng -> mới xét điều kiện
+        if (dialog.loginSuccessful) { // Biến này cần được đặt là public hoặc thêm getter
+            new BoardGameJFrame().setVisible(true); // Mở giao diện chính sau khi login thành công
+        } else {
+            System.exit(0); // Thoát nếu không login
+        }
+    });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Loginbtn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnEnd;
+    private javax.swing.JButton btnSignUp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

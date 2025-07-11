@@ -333,8 +333,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
  this.setIconImage(XIcon.getIcon("Pacman.png").getImage());
         //để hiện thị icon trên góc của view khi chạy
         this.setLocationRelativeTo(null);
+                this.showLoginJDialog(this);
         this.showWelcomeJDialog(this);
-        this.showLoginJDialog(this);
-        this.showSignUpJDialog(this);
     }
 }
