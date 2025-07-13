@@ -17,7 +17,7 @@ import java.util.List;
 public class UserDAOimpl implements UserDAO {
 
     String createSql = "INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?)";
-    String updateSql = "UPDATE Users SET tennguoidung=?, matkhau=?, trangthai=?, vaitro=?, email=?, sdt=? WHERE idnguoidung=?";
+    String updateSql = "UPDATE Users SET tennguoidung=?, trangthai=?, vaitro=?, email=?, sdt=? WHERE idnguoidung=?";
     String deleteSql = "DELETE FROM Users WHERE idnguoidung=?";
     String findAllSql = "SELECT * FROM Users";
     String findByIdSql = "SELECT * FROM Users WHERE idnguoidung=?";
@@ -41,7 +41,6 @@ public class UserDAOimpl implements UserDAO {
     public void update(User entity) {
         Object[] args = {
             entity.getTenNguoiDung(),
-            entity.getMatKhau(),
             entity.isTrangThai(),
             entity.isVaiTro(),
             entity.getEmail(),

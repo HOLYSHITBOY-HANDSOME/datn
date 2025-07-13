@@ -4,11 +4,22 @@
  */
 package board.game.ui.manager;
 
+import board.game.dao.UserDAO;
+import board.game.dao.ipml.UserDAOimpl;
+import board.game.entity.User;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author LAPTOP LE SON
  */
 public class UserManagerJDialog extends javax.swing.JDialog {
+
+    UserDAO userdao = new UserDAOimpl();
+    DefaultTableModel model;
+    int currentIndex = -1;
 
     /**
      * Creates new form UserManagerJDialog
@@ -16,6 +27,184 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     public UserManagerJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        fillTable();
+    }
+
+    boolean validateForm() {
+    if (txtId.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập ID người dùng");
+        txtId.requestFocus();
+        return false;
+    }
+    if (txtUserName.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập tên người dùng");
+        txtUserName.requestFocus();
+        return false;
+    }
+    if (txtEmail.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập Email");
+        txtEmail.requestFocus();
+        return false;
+    }
+    if (txtNumber.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại");
+        txtNumber.requestFocus();
+        return false;
+    }
+    return true;
+}
+
+    
+    
+    void fillTable() {
+        model = (DefaultTableModel) tblUsers.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<User> list = userdao.findAll();
+            for (User u : list) {
+                model.addRow(new Object[]{
+                    u.getIdNguoiDung(),
+                    u.getTenNguoiDung(),
+                    u.isTrangThai() ? "Còn hoạt động" : "Ngừng hoạt động",
+                    u.isVaiTro() ? "Admin" : "Người chơi",
+                    u.getEmail(),
+                    u.getSdt(),
+                    false
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi " + e.getMessage());
+        }
+    }
+
+    User getForm() {
+        User u = new User();
+        u.setIdNguoiDung(txtId.getText());
+        u.setTenNguoiDung(txtUserName.getText());
+        u.setEmail(txtEmail.getText());
+        u.setSdt(txtNumber.getText());
+        u.setVaiTro(rdbManager.isSelected());
+        u.setTrangThai(rdbActive.isSelected());
+        return u;
+    }
+
+    void setForm(User u) {
+        txtId.setText(u.getIdNguoiDung());
+        txtUserName.setText(u.getTenNguoiDung());
+        txtEmail.setText(u.getEmail());
+        txtNumber.setText(u.getSdt());
+        rdbManager.setSelected(u.isVaiTro());
+        rdbPlayer.setSelected(!u.isVaiTro());
+        rdbActive.setSelected(u.isTrangThai());
+        rdbUnactive.setSelected(!u.isTrangThai());
+    }
+
+    void insert() {
+        if (!validateForm()) return;
+        User u = getForm();
+        u.setMatKhau("pass9999");
+        try {
+            userdao.create(u);
+            fillTable();
+            clearForm();
+            JOptionPane.showMessageDialog(this, "Thêm thành công!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Thêm thất bại: " + e.getMessage());
+        }
+    }
+
+    void update() {
+        if (!validateForm()) return;
+        User u = getForm();
+        try {
+            userdao.update(u);
+            fillTable();
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Cập nhật thật bại: " + e.getMessage());
+        }
+    }
+
+    void delete() {
+        String id = txtId.getText();
+        if (JOptionPane.showConfirmDialog(this, "Xóa người dùng: " + id + "?", "Xác nhận", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            try {
+                userdao.deleteById(id);
+                fillTable();
+                clearForm();
+                JOptionPane.showMessageDialog(this, "Xóa thành công!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại: " + e.getMessage());
+            }
+        }
+    }
+
+    void edit(int index) {
+        try {
+            String id = (String) tblUsers.getValueAt(index, 0);
+            User u = userdao.findById(id);
+            setForm(u);
+            currentIndex = index;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi hiển thị: " + e.getMessage());
+        }
+    }
+
+    void clearForm() {
+        txtId.setText("");
+        txtUserName.setText("");
+        txtEmail.setText("");
+        txtNumber.setText("");
+        rdbManager.setSelected(true);
+        rdbActive.setSelected(true);
+        currentIndex = -1;
+    }
+
+    void moveFirst() {
+        edit(0);
+    }
+
+    void movePrevious() {
+        if (currentIndex < tblUsers.getRowCount() - 1) {
+            edit(++currentIndex);
+        }
+    }
+
+    void moveNext() {
+        if (currentIndex > 0) {
+            edit(--currentIndex);
+        }
+    }
+
+    void moveLast() {
+        edit(tblUsers.getRowCount() - 1);
+    }
+
+    void checkAll() {
+        for (int i = 0; i < tblUsers.getRowCount(); i++) {
+            tblUsers.setValueAt(true, i, 6);
+        }
+    }
+
+    void uncheckAll() {
+        for (int i = 0; i < tblUsers.getRowCount(); i++) {
+            tblUsers.setValueAt(false, i, 6);
+        }
+    }
+
+    void deleteCheckedItems() {
+        if (JOptionPane.showConfirmDialog(this, "Xóa các mục đã chọn?", "Xác nhận", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            for (int i = tblUsers.getRowCount() - 1; i >= 0; i--) {
+                Boolean checked = (Boolean) tblUsers.getValueAt(i, 6);
+                if (checked != null && checked) {
+                    String id = (String) tblUsers.getValueAt(i, 0);
+                    userdao.deleteById(id);
+                    ((DefaultTableModel) tblUsers.getModel()).removeRow(i);
+                }
+            }
+            JOptionPane.showMessageDialog(this, "Đã xóa các mục đã chọn!");
+        }
     }
 
     /**
@@ -34,9 +223,9 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUsers = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        chontatca = new javax.swing.JButton();
+        bochontatca = new javax.swing.JButton();
+        xoacacmuc = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -87,13 +276,33 @@ public class UserManagerJDialog extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
+        tblUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUsersMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblUsers);
 
-        jButton1.setText("Chọn tất cả");
+        chontatca.setText("Chọn tất cả");
+        chontatca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chontatcaActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Bỏ chọn tất cả");
+        bochontatca.setText("Bỏ chọn tất cả");
+        bochontatca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bochontatcaActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Xóa các mục đã chọn");
+        xoacacmuc.setText("Xóa các mục đã chọn");
+        xoacacmuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xoacacmucActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -101,11 +310,11 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chontatca, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bochontatca, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(xoacacmuc)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -113,9 +322,9 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(xoacacmuc)
+                    .addComponent(chontatca)
+                    .addComponent(bochontatca))
                 .addGap(27, 27, 27))
         );
 
@@ -239,20 +448,60 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         );
 
         btnCreate.setText("Tạo mới");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Cập nhật");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnClear.setText("Nhập mới");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnMoveFirst.setText("|<<");
+        btnMoveFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveFirstActionPerformed(evt);
+            }
+        });
 
         btnMoveNext.setText("<<");
+        btnMoveNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveNextActionPerformed(evt);
+            }
+        });
 
         btnMovePrevious.setText(">>");
+        btnMovePrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMovePreviousActionPerformed(evt);
+            }
+        });
 
         btnMoveLast.setText(">>|");
+        btnMoveLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveLastActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -332,6 +581,69 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chontatcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chontatcaActionPerformed
+        // TODO add your handling code here:
+        checkAll();
+    }//GEN-LAST:event_chontatcaActionPerformed
+
+    private void bochontatcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bochontatcaActionPerformed
+        // TODO add your handling code here:
+        uncheckAll();
+    }//GEN-LAST:event_bochontatcaActionPerformed
+
+    private void xoacacmucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoacacmucActionPerformed
+        // TODO add your handling code here:
+        deleteCheckedItems();
+    }//GEN-LAST:event_xoacacmucActionPerformed
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        // TODO add your handling code here:
+        insert();
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        clearForm();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnMoveFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveFirstActionPerformed
+        // TODO add your handling code here:
+        moveFirst();
+    }//GEN-LAST:event_btnMoveFirstActionPerformed
+
+    private void btnMoveNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveNextActionPerformed
+        // TODO add your handling code here:
+        moveNext();
+    }//GEN-LAST:event_btnMoveNextActionPerformed
+
+    private void btnMovePreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovePreviousActionPerformed
+        // TODO add your handling code here:
+        movePrevious();
+    }//GEN-LAST:event_btnMovePreviousActionPerformed
+
+    private void btnMoveLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveLastActionPerformed
+        // TODO add your handling code here:
+        moveLast();
+    }//GEN-LAST:event_btnMoveLastActionPerformed
+
+    private void tblUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsersMouseClicked
+        // TODO add your handling code here:
+        int row = tblUsers.getSelectedRow();
+        if (row >= 0) {
+            edit(row);
+        }
+    }//GEN-LAST:event_tblUsersMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -374,6 +686,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bochontatca;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
@@ -384,9 +697,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton chontatca;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -409,5 +720,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNumber;
     private javax.swing.JTextField txtUserName;
+    private javax.swing.JButton xoacacmuc;
     // End of variables declaration//GEN-END:variables
 }
