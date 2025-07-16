@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package board.game.ui;
 
 import javax.swing.*;
@@ -11,14 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-/**
- *
- * @author DELL
- */
 public class FlappyBird {
 
-    
-    public FlappyBird(){
+    public FlappyBird() {
         JFrame frame = new JFrame("Flappy Bird - Java");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
@@ -27,19 +18,19 @@ public class FlappyBird {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
+
     public static void main(String[] args) {
         new FlappyBird();
     }
 }
 
 class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
-    
+
     private Image birdImage;
 
     private final int WIDTH = 400, HEIGHT = 600;
     private int birdY = HEIGHT / 2, birdVelocity = 0;
-    private final int BIRD_SIZE = 20;
+    private final int BIRD_SIZE = 40; // Có thể điều chỉnh cho phù hợp với ảnh
 
     private ArrayList<Rectangle> pipes = new ArrayList<>();
     private final int PIPE_WIDTH = 60, PIPE_GAP = 150;
@@ -54,6 +45,9 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
+
+        // Load ảnh chim từ thư mục resources (src/board/game/icons/uia.png)
+    birdImage = new ImageIcon(getClass().getResource("/board/game/icons/uia.png")).getImage();
 
         timer = new Timer(20, this);
         timer.start();
@@ -124,14 +118,21 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Vẽ nền đất
         g.setColor(Color.green.darker());
         g.fillRect(0, HEIGHT - 100, WIDTH, 100);
-        g.setColor(Color.red);
-        g.fillRect(100, birdY, BIRD_SIZE, BIRD_SIZE);
+
+        // Vẽ chim bằng ảnh
+        g.drawImage(birdImage, 100, birdY, BIRD_SIZE, BIRD_SIZE, this);
+
+        // Vẽ ống
         g.setColor(Color.green);
         for (Rectangle pipe : pipes) {
             g.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
         }
+
+        // Vẽ điểm
         g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.BOLD, 24));
         if (!running) {
@@ -148,9 +149,8 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
 
     @Override public void keyReleased(KeyEvent e) {}
     @Override public void keyTyped(KeyEvent e) {}
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
+
+    @Override public void mouseClicked(MouseEvent e) {
         jump();
     }
 
