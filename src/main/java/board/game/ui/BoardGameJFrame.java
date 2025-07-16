@@ -56,11 +56,11 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jPanel5.setBackground(new java.awt.Color(153, 153, 153));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Unispace", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Unispace", 1, 24)); // NOI18N
         jLabel1.setText("user");
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, -1));
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, -1, -1));
 
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 51));
         jButton6.setText("Đăng xuất");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -68,7 +68,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 137, -1));
+        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 137, -1));
 
         btnDoiDiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDoiDiem.setText("Đổi điểm");
@@ -77,13 +77,13 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnDoiDiemActionPerformed(evt);
             }
         });
-        jPanel5.add(btnDoiDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, -1));
+        jPanel5.add(btnDoiDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, 170, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Chào mừng: (User)");
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, -1, -1));
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, -1, -1));
 
         btnFlappy.setBackground(new java.awt.Color(153, 0, 102));
         btnFlappy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -94,7 +94,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnFlappyActionPerformed(evt);
             }
         });
-        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 137, -1));
+        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 137, -1));
 
         btnPacman.setBackground(new java.awt.Color(153, 0, 102));
         btnPacman.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -105,7 +105,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnPacmanActionPerformed(evt);
             }
         });
-        jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, 137, -1));
+        jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 120, 137, -1));
 
         btnShot.setBackground(new java.awt.Color(153, 0, 102));
         btnShot.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -116,7 +116,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnShotActionPerformed(evt);
             }
         });
-        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 137, -1));
+        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 137, -1));
 
         btnSnake.setBackground(new java.awt.Color(153, 0, 102));
         btnSnake.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -127,7 +127,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnSnakeActionPerformed(evt);
             }
         });
-        jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 170, 137, -1));
+        jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 180, 137, -1));
 
         btnTank.setBackground(new java.awt.Color(153, 0, 102));
         btnTank.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -138,7 +138,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnTankActionPerformed(evt);
             }
         });
-        jPanel5.add(btnTank, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 140, -1));
+        jPanel5.add(btnTank, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, 140, -1));
 
         btnBom.setBackground(new java.awt.Color(153, 0, 102));
         btnBom.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -149,7 +149,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnBomActionPerformed(evt);
             }
         });
-        jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 230, 137, -1));
+        jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 250, 137, -1));
 
         btnChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnChangePassword.setText("Đổi mật khẩu");
@@ -158,7 +158,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnChangePasswordActionPerformed(evt);
             }
         });
-        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 137, -1));
+        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 390, 160, -1));
 
         btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUserManager.setText("Quản lý người dùng");
@@ -167,26 +167,26 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnUserManagerActionPerformed(evt);
             }
         });
-        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 400, 170, -1));
+        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, 170, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Pacman.png"))); // NOI18N
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 110, -1, -1));
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png"))); // NOI18N
         jLabel7.setToolTipText("");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, -1, -1));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/snake.png"))); // NOI18N
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 170, -1, -1));
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, -1, -1));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/bomb.png"))); // NOI18N
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 230, -1, -1));
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 250, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/chicken.png"))); // NOI18N
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, -1, -1));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/xetang.png"))); // NOI18N
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, -1, -1));
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, -1, -1));
 
         btnHistoryManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHistoryManager.setText("Quản lý lịch sử");
@@ -195,9 +195,9 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnHistoryManagerActionPerformed(evt);
             }
         });
-        jPanel5.add(btnHistoryManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 400, 170, -1));
+        jPanel5.add(btnHistoryManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 340, 160, -1));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/User (1).png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background home.png"))); // NOI18N
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
