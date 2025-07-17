@@ -12,25 +12,32 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     private final int WIDTH = 800, HEIGHT = 600;
     private final int PLAYER_WIDTH = 60, PLAYER_HEIGHT = 60;
     private final int CHICKEN_WIDTH = 50, CHICKEN_HEIGHT = 50;
-    private final int BULLET_WIDTH = 5, BULLET_HEIGHT = 10;
+    private final int BULLET_WIDTH = 20, BULLET_HEIGHT = 30;
 
     private int playerX = WIDTH / 2 - PLAYER_WIDTH / 2;
     private int playerY = HEIGHT - 80;
-    private boolean left, right, shooting;
+    private boolean left, right, up, down, shooting;
     private int score = 0;
+    private int hp = 10;
     private boolean gameOver = false;
+    private boolean showMinusOne = false;
+    private long minusOneTimer = 0;
 
     private ArrayList<Rectangle> bullets = new ArrayList<>();
     private ArrayList<Rectangle> chickens = new ArrayList<>();
-    private Timer gameTimer, chickenSpawner;
+    private Timer gameTimer;
+    private Timer chickenSpawner;
+    private int spawnDelay = 1000;
 
     private JButton retryButton;
 
     private Image spaceshipImg;
-    private Image chickenImg;
+    private Image meteorImg;
+    private Image backgroundImg;
+    private Image bulletImg;
 
     private long lastShootTime = 0;
-    private final int SHOOT_DELAY = 300; // milliseconds
+    private final int SHOOT_DELAY = 300;
 
     public BanGa() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -39,12 +46,14 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
 
         spaceshipImg = new ImageIcon(getClass().getResource("/board/game/icons/spaceship.png")).getImage();
-        chickenImg = new ImageIcon(getClass().getResource("/board/game/icons/chicken.png")).getImage();
+        meteorImg = new ImageIcon(getClass().getResource("/board/game/icons/meteor.png")).getImage();
+        backgroundImg = new ImageIcon(getClass().getResource("/board/game/icons/anhbanga.png")).getImage();
+        bulletImg = new ImageIcon(getClass().getResource("/board/game/icons/beambeam.png")).getImage();
+
         gameTimer = new Timer(15, this);
         gameTimer.start();
 
-        chickenSpawner = new Timer(1000, e -> spawnChicken());
-        chickenSpawner.start();
+        startChickenSpawner(spawnDelay);
 
         retryButton = new JButton("Chơi lại");
         retryButton.setFocusable(false);
@@ -55,6 +64,12 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         this.add(retryButton);
     }
 
+    private void startChickenSpawner(int delay) {
+        if (chickenSpawner != null) chickenSpawner.stop();
+        chickenSpawner = new Timer(delay, e -> spawnChicken());
+        chickenSpawner.start();
+    }
+
     private void spawnChicken() {
         Random rand = new Random();
         int x = rand.nextInt(WIDTH - CHICKEN_WIDTH);
@@ -62,7 +77,12 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     }
 
     private void shoot() {
-        bullets.add(new Rectangle(playerX + PLAYER_WIDTH / 2 - BULLET_WIDTH / 2, playerY, BULLET_WIDTH, BULLET_HEIGHT));
+        int hitboxWidth = 30;
+        int hitboxHeight = 80;
+        int hitboxX = playerX + PLAYER_WIDTH / 2 - hitboxWidth / 2;
+        int hitboxY = playerY + (BULLET_HEIGHT - hitboxHeight) / 2;
+        Rectangle bullet = new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
+        bullets.add(bullet);
     }
 
     private void tryShoot() {
@@ -76,12 +96,16 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     private void resetGame() {
         gameOver = false;
         score = 0;
-        chickens.clear();
+        hp = 10;
+        spawnDelay = 1000;
+        showMinusOne = false;
         bullets.clear();
+        chickens.clear();
         playerX = WIDTH / 2 - PLAYER_WIDTH / 2;
+        playerY = HEIGHT - 80;
         retryButton.setVisible(false);
         gameTimer.start();
-        chickenSpawner.start();
+        startChickenSpawner(spawnDelay);
         requestFocusInWindow();
     }
 
@@ -90,6 +114,8 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         if (!gameOver) {
             if (left && playerX > 0) playerX -= 6;
             if (right && playerX < WIDTH - PLAYER_WIDTH) playerX += 6;
+            if (up && playerY > 0) playerY -= 6;
+            if (down && playerY < HEIGHT - PLAYER_HEIGHT) playerY += 6;
             if (shooting) tryShoot();
 
             Iterator<Rectangle> bulletIter = bullets.iterator();
@@ -106,18 +132,13 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
 
                 Rectangle playerRect = new Rectangle(playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT);
                 if (chicken.intersects(playerRect)) {
-                    gameOver = true;
-                    gameTimer.stop();
-                    chickenSpawner.stop();
-                    retryButton.setVisible(true);
+                    chickenIter.remove();
+                    loseHp();
                 }
 
                 if (chicken.y > HEIGHT) {
-                    gameOver = true;
-                    gameTimer.stop();
-                    chickenSpawner.stop();
-                    retryButton.setVisible(true);
-                    break;
+                    chickenIter.remove();
+                    loseHp();
                 }
             }
 
@@ -131,6 +152,13 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
                         bulletIter.remove();
                         chickenIter.remove();
                         score++;
+
+                        // Tăng tốc độ spawn mỗi 25 điểm
+                        if (score % 25 == 0 && spawnDelay > 200) {
+                            spawnDelay -= 100;
+                            startChickenSpawner(spawnDelay);
+                        }
+
                         break;
                     }
                 }
@@ -140,50 +168,81 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    private void loseHp() {
+        hp--;
+        showMinusOne = true;
+        minusOneTimer = System.currentTimeMillis();
+        if (hp <= 0) {
+            gameOver = true;
+            gameTimer.stop();
+            chickenSpawner.stop();
+            retryButton.setVisible(true);
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Vẽ phi thuyền
+        g.drawImage(backgroundImg, 0, 0, WIDTH, HEIGHT, this);
         g.drawImage(spaceshipImg, playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT, this);
 
-        // Vẽ đạn
-        g.setColor(Color.YELLOW);
         for (Rectangle bullet : bullets) {
-            g.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            g.drawImage(bulletImg, bullet.x, bullet.y, bullet.width, bullet.height, this);
         }
 
-        // Vẽ gà
         for (Rectangle chicken : chickens) {
-            g.drawImage(chickenImg, chicken.x, chicken.y, CHICKEN_WIDTH, CHICKEN_HEIGHT, this);
+            g.drawImage(meteorImg, chicken.x, chicken.y, CHICKEN_WIDTH, CHICKEN_HEIGHT, this);
         }
 
-        // Vẽ điểm
         g.setColor(Color.GREEN);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Điểm: " + score, 10, 25);
+
+        g.setColor(Color.ORANGE);
+        g.drawString("Máu: " + hp + "/10", WIDTH - 120, 25);
+
+        if (showMinusOne) {
+            g.setColor(Color.RED);
+            g.setFont(new Font("Arial", Font.BOLD, 30));
+            g.drawString("-1", playerX + PLAYER_WIDTH / 2 - 10, playerY - 10);
+            if (System.currentTimeMillis() - minusOneTimer > 1000) {
+                showMinusOne = false;
+            }
+        }
 
         if (gameOver) {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 40));
             g.drawString("GAME OVER", WIDTH / 2 - 130, HEIGHT / 2 - 20);
-
             g.setFont(new Font("Arial", Font.PLAIN, 25));
             g.drawString("Điểm của bạn: " + score, WIDTH / 2 - 100, HEIGHT / 2 + 10);
         }
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> left = true;
+            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> right = true;
+            case KeyEvent.VK_UP, KeyEvent.VK_W -> up = true;
+            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> down = true;
+            case KeyEvent.VK_SPACE -> shooting = true;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> left = false;
+            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> right = false;
+            case KeyEvent.VK_UP, KeyEvent.VK_W -> up = false;
+            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> down = false;
+            case KeyEvent.VK_SPACE -> shooting = false;
+        }
+    }
+
     @Override public void keyTyped(KeyEvent e) {}
-    @Override public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) left = true;
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) right = true;
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) shooting = true;
-    }
-    @Override public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) left = false;
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) right = false;
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) shooting = false;
-    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
