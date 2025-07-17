@@ -32,7 +32,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        btnDoiDiem = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnFlappy = new javax.swing.JButton();
         btnPacman = new javax.swing.JButton();
@@ -69,15 +68,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
             }
         });
         jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 137, -1));
-
-        btnDoiDiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDoiDiem.setText("Đổi điểm");
-        btnDoiDiem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDoiDiemActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnDoiDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, 170, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -158,7 +148,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnChangePasswordActionPerformed(evt);
             }
         });
-        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 390, 160, -1));
+        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 400, 160, -1));
 
         btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUserManager.setText("Quản lý người dùng");
@@ -227,11 +217,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         // TODO add your handling code here:
         this.showChangePasswordJDilog(this);
     }//GEN-LAST:event_btnChangePasswordActionPerformed
-
-    private void btnDoiDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiDiemActionPerformed
-        // TODO add your handling code here:
-        this.showDoidiemJDialog(this);
-    }//GEN-LAST:event_btnDoiDiemActionPerformed
 
     private void btnUserManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserManagerActionPerformed
         // TODO add your handling code here:
@@ -307,7 +292,6 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBom;
     private javax.swing.JButton btnChangePassword;
-    private javax.swing.JButton btnDoiDiem;
     private javax.swing.JButton btnFlappy;
     private javax.swing.JButton btnHistoryManager;
     private javax.swing.JButton btnPacman;
