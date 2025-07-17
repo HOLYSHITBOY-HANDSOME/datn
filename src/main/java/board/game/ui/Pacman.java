@@ -70,7 +70,9 @@ public class Pacman extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (gameOver) return;
+        if (gameOver) {
+            return;
+        }
 
         int newX = pacX + dx;
         int newY = pacY + dy;
@@ -96,10 +98,10 @@ public class Pacman extends JPanel implements ActionListener, KeyListener {
             if (choice == JOptionPane.YES_OPTION) {
                 resetGame();
             } else {
-                System.exit(0);
+                SwingUtilities.getWindowAncestor(this).dispose(); // Đóng cửa sổ game
             }
         }
-        
+
         if (checkWin()) {
             gameOver = true;
             timer.stop();
@@ -164,15 +166,32 @@ public class Pacman extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT -> { dx = -1; dy = 0; }
-            case KeyEvent.VK_RIGHT -> { dx = 1; dy = 0; }
-            case KeyEvent.VK_UP -> { dx = 0; dy = -1; }
-            case KeyEvent.VK_DOWN -> { dx = 0; dy = 1; }
+            case KeyEvent.VK_LEFT -> {
+                dx = -1;
+                dy = 0;
+            }
+            case KeyEvent.VK_RIGHT -> {
+                dx = 1;
+                dy = 0;
+            }
+            case KeyEvent.VK_UP -> {
+                dx = 0;
+                dy = -1;
+            }
+            case KeyEvent.VK_DOWN -> {
+                dx = 0;
+                dy = 1;
+            }
         }
     }
 
-    @Override public void keyReleased(KeyEvent e) {}
-    @Override public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Pac-Man Java Swing");
@@ -198,20 +217,20 @@ public class Pacman extends JPanel implements ActionListener, KeyListener {
         initMap();
         timer.start();
     }
-    
+
     private boolean checkWin() {
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
-                if (map[r][c] == 2) return false;
+                if (map[r][c] == 2) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    
     private int score = 0;
-    
-    
+
     public static void showGame1() {
         JFrame frame = new JFrame("Pacman");
         Pacman gamePanel = new Pacman();

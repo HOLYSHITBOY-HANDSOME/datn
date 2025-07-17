@@ -59,10 +59,6 @@ public interface BoardGameController {
         this.showJDialog(new RankJDialog(frame, true));
     }
 
-    default void showDoidiemJDialog(JFrame frame) {
-        this.showJDialog(new DoidiemJDialog(frame, true));
-    }
-
     default void showHistoryManagerJDialog(JFrame frame) {
         this.showJDialog(new HistoryManagerJDialog(frame, true));
     }
