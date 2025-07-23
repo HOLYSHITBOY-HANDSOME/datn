@@ -29,6 +29,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         fillTable();
+        txtId.setEditable(false);
     }
 
     boolean validateForm() {
