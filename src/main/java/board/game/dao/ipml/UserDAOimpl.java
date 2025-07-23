@@ -84,13 +84,13 @@ public class UserDAOimpl implements UserDAO {
                 if (last != null) {
                     String numberPart = last.substring(4);
                     int number = Integer.parseInt(numberPart) + 1;
-                    return String.format("USER%03d", number);
+                    return String.format("user%03d", number);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "USER001";
+        return "user001";
     }
 
 }

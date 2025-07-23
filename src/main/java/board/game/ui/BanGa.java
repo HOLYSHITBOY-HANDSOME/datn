@@ -7,6 +7,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+class Explosion {
+    private int x, y;
+    private int width, height;
+    private int timeVisible = 15;
+    private Image image;
+
+    public Explosion(int x, int y, Image img, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.image = img;
+    }
+
+    public void draw(Graphics g) {
+        if (timeVisible > 0) {
+            g.drawImage(image, x, y, width, height, null);
+            timeVisible--;
+        }
+    }
+
+    public boolean isDone() {
+        return timeVisible <= 0;
+    }
+}
+
 public class BanGa extends JPanel implements ActionListener, KeyListener {
 
     private final int WIDTH = 800, HEIGHT = 600;
@@ -25,6 +51,8 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
 
     private ArrayList<Rectangle> bullets = new ArrayList<>();
     private ArrayList<Rectangle> chickens = new ArrayList<>();
+    private ArrayList<Explosion> explosions = new ArrayList<>();
+
     private Timer gameTimer;
     private Timer chickenSpawner;
     private int spawnDelay = 1000;
@@ -35,6 +63,7 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     private Image meteorImg;
     private Image backgroundImg;
     private Image bulletImg;
+    private Image explosionImg;
 
     private long lastShootTime = 0;
     private final int SHOOT_DELAY = 300;
@@ -49,6 +78,7 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         meteorImg = new ImageIcon(getClass().getResource("/board/game/icons/meteor.png")).getImage();
         backgroundImg = new ImageIcon(getClass().getResource("/board/game/icons/anhbanga.png")).getImage();
         bulletImg = new ImageIcon(getClass().getResource("/board/game/icons/beambeam.png")).getImage();
+        explosionImg = new ImageIcon(getClass().getResource("/board/game/icons/explosion.png")).getImage();
 
         gameTimer = new Timer(15, this);
         gameTimer.start();
@@ -101,6 +131,7 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         showMinusOne = false;
         bullets.clear();
         chickens.clear();
+        explosions.clear();
         playerX = WIDTH / 2 - PLAYER_WIDTH / 2;
         playerY = HEIGHT - 80;
         retryButton.setVisible(false);
@@ -133,11 +164,13 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
                 Rectangle playerRect = new Rectangle(playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT);
                 if (chicken.intersects(playerRect)) {
                     chickenIter.remove();
+                    explosions.add(new Explosion(playerX, playerY, explosionImg, PLAYER_WIDTH, PLAYER_HEIGHT));
                     loseHp();
                 }
 
                 if (chicken.y > HEIGHT) {
                     chickenIter.remove();
+                    explosions.add(new Explosion(chicken.x, HEIGHT - CHICKEN_HEIGHT, explosionImg, PLAYER_WIDTH, PLAYER_HEIGHT));
                     loseHp();
                 }
             }
@@ -151,14 +184,12 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
                     if (bullet.intersects(chicken)) {
                         bulletIter.remove();
                         chickenIter.remove();
+                        explosions.add(new Explosion(chicken.x, chicken.y, explosionImg, PLAYER_WIDTH, PLAYER_HEIGHT));
                         score++;
-
-                        // Tăng tốc độ spawn mỗi 25 điểm
                         if (score % 25 == 0 && spawnDelay > 200) {
                             spawnDelay -= 100;
                             startChickenSpawner(spawnDelay);
                         }
-
                         break;
                     }
                 }
@@ -193,6 +224,15 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
 
         for (Rectangle chicken : chickens) {
             g.drawImage(meteorImg, chicken.x, chicken.y, CHICKEN_WIDTH, CHICKEN_HEIGHT, this);
+        }
+
+        for (int i = 0; i < explosions.size(); i++) {
+            Explosion exp = explosions.get(i);
+            exp.draw(g);
+            if (exp.isDone()) {
+                explosions.remove(i);
+                i--;
+            }
         }
 
         g.setColor(Color.GREEN);

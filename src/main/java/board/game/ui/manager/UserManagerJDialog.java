@@ -59,12 +59,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             return false;
         }
 
-        if (!tennguoidung.matches("^(?=.*\\p{Lu})(?=.*\\p{Ll})[\\p{L} ]+$")) {
-        JOptionPane.showMessageDialog(this, "Họ tên phải có dấu, có chữ hoa và thường, và có khoảng cách.");
-        txtUserName.requestFocus();
-        return false;
-    }
-
     if (!email.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
         JOptionPane.showMessageDialog(this, "Email không hợp lệ, vui lòng nhập lại");
         txtEmail.requestFocus();

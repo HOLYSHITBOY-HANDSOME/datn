@@ -27,10 +27,12 @@ public class FlappyBird {
 class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 
     private Image birdImage;
+    private Image pipeTopImage;
+    private Image pipeBottomImage;
 
     private final int WIDTH = 400, HEIGHT = 600;
     private int birdY = HEIGHT / 2, birdVelocity = 0;
-    private final int BIRD_SIZE = 40; // Có thể điều chỉnh cho phù hợp với ảnh
+    private final int BIRD_SIZE = 40;
 
     private ArrayList<Rectangle> pipes = new ArrayList<>();
     private final int PIPE_WIDTH = 60, PIPE_GAP = 150;
@@ -46,8 +48,10 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         addKeyListener(this);
         addMouseListener(this);
 
-        // Load ảnh chim từ thư mục resources (src/board/game/icons/uia.png)
-    birdImage = new ImageIcon(getClass().getResource("/board/game/icons/uia.png")).getImage();
+        // Load ảnh từ thư mục resources (src/board/game/icons/)
+        birdImage = new ImageIcon(getClass().getResource("/board/game/icons/uia.png")).getImage();
+        pipeTopImage = new ImageIcon(getClass().getResource("/board/game/icons/ongtren.png")).getImage();
+        pipeBottomImage = new ImageIcon(getClass().getResource("/board/game/icons/ongduoi.png")).getImage();
 
         timer = new Timer(20, this);
         timer.start();
@@ -116,20 +120,39 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Vẽ nền trời
+        g.setColor(Color.CYAN);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
 
         // Vẽ nền đất
         g.setColor(Color.green.darker());
         g.fillRect(0, HEIGHT - 100, WIDTH, 100);
 
-        // Vẽ chim bằng ảnh
+        // Vẽ chim
         g.drawImage(birdImage, 100, birdY, BIRD_SIZE, BIRD_SIZE, this);
 
         // Vẽ ống
-        g.setColor(Color.green);
         for (Rectangle pipe : pipes) {
-            g.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
+            if (pipe.y == 0) {
+                // ======== ỐNG TRÊN ========
+                // Vẽ ống trên (ảnh đã đầy đủ: gồm đầu + thân)
+                g2d.drawImage(pipeTopImage,
+                        pipe.x, pipe.y,
+                        pipe.width, pipe.height,
+                        this);
+            } else {
+                // ======== ỐNG DƯỚI ========
+                // Vẽ ống dưới (ảnh đã đầy đủ: gồm đầu + thân)
+                g2d.drawImage(pipeBottomImage,
+                        pipe.x, pipe.y,
+                        pipe.width, pipe.height,
+                        this);
+            }
         }
 
         // Vẽ điểm
@@ -141,21 +164,39 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         g.drawString("Điểm: " + score, 20, 40);
     }
 
-    @Override public void keyPressed(KeyEvent e) {
+    @Override
+    public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             jump();
         }
     }
 
-    @Override public void keyReleased(KeyEvent e) {}
-    @Override public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 
-    @Override public void mouseClicked(MouseEvent e) {
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
         jump();
     }
 
-    @Override public void mousePressed(MouseEvent e) {}
-    @Override public void mouseReleased(MouseEvent e) {}
-    @Override public void mouseEntered(MouseEvent e) {}
-    @Override public void mouseExited(MouseEvent e) {}
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 }
