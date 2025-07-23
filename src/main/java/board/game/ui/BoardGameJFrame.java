@@ -25,6 +25,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     btnHistoryManager.setVisible(isManager);
     btnChangePassword.setVisible(true); 
      lblName.setText(isManager ? "Admin" : "Player");
+       setLocationRelativeTo(null);
 }
 private boolean isManager;
 
@@ -110,7 +111,7 @@ private boolean isManager;
         btnShot.setBackground(new java.awt.Color(153, 0, 102));
         btnShot.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnShot.setForeground(new java.awt.Color(255, 255, 255));
-        btnShot.setText("Bắn Gà");
+        btnShot.setText("Meteor");
         btnShot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnShotActionPerformed(evt);
@@ -182,7 +183,7 @@ private boolean isManager;
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/bomb.png"))); // NOI18N
         jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 250, -1, -1));
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/chicken.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/spaceship.png"))); // NOI18N
         jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/xetang.png"))); // NOI18N
