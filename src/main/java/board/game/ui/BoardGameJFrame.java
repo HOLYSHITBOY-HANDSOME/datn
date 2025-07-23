@@ -67,7 +67,7 @@ private boolean isManager;
 
         lblName.setFont(new java.awt.Font("Unispace", 1, 24)); // NOI18N
         lblName.setText("user");
-        jPanel5.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
+        jPanel5.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, -1));
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 51));
@@ -158,7 +158,7 @@ private boolean isManager;
                 btnChangePasswordActionPerformed(evt);
             }
         });
-        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 400, 160, -1));
+        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 400, 140, -1));
 
         btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUserManager.setText("Quản lý người dùng");
@@ -202,7 +202,7 @@ private boolean isManager;
 
         lblUserID.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblUserID.setText("User ID");
-        jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, -1, -1));
+        jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background home.png"))); // NOI18N
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, -1));
