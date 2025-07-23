@@ -49,7 +49,7 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         addMouseListener(this);
 
         // Load ảnh từ thư mục resources (src/board/game/icons/)
-        birdImage = new ImageIcon(getClass().getResource("/board/game/icons/uia.png")).getImage();
+        birdImage = new ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png")).getImage();
         pipeTopImage = new ImageIcon(getClass().getResource("/board/game/icons/ongtren.png")).getImage();
         pipeBottomImage = new ImageIcon(getClass().getResource("/board/game/icons/ongduoi.png")).getImage();
 
