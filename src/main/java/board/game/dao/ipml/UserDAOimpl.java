@@ -8,7 +8,10 @@ import board.game.dao.UserDAO;
 import board.game.entity.User;
 import board.game.util.XJdbc;
 import board.game.util.XQuery;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import javax.naming.spi.DirStateFactory;
 
 /**
  *
@@ -21,6 +24,7 @@ public class UserDAOimpl implements UserDAO {
     String deleteSql = "DELETE FROM Users WHERE idnguoidung=?";
     String findAllSql = "SELECT * FROM Users";
     String findByIdSql = "SELECT * FROM Users WHERE idnguoidung=?";
+    String findByUsernameSql = "SELECT * FROM Users WHERE tennguoidung=?";
 
     @Override
     public User create(User entity) {
@@ -70,4 +74,23 @@ public class UserDAOimpl implements UserDAO {
         String sql = "UPDATE Users SET matkhau=? WHERE idnguoidung=?";
         XJdbc.executeUpdate(sql, newPassword, username);
     }
+
+    public String generateNewUserId() {
+        try {
+            String sql = "SELECT MAX(idnguoidung) FROM USERS";
+            ResultSet rs = XJdbc.executeQuery(sql);
+            if (rs.next()) {
+                String last = rs.getString(1);
+                if (last != null) {
+                    String numberPart = last.substring(4);
+                    int number = Integer.parseInt(numberPart) + 1;
+                    return String.format("USER%03d", number);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "USER001";
+    }
+
 }

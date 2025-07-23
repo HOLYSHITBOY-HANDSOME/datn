@@ -4,6 +4,8 @@
  */
 package board.game.ui;
 
+import board.game.dao.UserDAO;
+import board.game.dao.ipml.UserDAOimpl;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,6 +14,8 @@ import javax.swing.JOptionPane;
  */
 public class SignUpJDialog extends javax.swing.JDialog {
 
+    UserDAO userDao = new UserDAOimpl();
+
     /**
      * Creates new form SignUpJDialog
      */
@@ -19,6 +23,13 @@ public class SignUpJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        txtID.setEditable(false); // Không cho người dùng nhập
+      generateUserId();
+    }
+
+    private void generateUserId() {
+        String newId = userDao.generateNewUserId();
+        txtID.setText(newId);
     }
 
     /**
@@ -221,48 +232,50 @@ public class SignUpJDialog extends javax.swing.JDialog {
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         // TODO add your handling code here:
-         String id = txtID.getText().trim();
-    String username = txtUserName.getText().trim();
-    String password = txtPassWord.getText().trim();
-    String status = txtStatus.getText().trim();
-    String role = txtRole.getText().trim();
-    String email = txtEmail.getText().trim();
-    String phone = txtPhoneNum.getText().trim();
+        String id = txtID.getText().trim();
+        String username = txtUserName.getText().trim();
+        String password = txtPassWord.getText().trim();
+        String status = txtStatus.getText().trim();
+        String role = txtRole.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtPhoneNum.getText().trim();
 
-    // Kiểm tra rỗng
-    if (id.isEmpty() || username.isEmpty() || password.isEmpty() ||
-        status.isEmpty() || role.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
-        return;
-    }
-
-    // Email hợp lệ
-    if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-        JOptionPane.showMessageDialog(this, "Email không hợp lệ!");
-        return;
-    }
-
-    // Số điện thoại hợp lệ
-    if (!phone.matches("^[0-9]{10,11}$")) {
-        JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ!");
-        return;
-    }
-
-    try {
-        String sql = "INSERT INTO Users (idnguoidung, tennguoidung, matkhau, trangthai, vaitro, email, sdt) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        int result = board.game.util.XJdbc.executeUpdate(sql, id, username, password, status, role, email, phone);
-
-        if (result > 0) {
-            JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
-            this.dispose(); // Đóng form sau khi đăng ký
-        } else {
-            JOptionPane.showMessageDialog(this, "Đăng ký thất bại!");
+        // Kiểm tra rỗng
+        if (id.isEmpty() || username.isEmpty() || password.isEmpty()
+                || status.isEmpty() || role.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+            return;
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
-    }
+
+        // Email hợp lệ
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ!");
+            return;
+        }
+
+        // Số điện thoại hợp lệ
+        if (!phone.matches("^[0-9]{10,11}$")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ!");
+            return;
+        }
+
+        try {
+            String sql = "INSERT INTO Users (idnguoidung, tennguoidung, matkhau, trangthai, vaitro, email, sdt) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            int result = board.game.util.XJdbc.executeUpdate(sql, id, username, password, status, role, email, phone);
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
+                this.dispose(); // Đóng form sau khi đăng ký
+            } else {
+                JOptionPane.showMessageDialog(this, "Đăng ký thất bại!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
+
+
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     /**

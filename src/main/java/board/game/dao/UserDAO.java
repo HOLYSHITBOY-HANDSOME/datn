@@ -22,5 +22,5 @@ public interface UserDAO extends CrudDAO<User, String>{
 //    List<User> findByVaiTro(String vaiTro);
     
     void updatePassword(String username, String newPassword);
-    
+    public String generateNewUserId();
 }
