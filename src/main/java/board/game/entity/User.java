@@ -23,4 +23,13 @@ public class User {
     private boolean vaiTro;         // admin / user
     private String email;
     private String sdt;
+    
+
+    public boolean isTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(boolean trangThai) {
+        this.trangThai = trangThai;
+    }
 }

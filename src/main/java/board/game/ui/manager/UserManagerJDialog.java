@@ -9,6 +9,7 @@ import board.game.dao.ipml.UserDAOimpl;
 import board.game.entity.User;
 import java.awt.Color;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,6 +26,15 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     /**
      * Creates new form UserManagerJDialog
      */
+    private JFrame parentFrame;
+
+    public UserManagerJDialog(JFrame parent, boolean modal) {
+        super(parent, modal);
+        this.parentFrame = parent; // lưu cửa sổ cha để tắt khi cần
+        initComponents();
+        fillTable();
+    }
+
     public UserManagerJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -37,7 +47,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         String tennguoidung = txtUserName.getText().trim();
         String email = txtEmail.getText().trim();
         String sdt = txtNumber.getText().trim();
-
 
         if (txtId.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập ID người dùng");
@@ -60,16 +69,15 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             return false;
         }
 
-    
-    if(!rdbActive.isSelected() && !rdbUnactive.isSelected()){
-        JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái");
-        return false;
-    }
-    
-    if(!rdbManager.isSelected() && !rdbPlayer.isSelected()){
-        JOptionPane.showMessageDialog(this, "Vui lòng chọn vai trò");
-        return false;
-    }
+        if (!rdbActive.isSelected() && !rdbUnactive.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái");
+            return false;
+        }
+
+        if (!rdbManager.isSelected() && !rdbPlayer.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn vai trò");
+            return false;
+        }
         return true;
     }
 
@@ -137,13 +145,40 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         if (!validateForm()) {
             return;
         }
-        User u = getForm();
+
+        User u = getForm(); // Lấy dữ liệu từ form (bao gồm cả trạng thái đã chọn)
+
         try {
-            userdao.update(u);
-            fillTable();
-            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+            userdao.update(u); // Cập nhật xuống cơ sở dữ liệu
+
+            fillTable(); // Cập nhật lại bảng
+
+            if (!u.isTrangThai()) {
+                // Nếu tài khoản đã bị dừng hoạt động
+                JOptionPane.showMessageDialog(this, "Tài khoản đã bị dừng hoạt động. Không thể chỉnh sửa nữa!");
+
+                // Vô hiệu hóa các thành phần giao diện
+                btnUpdate.setEnabled(false);
+                btnDelete.setEnabled(false);
+                txtUserName.setEnabled(false);
+                txtEmail.setEnabled(false);
+                txtNumber.setEnabled(false);
+                rdbManager.setEnabled(false);
+                rdbPlayer.setEnabled(false);
+                rdbActive.setEnabled(false);
+                rdbUnactive.setEnabled(false);
+
+                // Đóng form nếu muốn:
+                this.dispose(); // Có thể bỏ dòng này nếu bạn không muốn tắt form
+            }
+             if (parentFrame != null) {
+                parentFrame.dispose(); // 👈 TẮT CỬA SỔ TRANG CHỦ
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+            }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Cập nhật thất bại!");
+            JOptionPane.showMessageDialog(this, "Cập nhật thất bại: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

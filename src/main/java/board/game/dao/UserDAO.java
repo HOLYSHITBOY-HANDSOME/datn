@@ -25,4 +25,6 @@ public interface UserDAO extends CrudDAO<User, String>{
     public String generateNewUserId();
 
     public boolean isUsernameExists(String username);
+
+
 }

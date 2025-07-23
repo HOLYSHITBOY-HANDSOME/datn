@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
  * @author Admin
  */
 public class LoginJDialog extends javax.swing.JDialog {
- public boolean loginSuccessful = false;
+
+    public boolean loginSuccessful = false;
     private String userId;
     private String fullName;     // 🔴 Biến lưu tên người dùng
     private boolean isManager;   // 🔵 Biến xác định vai trò
@@ -29,9 +30,10 @@ public class LoginJDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }
 
-public boolean isLoginSuccessful() {
-    return loginSuccessful;
-}
+    public boolean isLoginSuccessful() {
+        return loginSuccessful;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -205,94 +207,99 @@ public boolean isLoginSuccessful() {
 
     private void btnEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndActionPerformed
         // TODO add your handling code here:
-            System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_btnEndActionPerformed
-public String UserId() {
-    return userId;
-}
-    
-   public boolean isManager() {
-    return isManager;
-}
+    public String UserId() {
+        return userId;
+    }
 
-public String getFullName() {
-    return fullName;
-}
+    public boolean isManager() {
+        return isManager;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
     private void LoginbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginbtnActionPerformed
         // TODO add your handling code here:
-        
-         String user = txtUserName.getText().trim();
-    String pass = new String(txtPassWord.getText());
+        String user = txtUserName.getText().trim();
+        String pass = new String(txtPassWord.getText());
 
-    if (user.isEmpty() || pass.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
-        return;
-    }
-
-    try {
-        String sql = "SELECT * FROM Users WHERE tennguoidung = ? AND matkhau = ?";
-        ResultSet rs = XJdbc.executeQuery(sql, user, pass);
-
-        if (rs.next()) {
-            // Lưu thông tin sau khi đăng nhập thành công
-            this.userId = rs.getString("idnguoidung");
-            fullName = rs.getString("tennguoidung");
-              isManager = rs.getInt("vaitro") == 1; // 1 là admin, 0 là người chơi
-
-            loginSuccessful = true;
-            JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-            dispose(); // đóng login dialog
-        } else {
-            JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!");
+        if (user.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
+            return;
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Lỗi kết nối: " + e.getMessage());
-        e.printStackTrace();
-    }
+
+        try {
+            String sql = "SELECT * FROM Users WHERE tennguoidung = ? AND matkhau = ?";
+            ResultSet rs = XJdbc.executeQuery(sql, user, pass);
+
+            if (rs.next()) {
+                boolean isActive = rs.getBoolean("trangthai"); // Kiểm tra trạng thái hoạt động
+
+                if (!isActive) {
+                    JOptionPane.showMessageDialog(this, "Tài khoản này đã bị dừng hoạt động!");
+                    return; // Không cho tiếp tục đăng nhập
+                }
+
+                // Nếu tài khoản còn hoạt động thì tiếp tục xử lý
+                this.userId = rs.getString("idnguoidung");
+                fullName = rs.getString("tennguoidung");
+                isManager = rs.getInt("vaitro") == 1; // 1 là admin
+
+                loginSuccessful = true;
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+                dispose(); // Đóng form login
+            } else {
+                JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_LoginbtnActionPerformed
-    
+
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         // TODO add your handling code here:
-         new SignUpJDialog((Frame) this.getParent(), true).setVisible(true);
+        new SignUpJDialog((Frame) this.getParent(), true).setVisible(true);
     }//GEN-LAST:event_btnSignUpActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
-    
- public static void main(String args[]) {
-    // Cài giao diện Nimbus
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+    public static void main(String args[]) {
+        // Cài giao diện Nimbus
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        // Mở LoginJDialog trước
+        java.awt.EventQueue.invokeLater(() -> {
+            LoginJDialog dialog = new LoginJDialog(null, true);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
+            // Nếu đăng nhập thành công thì mở giao diện chính
+            if (dialog.loginSuccessful) {
+                String userId = dialog.UserId();
+                String fullName = dialog.getFullName();
+                boolean isManager = dialog.isManager();
+
+                BoardGameJFrame mainFrame = new BoardGameJFrame(userId, fullName, isManager);
+                mainFrame.setLocationRelativeTo(null);
+                mainFrame.setVisible(true);
+            } else {
+                System.exit(0);
+            }
+        });
     }
-
-    // Mở LoginJDialog trước
-    java.awt.EventQueue.invokeLater(() -> {
-        LoginJDialog dialog = new LoginJDialog(null, true);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-
-        // Nếu đăng nhập thành công thì mở giao diện chính
-        if (dialog.loginSuccessful) {
-            String userId = dialog.UserId(); 
-            String fullName = dialog.getFullName();
-            boolean isManager = dialog.isManager();
-
-            BoardGameJFrame mainFrame = new BoardGameJFrame(userId,fullName, isManager);
-            mainFrame.setLocationRelativeTo(null);
-            mainFrame.setVisible(true);
-        } else {
-            System.exit(0);
-        }
-    });
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Loginbtn;

@@ -27,6 +27,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
      lblName.setText(isManager ? "Admin" : "Player");
        setLocationRelativeTo(null);
 }
+  
 private boolean isManager;
 
     /**
@@ -72,7 +73,7 @@ private boolean isManager;
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 51));
-        jButton6.setText("Đăng xuất");
+        jButton6.setText("Thoát");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
