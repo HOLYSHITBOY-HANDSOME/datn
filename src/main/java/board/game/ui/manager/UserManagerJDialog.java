@@ -7,6 +7,7 @@ package board.game.ui.manager;
 import board.game.dao.UserDAO;
 import board.game.dao.ipml.UserDAOimpl;
 import board.game.entity.User;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -31,31 +32,69 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     }
 
     boolean validateForm() {
-    if (txtId.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập ID người dùng");
-        txtId.requestFocus();
-        return false;
-    }
-    if (txtUserName.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập tên người dùng");
+        String id = txtId.getText().trim();
+        String tennguoidung = txtUserName.getText().trim();
+        String email = txtEmail.getText().trim();
+        String sdt = txtNumber.getText().trim();
+
+
+        if (txtId.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập ID người dùng");
+            txtId.requestFocus();
+            return false;
+        }
+        if (txtUserName.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên người dùng");
+            txtUserName.requestFocus();
+            return false;
+        }
+        if (txtEmail.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Email");
+            txtEmail.requestFocus();
+            return false;
+        }
+        if (txtNumber.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại");
+            txtNumber.requestFocus();
+            return false;
+        }
+
+        if (!tennguoidung.matches("^(?=.*\\p{Lu})(?=.*\\p{Ll})[\\p{L} ]+$")) {
+        JOptionPane.showMessageDialog(this, "Họ tên phải có dấu, có chữ hoa và thường, và có khoảng cách.");
         txtUserName.requestFocus();
         return false;
     }
-    if (txtEmail.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập Email");
+
+    if (!email.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
+        JOptionPane.showMessageDialog(this, "Email không hợp lệ, vui lòng nhập lại");
         txtEmail.requestFocus();
         return false;
     }
-    if (txtNumber.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại");
+
+    if (!sdt.matches("^\\d{10}$")) {
+        JOptionPane.showMessageDialog(this, "Số điện thoại phải đủ 10 số.");
         txtNumber.requestFocus();
         return false;
     }
-    return true;
-}
 
+    if (!id.matches("^(?=(?:.*[a-z]){4,})(?=(?:.*\\d){3,})[a-z\\d]+$")) {
+        JOptionPane.showMessageDialog(this, "ID không hợp lệ: ít nhất 4 chữ thường, 3 số, không viết hoa, khônh cách.");
+        txtId.requestFocus();
+        return false;
+    }
     
+    if(!rdbActive.isSelected() && !rdbUnactive.isSelected()){
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái");
+        return false;
+    }
     
+    if(!rdbManager.isSelected() && !rdbPlayer.isSelected()){
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn vai trò");
+        return false;
+    }
+        return true;
+    }
+
     void fillTable() {
         model = (DefaultTableModel) tblUsers.getModel();
         model.setRowCount(0);
@@ -101,7 +140,9 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     }
 
     void insert() {
-        if (!validateForm()) return;
+        if (!validateForm()) {
+            return;
+        }
         User u = getForm();
         u.setMatKhau("pass9999");
         try {
@@ -110,19 +151,21 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             clearForm();
             JOptionPane.showMessageDialog(this, "Thêm thành công!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Thêm thất bại: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Thêm thất bại!");
         }
     }
 
     void update() {
-        if (!validateForm()) return;
+        if (!validateForm()) {
+            return;
+        }
         User u = getForm();
         try {
             userdao.update(u);
             fillTable();
             JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Cập nhật thật bại: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Cập nhật thất bại!");
         }
     }
 
@@ -135,7 +178,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
                 clearForm();
                 JOptionPane.showMessageDialog(this, "Xóa thành công!");
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Xóa thất bại: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Xóa thất bại!");
             }
         }
     }
