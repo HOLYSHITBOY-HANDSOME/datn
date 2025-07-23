@@ -15,10 +15,18 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     /**
      * Creates new form boardgameJframe
      */
-    public BoardGameJFrame() {
-        initComponents();
-        this.init();
-    }
+    
+  public BoardGameJFrame(String userId,String fullName, boolean isManager) {
+    initComponents();
+     lblUserID.setText("User ID: " + userId);
+    lblUser.setText("Chào mừng: " + fullName);
+    this.isManager = isManager;
+    btnUserManager.setVisible(isManager);
+    btnHistoryManager.setVisible(isManager);
+    btnChangePassword.setVisible(true); 
+     lblName.setText(isManager ? "Admin" : "Player");
+}
+private boolean isManager;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,9 +38,9 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private void initComponents() {
 
         jPanel5 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
         btnFlappy = new javax.swing.JButton();
         btnPacman = new javax.swing.JButton();
         btnShot = new javax.swing.JButton();
@@ -49,6 +57,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jLabel11 = new javax.swing.JLabel();
         btnHistoryManager = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        lblUserID = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,9 +65,9 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jPanel5.setBackground(new java.awt.Color(153, 153, 153));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Unispace", 1, 24)); // NOI18N
-        jLabel1.setText("user");
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, -1, -1));
+        lblName.setFont(new java.awt.Font("Unispace", 1, 24)); // NOI18N
+        lblName.setText("user");
+        jPanel5.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 51));
@@ -70,11 +79,11 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         });
         jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 137, -1));
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Chào mừng: (User)");
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, -1, -1));
+        lblUser.setBackground(new java.awt.Color(255, 255, 255));
+        lblUser.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(51, 51, 51));
+        lblUser.setText("Chào mừng: (User)");
+        jPanel5.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, -1, -1));
 
         btnFlappy.setBackground(new java.awt.Color(153, 0, 102));
         btnFlappy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -191,6 +200,10 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/avatar_resized_150x150.jpg"))); // NOI18N
         jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
+        lblUserID.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblUserID.setText("User ID");
+        jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, -1, -1));
+
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background home.png"))); // NOI18N
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, -1));
 
@@ -260,38 +273,31 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+   public static void main(String args[]) {
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BoardGameJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BoardGameJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BoardGameJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BoardGameJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BoardGameJFrame().setVisible(true);
-            }
-        });
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    java.awt.EventQueue.invokeLater(() -> {
+        LoginJDialog dialog = new LoginJDialog(null, true); // mở form login
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        if (dialog.loginSuccessful) {
+            // gọi constructor có tham số đầy đủ
+            new BoardGameJFrame(dialog.UserId(),dialog.getFullName(), dialog.isManager()).setVisible(true);
+        } else {
+            System.exit(0);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBom;
@@ -304,10 +310,8 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private javax.swing.JButton btnTank;
     private javax.swing.JButton btnUserManager;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -315,6 +319,9 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblUser;
+    private javax.swing.JLabel lblUserID;
     // End of variables declaration//GEN-END:variables
 
     @Override
