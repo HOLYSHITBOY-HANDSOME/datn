@@ -4,6 +4,12 @@
  */
 package board.game.ui.manager;
 
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+
 /**
  *
  * @author LAPTOP LE SON
@@ -16,6 +22,42 @@ public class RankManagerJDialog extends javax.swing.JDialog {
     public RankManagerJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Placeholders();
+        
+        JTableHeader header = tblrank.getTableHeader();
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+
+    }
+
+    private void setPlaceholder(JTextField textField, String placeholderText) {
+        textField.setText(placeholderText);
+        textField.setForeground(Color.GRAY);
+
+        textField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (textField.getText().equals(placeholderText)) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(placeholderText);
+                    textField.setForeground(Color.GRAY);
+                }
+            }
+        });
+    }
+
+    private void Placeholders() {
+        setPlaceholder(txtid, "Nhập ID");
+        setPlaceholder(txttop, "Nhập Top");
+        setPlaceholder(txtmin, "Điểm nhỏ nhất");
+        setPlaceholder(txtmax, "Điểm lớn nhất");
     }
 
     /**
@@ -27,21 +69,159 @@ public class RankManagerJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        btnminmax = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblrank = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtmin = new javax.swing.JTextField();
+        txtmax = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btntop = new javax.swing.JButton();
+        txtid = new javax.swing.JTextField();
+        txttop = new javax.swing.JTextField();
+        btnid = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnminmax.setText("Tìm kiếm");
+        btnminmax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnminmaxActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnminmax, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, -1, 22));
+
+        tblrank.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Top", "Id player", "Điểm"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblrank);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 120, 660, 583));
+
+        jLabel3.setText("Tìm kiếm theo:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, -1));
+
+        jLabel4.setText("Min");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, -1, -1));
+
+        jLabel5.setText("Max");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
+
+        txtmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtminActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 119, -1));
+
+        txtmax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtmaxActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtmax, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 119, -1));
+
+        jLabel1.setText("Tìm kiếm Id");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
+
+        jLabel2.setText("Tìm kiếm Top");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, -1, -1));
+
+        btntop.setText("Tìm kiếm");
+        btntop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btntopActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btntop, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, -1, -1));
+
+        txtid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtidActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtid, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 187, -1));
+
+        txttop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttopActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txttop, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 93, -1));
+
+        btnid.setText("Tìm kiếm");
+        btnid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnidActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnid, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnidActionPerformed
+
+    }//GEN-LAST:event_btnidActionPerformed
+
+    private void txttopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttopActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttopActionPerformed
+
+    private void txtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidActionPerformed
+
+    }//GEN-LAST:event_txtidActionPerformed
+
+    private void btntopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntopActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btntopActionPerformed
+
+    private void txtmaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmaxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtmaxActionPerformed
+
+    private void txtminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtminActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtminActionPerformed
+
+    private void btnminmaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnminmaxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnminmaxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -93,5 +273,20 @@ public class RankManagerJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnid;
+    private javax.swing.JButton btnminmax;
+    private javax.swing.JButton btntop;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblrank;
+    private javax.swing.JTextField txtid;
+    private javax.swing.JTextField txtmax;
+    private javax.swing.JTextField txtmin;
+    private javax.swing.JTextField txttop;
     // End of variables declaration//GEN-END:variables
 }
