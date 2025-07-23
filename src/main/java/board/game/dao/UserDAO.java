@@ -23,4 +23,6 @@ public interface UserDAO extends CrudDAO<User, String>{
     
     void updatePassword(String username, String newPassword);
     public String generateNewUserId();
+
+    public boolean isUsernameExists(String username);
 }

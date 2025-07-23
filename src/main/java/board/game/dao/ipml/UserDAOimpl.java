@@ -92,5 +92,18 @@ public class UserDAOimpl implements UserDAO {
         }
         return "user001";
     }
+    @Override
+public boolean isUsernameExists(String username) {
+    try {
+        String sql = "SELECT COUNT(*) FROM Users WHERE tennguoidung = ?";
+        ResultSet rs = XJdbc.executeQuery(sql, username);
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 
 }
