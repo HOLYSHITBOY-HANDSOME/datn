@@ -59,23 +59,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             return false;
         }
 
-    if (!email.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
-        JOptionPane.showMessageDialog(this, "Email không hợp lệ, vui lòng nhập lại");
-        txtEmail.requestFocus();
-        return false;
-    }
-
-    if (!sdt.matches("^\\d{10}$")) {
-        JOptionPane.showMessageDialog(this, "Số điện thoại phải đủ 10 số.");
-        txtNumber.requestFocus();
-        return false;
-    }
-
-    if (!id.matches("^(?=(?:.*[a-z]){4,})(?=(?:.*\\d){3,})[a-z\\d]+$")) {
-        JOptionPane.showMessageDialog(this, "ID không hợp lệ: ít nhất 4 chữ thường, 3 số, không viết hoa, khônh cách.");
-        txtId.requestFocus();
-        return false;
-    }
     
     if(!rdbActive.isSelected() && !rdbUnactive.isSelected()){
         JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái");
