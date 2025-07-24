@@ -235,21 +235,21 @@ public class LoginJDialog extends javax.swing.JDialog {
             ResultSet rs = XJdbc.executeQuery(sql, user, pass);
 
             if (rs.next()) {
-                boolean isActive = rs.getBoolean("trangthai"); // Kiểm tra trạng thái hoạt động
-
+                // ⚠️ Kiểm tra trạng thái hoạt động
+                boolean isActive = rs.getBoolean("trangthai");
                 if (!isActive) {
-                    JOptionPane.showMessageDialog(this, "Tài khoản này đã bị dừng hoạt động!");
-                    return; // Không cho tiếp tục đăng nhập
+                    JOptionPane.showMessageDialog(this, "Tài khoản đã bị dừng hoạt động và không thể đăng nhập!");
+                    return;
                 }
 
-                // Nếu tài khoản còn hoạt động thì tiếp tục xử lý
+                // Lưu thông tin đăng nhập
                 this.userId = rs.getString("idnguoidung");
                 fullName = rs.getString("tennguoidung");
-                isManager = rs.getInt("vaitro") == 1; // 1 là admin
+                isManager = rs.getInt("vaitro") == 1;
 
                 loginSuccessful = true;
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-                dispose(); // Đóng form login
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!");
             }
@@ -257,6 +257,7 @@ public class LoginJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Lỗi kết nối: " + e.getMessage());
             e.printStackTrace();
         }
+
     }//GEN-LAST:event_LoginbtnActionPerformed
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed

@@ -7,6 +7,7 @@ package board.game.ui.manager;
 import board.game.dao.UserDAO;
 import board.game.dao.ipml.UserDAOimpl;
 import board.game.entity.User;
+import board.game.util.Auth;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JFrame;
@@ -27,6 +28,18 @@ public class UserManagerJDialog extends javax.swing.JDialog {
      * Creates new form UserManagerJDialog
      */
     private JFrame parentFrame;
+
+    private void setControlsEnabled(boolean enabled) {
+        txtUserName.setEnabled(enabled);
+        txtEmail.setEnabled(enabled);
+        txtNumber.setEnabled(enabled);
+        rdbManager.setEnabled(enabled);
+        rdbPlayer.setEnabled(enabled);
+        rdbActive.setEnabled(enabled);
+        rdbUnactive.setEnabled(enabled);
+        btnUpdate.setEnabled(enabled);
+        btnDelete.setEnabled(enabled);
+    }
 
     public UserManagerJDialog(JFrame parent, boolean modal) {
         super(parent, modal);
@@ -154,8 +167,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             fillTable(); // Cập nhật lại bảng
 
             if (!u.isTrangThai()) {
-                // Nếu tài khoản đã bị dừng hoạt động
-                JOptionPane.showMessageDialog(this, "Tài khoản đã bị dừng hoạt động. Không thể chỉnh sửa nữa!");
+                JOptionPane.showMessageDialog(this, "Tài khoản đã được chuyển sang trạng thái dừng hoạt động.");
 
                 // Vô hiệu hóa các thành phần giao diện
                 btnUpdate.setEnabled(false);
@@ -168,14 +180,10 @@ public class UserManagerJDialog extends javax.swing.JDialog {
                 rdbActive.setEnabled(false);
                 rdbUnactive.setEnabled(false);
 
-                // Đóng form nếu muốn:
-                this.dispose(); // Có thể bỏ dòng này nếu bạn không muốn tắt form
+                return;
             }
-             if (parentFrame != null) {
-                parentFrame.dispose(); // 👈 TẮT CỬA SỔ TRANG CHỦ
-            } else {
-                JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-            }
+
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Cập nhật thất bại: " + e.getMessage());
             e.printStackTrace();
@@ -202,6 +210,23 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             User u = userdao.findById(id);
             setForm(u);
             currentIndex = index;
+
+            // Mặc định khóa các thành phần
+            setControlsEnabled(false);
+
+            // Luôn cho chỉnh nút Update + trạng thái
+            btnUpdate.setEnabled(true);
+            rdbActive.setEnabled(true);
+            rdbUnactive.setEnabled(true);
+            btnDelete.setEnabled(true); // nếu muốn
+
+            if (!u.isTrangThai()) {
+                JOptionPane.showMessageDialog(this, "nếu muốn chỉnh sửa , hãy vào biểu mẫu!");
+            } else {
+                // Nếu tài khoản đang hoạt động, cho chỉnh đầy đủ
+                setControlsEnabled(true);
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi hiển thị: " + e.getMessage());
         }
