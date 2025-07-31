@@ -54,12 +54,13 @@ private boolean isManager;
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         btnHistoryManager = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         lblUserID = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,7 +70,7 @@ private boolean isManager;
 
         lblName.setFont(new java.awt.Font("Unispace", 1, 24)); // NOI18N
         lblName.setText("user");
-        jPanel5.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, -1));
+        jPanel5.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, -1, -1));
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 51));
@@ -79,13 +80,13 @@ private boolean isManager;
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 137, -1));
+        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 520, 137, -1));
 
         lblUser.setBackground(new java.awt.Color(255, 255, 255));
-        lblUser.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblUser.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblUser.setForeground(new java.awt.Color(51, 51, 51));
         lblUser.setText("Chào mừng: (User)");
-        jPanel5.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, -1, -1));
+        jPanel5.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, -1, -1));
 
         btnFlappy.setBackground(new java.awt.Color(153, 0, 102));
         btnFlappy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -96,7 +97,7 @@ private boolean isManager;
                 btnFlappyActionPerformed(evt);
             }
         });
-        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 137, -1));
+        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 190, 190, 40));
 
         btnPacman.setBackground(new java.awt.Color(153, 0, 102));
         btnPacman.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -107,7 +108,7 @@ private boolean isManager;
                 btnPacmanActionPerformed(evt);
             }
         });
-        jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 120, 137, -1));
+        jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 190, 190, 40));
 
         btnShot.setBackground(new java.awt.Color(153, 0, 102));
         btnShot.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -118,7 +119,7 @@ private boolean isManager;
                 btnShotActionPerformed(evt);
             }
         });
-        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 137, -1));
+        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, 190, 40));
 
         btnSnake.setBackground(new java.awt.Color(153, 0, 102));
         btnSnake.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -129,7 +130,7 @@ private boolean isManager;
                 btnSnakeActionPerformed(evt);
             }
         });
-        jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 180, 137, -1));
+        jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 280, 190, 40));
 
         btnTank.setBackground(new java.awt.Color(153, 0, 102));
         btnTank.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -140,7 +141,7 @@ private boolean isManager;
                 btnTankActionPerformed(evt);
             }
         });
-        jPanel5.add(btnTank, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, 140, -1));
+        jPanel5.add(btnTank, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 200, 40));
 
         btnBom.setBackground(new java.awt.Color(153, 0, 102));
         btnBom.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -151,63 +152,73 @@ private boolean isManager;
                 btnBomActionPerformed(evt);
             }
         });
-        jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 250, 137, -1));
+        jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 380, 190, 40));
 
-        btnChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnChangePassword.setText("Đổi mật khẩu");
         btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnChangePasswordActionPerformed(evt);
             }
         });
-        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 400, 140, -1));
+        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 520, 180, 40));
 
-        btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUserManager.setText("Quản lý người dùng");
         btnUserManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUserManagerActionPerformed(evt);
             }
         });
-        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, 170, -1));
+        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 210, 40));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Pacman.png"))); // NOI18N
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, -1, -1));
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 200, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png"))); // NOI18N
         jLabel7.setToolTipText("");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, -1, -1));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/snake.png"))); // NOI18N
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, -1, -1));
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/bomb.png"))); // NOI18N
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 250, -1, -1));
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 290, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/spaceship.png"))); // NOI18N
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 280, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/xetang.png"))); // NOI18N
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, -1, -1));
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, -1));
 
-        btnHistoryManager.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHistoryManager.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnHistoryManager.setText("Quản lý lịch sử");
         btnHistoryManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistoryManagerActionPerformed(evt);
             }
         });
-        jPanel5.add(btnHistoryManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 340, 160, -1));
+        jPanel5.add(btnHistoryManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 520, 210, 40));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/avatar_resized_150x150.jpg"))); // NOI18N
-        jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+        jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
 
-        lblUserID.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblUserID.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblUserID.setText("User ID");
-        jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+        jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, -1, -1));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background home.png"))); // NOI18N
-        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 890, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Bomb.png"))); // NOI18N
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 390, -1, -1));
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 51, 51));
+        jButton1.setText("Đăng xuất");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 460, 140, 30));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background homeplayer.png"))); // NOI18N
+        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, -1, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -272,6 +283,21 @@ private boolean isManager;
         this.showDoMin();
     }//GEN-LAST:event_btnBomActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    this.setVisible(false); // Ẩn khung hiện tại nếu cần
+
+    LoginJDialog login = new LoginJDialog(this, true); 
+    login.setLocationRelativeTo(null); 
+    login.setVisible(true); 
+
+    if (login.loginSuccessful) {
+        new BoardGameJFrame(login.UserId(), login.getFullName(), login.isManager()).setVisible(true);
+        this.dispose();
+    } else {
+        System.exit(0);
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -311,7 +337,9 @@ private boolean isManager;
     private javax.swing.JButton btnSnake;
     private javax.swing.JButton btnTank;
     private javax.swing.JButton btnUserManager;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel4;
@@ -319,7 +347,6 @@ private boolean isManager;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblUser;
