@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 class Explosion {
+
     private int x, y;
     private int width, height;
     private int timeVisible = 15;
@@ -35,7 +36,7 @@ class Explosion {
 
 public class BanGa extends JPanel implements ActionListener, KeyListener {
 
-    private final int WIDTH = 800, HEIGHT = 600;
+    private final int WIDTH = 1000, HEIGHT = 800;
     private final int PLAYER_WIDTH = 60, PLAYER_HEIGHT = 60;
     private final int CHICKEN_WIDTH = 50, CHICKEN_HEIGHT = 50;
     private final int BULLET_WIDTH = 20, BULLET_HEIGHT = 30;
@@ -55,8 +56,8 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
 
     private Timer gameTimer;
     private Timer chickenSpawner;
-    private int spawnDelay = 1000;
-
+    private int spawnDelay = 1500;
+    private boolean paused = false;
     private JButton retryButton;
 
     private Image spaceshipImg;
@@ -90,12 +91,14 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         retryButton.addActionListener(e -> resetGame());
         retryButton.setVisible(false);
         this.setLayout(null);
-        retryButton.setBounds(WIDTH / 2 - 60, HEIGHT / 2 + 30, 120, 30);
+        retryButton.setBounds(WIDTH / 2 - 60, HEIGHT / 2 + 40, 120, 30);
         this.add(retryButton);
     }
 
     private void startChickenSpawner(int delay) {
-        if (chickenSpawner != null) chickenSpawner.stop();
+        if (chickenSpawner != null) {
+            chickenSpawner.stop();
+        }
         chickenSpawner = new Timer(delay, e -> spawnChicken());
         chickenSpawner.start();
     }
@@ -143,17 +146,29 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!gameOver) {
-            if (left && playerX > 0) playerX -= 6;
-            if (right && playerX < WIDTH - PLAYER_WIDTH) playerX += 6;
-            if (up && playerY > 0) playerY -= 6;
-            if (down && playerY < HEIGHT - PLAYER_HEIGHT) playerY += 6;
-            if (shooting) tryShoot();
+            if (left && playerX > 0) {
+                playerX -= 8;
+            }
+            if (right && playerX < WIDTH - PLAYER_WIDTH) {
+                playerX += 8;
+            }
+            if (up && playerY > 0) {
+                playerY -= 8;
+            }
+            if (down && playerY < HEIGHT - PLAYER_HEIGHT) {
+                playerY += 8;
+            }
+            if (shooting) {
+                tryShoot();
+            }
 
             Iterator<Rectangle> bulletIter = bullets.iterator();
             while (bulletIter.hasNext()) {
                 Rectangle bullet = bulletIter.next();
                 bullet.y -= 10;
-                if (bullet.y < 0) bulletIter.remove();
+                if (bullet.y < 0) {
+                    bulletIter.remove();
+                }
             }
 
             Iterator<Rectangle> chickenIter = chickens.iterator();
@@ -240,7 +255,17 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         g.drawString("Điểm: " + score, 10, 25);
 
         g.setColor(Color.ORANGE);
-        g.drawString("Máu: " + hp + "/10", WIDTH - 120, 25);
+        g.drawString("Máu: " + hp + "/10", WIDTH - 140, 25);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+
+        String hintCenter = "SPACE để bắn • P để tạm dừng";
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(hintCenter);
+        int x = WIDTH / 2 - textWidth / 2;
+        int y = 70;
+        g.drawString(hintCenter, x, y);
 
         if (showMinusOne) {
             g.setColor(Color.RED);
@@ -254,7 +279,7 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         if (gameOver) {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 40));
-            g.drawString("GAME OVER", WIDTH / 2 - 130, HEIGHT / 2 - 20);
+            g.drawString("GAME OVER", WIDTH / 2 - 140, HEIGHT / 2 - 30);
             g.setFont(new Font("Arial", Font.PLAIN, 25));
             g.drawString("Điểm của bạn: " + score, WIDTH / 2 - 100, HEIGHT / 2 + 10);
         }
@@ -263,26 +288,61 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> left = true;
-            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> right = true;
-            case KeyEvent.VK_UP, KeyEvent.VK_W -> up = true;
-            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> down = true;
-            case KeyEvent.VK_SPACE -> shooting = true;
+            case KeyEvent.VK_LEFT, KeyEvent.VK_A ->
+                left = true;
+            case KeyEvent.VK_RIGHT, KeyEvent.VK_D ->
+                right = true;
+            case KeyEvent.VK_UP, KeyEvent.VK_W ->
+                up = true;
+            case KeyEvent.VK_DOWN, KeyEvent.VK_S ->
+                down = true;
+            case KeyEvent.VK_SPACE ->
+                shooting = true;
+
+            // 🟨 Thêm xử lý phím P để tạm dừng game
+            case KeyEvent.VK_P -> {
+                if (!paused && !gameOver) {
+                    paused = true;
+                    gameTimer.stop();
+                    chickenSpawner.stop();
+
+                    int result = JOptionPane.showConfirmDialog(
+                            this,
+                            "Bạn đang tạm dừng!\nNhấn OK để tiếp tục chơi.",
+                            "Tạm dừng",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                    if (result == JOptionPane.OK_OPTION) {
+                        paused = false;
+                        gameTimer.start();
+                        chickenSpawner.start();
+                    }
+                }
+            }
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> left = false;
-            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> right = false;
-            case KeyEvent.VK_UP, KeyEvent.VK_W -> up = false;
-            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> down = false;
-            case KeyEvent.VK_SPACE -> shooting = false;
+            case KeyEvent.VK_LEFT, KeyEvent.VK_A ->
+                left = false;
+            case KeyEvent.VK_RIGHT, KeyEvent.VK_D ->
+                right = false;
+            case KeyEvent.VK_UP, KeyEvent.VK_W ->
+                up = false;
+            case KeyEvent.VK_DOWN, KeyEvent.VK_S ->
+                down = false;
+            case KeyEvent.VK_SPACE ->
+                shooting = false;
         }
     }
 
-    @Override public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

@@ -15,18 +15,17 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     /**
      * Creates new form boardgameJframe
      */
-    
-  public BoardGameJFrame(String userId, boolean isManager) {
-    initComponents();
-     lblUserID.setText("User ID: " + userId);
-    this.isManager = isManager;
-    btnUserManager.setVisible(isManager);
-    btnChangePassword.setVisible(true); 
-     lblName.setText(isManager ? "Admin" : "Player");
-       setLocationRelativeTo(null);
-}
-  
-private boolean isManager;
+    public BoardGameJFrame(String userId, boolean isManager) {
+        initComponents();
+        lblUserID.setText("User ID: " + userId);
+        this.isManager = isManager;
+        btnUserManager.setVisible(isManager);
+        btnChangePassword.setVisible(true);
+        lblName.setText(isManager ? "Admin" : "Player");
+        setLocationRelativeTo(null);
+    }
+
+    private boolean isManager;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,6 +49,8 @@ private boolean isManager;
         jLabel4 = new javax.swing.JLabel();
         lblUserID = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,13 +70,13 @@ private boolean isManager;
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 520, 137, -1));
+        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 520, 137, -1));
 
         lblUser.setBackground(new java.awt.Color(255, 255, 255));
         lblUser.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblUser.setForeground(new java.awt.Color(51, 51, 51));
         lblUser.setText("Chào mừng bạn đến GameHub");
-        jPanel5.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, -1, -1));
+        jPanel5.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 80, -1, -1));
 
         btnFlappy.setBackground(new java.awt.Color(153, 0, 102));
         btnFlappy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -86,7 +87,7 @@ private boolean isManager;
                 btnFlappyActionPerformed(evt);
             }
         });
-        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 190, 190, 40));
+        jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, 190, 40));
 
         btnShot.setBackground(new java.awt.Color(153, 0, 102));
         btnShot.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -97,7 +98,7 @@ private boolean isManager;
                 btnShotActionPerformed(evt);
             }
         });
-        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 190, 190, 40));
+        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, 190, 40));
 
         btnChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnChangePassword.setText("Đổi mật khẩu");
@@ -106,7 +107,7 @@ private boolean isManager;
                 btnChangePasswordActionPerformed(evt);
             }
         });
-        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 520, 180, 40));
+        jPanel5.add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 180, 40));
 
         btnUserManager.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUserManager.setText("Quản lý người dùng");
@@ -115,14 +116,14 @@ private boolean isManager;
                 btnUserManagerActionPerformed(evt);
             }
         });
-        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 210, 40));
+        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 460, 210, 40));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png"))); // NOI18N
         jLabel7.setToolTipText("");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, -1, -1));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 230, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/spaceship.png"))); // NOI18N
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 190, -1, -1));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 340, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/avatar_resized_150x150.jpg"))); // NOI18N
         jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
@@ -139,10 +140,18 @@ private boolean isManager;
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 460, 140, 30));
+        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 140, 30));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel1.setText("Điểm:");
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 240, 210, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel2.setText("Điểm");
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 350, 220, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background homeplayer.png"))); // NOI18N
-        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, -1, 720));
+        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -183,48 +192,48 @@ private boolean isManager;
     }//GEN-LAST:event_btnShotActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    this.setVisible(false); // Ẩn khung hiện tại nếu cần
+        this.setVisible(false); // Ẩn khung hiện tại nếu cần
 
-    LoginJDialog login = new LoginJDialog(this, true); 
-    login.setLocationRelativeTo(null); 
-    login.setVisible(true); 
+        LoginJDialog login = new LoginJDialog(this, true);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
 
-    if (login.loginSuccessful) {
-        new BoardGameJFrame(login.UserId(), login.isManager()).setVisible(true);
-        this.dispose();
-    } else {
-        System.exit(0);
-    }
+        if (login.loginSuccessful) {
+            new BoardGameJFrame(login.UserId(), login.isManager()).setVisible(true);
+            this.dispose();
+        } else {
+            System.exit(0);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-   public static void main(String args[]) {
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        java.awt.EventQueue.invokeLater(() -> {
+            LoginJDialog dialog = new LoginJDialog(null, true); // mở form login
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
+            if (dialog.loginSuccessful) {
+                // gọi constructor có tham số đầy đủ
+                new BoardGameJFrame(dialog.UserId(), dialog.isManager()).setVisible(true);
+            } else {
+                System.exit(0);
+            }
+        });
     }
-
-    java.awt.EventQueue.invokeLater(() -> {
-        LoginJDialog dialog = new LoginJDialog(null, true); // mở form login
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-
-        if (dialog.loginSuccessful) {
-            // gọi constructor có tham số đầy đủ
-            new BoardGameJFrame(dialog.UserId(), dialog.isManager()).setVisible(true);
-        } else {
-            System.exit(0);
-        }
-    });
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChangePassword;
@@ -233,7 +242,9 @@ private boolean isManager;
     private javax.swing.JButton btnUserManager;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -245,10 +256,10 @@ private boolean isManager;
 
     @Override
     public void init() {
- this.setIconImage(XIcon.getIcon("Pacman.png").getImage());
+        this.setIconImage(XIcon.getIcon("Pacman.png").getImage());
         //để hiện thị icon trên góc của view khi chạy
         this.setLocationRelativeTo(null);
-                this.showLoginJDialog(this);
+        this.showLoginJDialog(this);
         this.showWelcomeJDialog(this);
     }
 }
