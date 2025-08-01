@@ -19,6 +19,6 @@ public class User {
     private String idNguoiDung;    // PK
     private String matKhau;
     private boolean trangThai;
-    private boolean vaiTro;         // admin / user
+    private int  vaiTro;         // admin / user
 
 }

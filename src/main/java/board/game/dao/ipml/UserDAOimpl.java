@@ -31,7 +31,7 @@ public class UserDAOimpl implements UserDAO {
             entity.getIdNguoiDung(),
             entity.getMatKhau(),
             entity.isTrangThai(),
-            entity.isVaiTro()
+            entity.getVaiTro()
         };
         XJdbc.executeUpdate(createSql, args);
         return entity;
@@ -41,7 +41,7 @@ public class UserDAOimpl implements UserDAO {
     public void update(User entity) {
         Object[] args = {
             entity.isTrangThai(),
-            entity.isVaiTro(),
+            entity.getVaiTro(),
             entity.getIdNguoiDung()
         };
         XJdbc.executeUpdate(updateSql, args);

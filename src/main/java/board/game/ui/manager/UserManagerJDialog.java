@@ -83,8 +83,8 @@ public class UserManagerJDialog extends javax.swing.JDialog {
                 model.addRow(new Object[]{
                     u.getIdNguoiDung(),
                     u.isTrangThai() ? "Còn hoạt động" : "Ngừng hoạt động",
-                    u.isVaiTro() ? "Admin" : "Người chơi",
-                    false
+                    u.getVaiTro() == 1 ? "Admin" : "Người chơi", // nếu kiểu int
+                    false // checkbox để chọn xóa hoặc sửa
                 });
             }
         } catch (Exception e) {
@@ -95,21 +95,26 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     User getForm() {
         User u = new User();
         u.setIdNguoiDung(txtId.getText());
-        u.setVaiTro(rdbManager.isSelected());
         u.setTrangThai(rdbActive.isSelected());
+        u.setVaiTro(rdbManager.isSelected() ? 1 : 0);
         return u;
     }
 
     void setForm(User u) {
         txtId.setText(u.getIdNguoiDung());
-        rdbManager.setSelected(u.isVaiTro());
-        rdbPlayer.setSelected(!u.isVaiTro());
+        rdbManager.setSelected(u.getVaiTro() == 1);
+        rdbPlayer.setSelected(u.getVaiTro() == 0);
         rdbActive.setSelected(u.isTrangThai());
         rdbUnactive.setSelected(!u.isTrangThai());
     }
 
     void insert() {
         if (!validateForm()) {
+            return;
+        }
+
+        if (rdbUnactive.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Không thể tạo tài khoản với trạng thái 'Ngừng hoạt động'.");
             return;
         }
         User u = getForm();

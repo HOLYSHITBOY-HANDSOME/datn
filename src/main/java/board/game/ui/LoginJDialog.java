@@ -219,7 +219,7 @@ public class LoginJDialog extends javax.swing.JDialog {
     private void LoginbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginbtnActionPerformed
         // TODO add your handling code here:
         String user = txtUserName.getText().trim();
-        String pass = new String(txtPassWord.getText());
+        String pass = txtPassWord.getText();
 
         if (user.isEmpty() || pass.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
@@ -238,7 +238,15 @@ public class LoginJDialog extends javax.swing.JDialog {
                     return;
                 }
 
-                // Lưu thông tin đăng nhập
+                // ✅ Gán thông tin người dùng vào biến toàn cục Auth
+                board.game.entity.User u = new board.game.entity.User();
+                u.setIdNguoiDung(rs.getString("idnguoidung"));
+                u.setMatKhau(rs.getString("matkhau"));
+                u.setVaiTro(rs.getInt("vaitro"));
+                u.setTrangThai(rs.getBoolean("trangthai"));
+                board.game.util.Auth.user = u;
+
+                // Lưu trạng thái login thành công
                 this.userId = rs.getString("idnguoidung");
                 isManager = rs.getInt("vaitro") == 1;
 

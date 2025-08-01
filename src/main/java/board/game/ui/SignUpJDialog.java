@@ -187,7 +187,7 @@ public class SignUpJDialog extends javax.swing.JDialog {
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         // TODO add your handling code here:
         String id = txtID.getText().trim();
-        String password = txtPassWord.getText().trim();
+        String password = new String(txtPassWord.getPassword()).trim();
         String confirmPassword = txtconfirmpassword.getText().trim();
 
         String role = "0";      // người chơi
