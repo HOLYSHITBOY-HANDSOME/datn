@@ -19,10 +19,8 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
   public BoardGameJFrame(String userId, boolean isManager) {
     initComponents();
      lblUserID.setText("User ID: " + userId);
-     lblUser.setText("Chào mừng User: " + userId);
     this.isManager = isManager;
     btnUserManager.setVisible(isManager);
-    btnHistoryManager.setVisible(isManager);
     btnChangePassword.setVisible(true); 
      lblName.setText(isManager ? "Admin" : "Player");
        setLocationRelativeTo(null);
@@ -44,22 +42,13 @@ private boolean isManager;
         jButton6 = new javax.swing.JButton();
         lblUser = new javax.swing.JLabel();
         btnFlappy = new javax.swing.JButton();
-        btnPacman = new javax.swing.JButton();
         btnShot = new javax.swing.JButton();
-        btnSnake = new javax.swing.JButton();
-        btnTank = new javax.swing.JButton();
-        btnBom = new javax.swing.JButton();
         btnChangePassword = new javax.swing.JButton();
         btnUserManager = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        btnHistoryManager = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         lblUserID = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
@@ -85,7 +74,7 @@ private boolean isManager;
         lblUser.setBackground(new java.awt.Color(255, 255, 255));
         lblUser.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblUser.setForeground(new java.awt.Color(51, 51, 51));
-        lblUser.setText("Chào mừng: (User)");
+        lblUser.setText("Chào mừng bạn đến GameHub");
         jPanel5.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, -1, -1));
 
         btnFlappy.setBackground(new java.awt.Color(153, 0, 102));
@@ -99,17 +88,6 @@ private boolean isManager;
         });
         jPanel5.add(btnFlappy, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 190, 190, 40));
 
-        btnPacman.setBackground(new java.awt.Color(153, 0, 102));
-        btnPacman.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnPacman.setForeground(new java.awt.Color(255, 255, 255));
-        btnPacman.setText("PacMan");
-        btnPacman.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPacmanActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnPacman, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 190, 190, 40));
-
         btnShot.setBackground(new java.awt.Color(153, 0, 102));
         btnShot.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnShot.setForeground(new java.awt.Color(255, 255, 255));
@@ -119,40 +97,7 @@ private boolean isManager;
                 btnShotActionPerformed(evt);
             }
         });
-        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, 190, 40));
-
-        btnSnake.setBackground(new java.awt.Color(153, 0, 102));
-        btnSnake.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnSnake.setForeground(new java.awt.Color(255, 255, 255));
-        btnSnake.setText("Rắn Săn Mồi");
-        btnSnake.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSnakeActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnSnake, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 280, 190, 40));
-
-        btnTank.setBackground(new java.awt.Color(153, 0, 102));
-        btnTank.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnTank.setForeground(new java.awt.Color(255, 255, 255));
-        btnTank.setText("Bắn Xe Tăng");
-        btnTank.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTankActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnTank, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 200, 40));
-
-        btnBom.setBackground(new java.awt.Color(153, 0, 102));
-        btnBom.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnBom.setForeground(new java.awt.Color(255, 255, 255));
-        btnBom.setText("Dò Mìn");
-        btnBom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBomActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnBom, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 380, 190, 40));
+        jPanel5.add(btnShot, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 190, 190, 40));
 
         btnChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnChangePassword.setText("Đổi mật khẩu");
@@ -172,30 +117,12 @@ private boolean isManager;
         });
         jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 210, 40));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Pacman.png"))); // NOI18N
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 200, -1, -1));
-
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png"))); // NOI18N
         jLabel7.setToolTipText("");
         jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, -1, -1));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/snake.png"))); // NOI18N
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 290, -1, -1));
-
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/spaceship.png"))); // NOI18N
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 280, -1, -1));
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/xetang.png"))); // NOI18N
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, -1));
-
-        btnHistoryManager.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnHistoryManager.setText("Quản lý lịch sử");
-        btnHistoryManager.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHistoryManagerActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnHistoryManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 520, 210, 40));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 190, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/avatar_resized_150x150.jpg"))); // NOI18N
         jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
@@ -203,9 +130,6 @@ private boolean isManager;
         lblUserID.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblUserID.setText("User ID:");
         jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Bomb.png"))); // NOI18N
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 390, -1, -1));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 51, 51));
@@ -234,11 +158,6 @@ private boolean isManager;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTankActionPerformed
-        // TODO add your handling code here:
-        this.showTank();
-    }//GEN-LAST:event_btnTankActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -253,35 +172,15 @@ private boolean isManager;
         this.showUserManagerJDialog(this);
     }//GEN-LAST:event_btnUserManagerActionPerformed
 
-    private void btnHistoryManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryManagerActionPerformed
-        // TODO add your handling code here:
-        this.showHistoryManagerJDialog(this);
-    }//GEN-LAST:event_btnHistoryManagerActionPerformed
-
     private void btnFlappyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFlappyActionPerformed
         // TODO add your handling code here:
         this.showFlappyBirdGame();
     }//GEN-LAST:event_btnFlappyActionPerformed
 
-    private void btnSnakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSnakeActionPerformed
-        // TODO add your handling code here:
-        this.showRanSanMoiGame();
-    }//GEN-LAST:event_btnSnakeActionPerformed
-
     private void btnShotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShotActionPerformed
         // TODO add your handling code here:
         this.showBanGaGame();
     }//GEN-LAST:event_btnShotActionPerformed
-
-    private void btnPacmanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPacmanActionPerformed
-        // TODO add your handling code here:
-        this.showPacManGame();
-    }//GEN-LAST:event_btnPacmanActionPerformed
-
-    private void btnBomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBomActionPerformed
-        // TODO add your handling code here:
-        this.showDoMin();
-    }//GEN-LAST:event_btnBomActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     this.setVisible(false); // Ẩn khung hiện tại nếu cần
@@ -328,25 +227,16 @@ private boolean isManager;
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBom;
     private javax.swing.JButton btnChangePassword;
     private javax.swing.JButton btnFlappy;
-    private javax.swing.JButton btnHistoryManager;
-    private javax.swing.JButton btnPacman;
     private javax.swing.JButton btnShot;
-    private javax.swing.JButton btnSnake;
-    private javax.swing.JButton btnTank;
     private javax.swing.JButton btnUserManager;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblUser;

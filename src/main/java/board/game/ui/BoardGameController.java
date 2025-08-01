@@ -50,27 +50,6 @@ public interface BoardGameController {
     default void showChangePasswordJDilog(JFrame frame) {
         this.showJDialog(new ChangePasswordJDialog(frame, true));
     }
-
-    default void showHistoryJDialog(JFrame frame) {
-        this.showJDialog(new HistoryJDialog(frame, true));
-    }
-
-    default void showRankJDialog(JFrame frame) {
-        this.showJDialog(new RankJDialog(frame, true));
-    }
-
-    default void showHistoryManagerJDialog(JFrame frame) {
-        this.showJDialog(new HistoryManagerJDialog(frame, true));
-    }
-
-    default void showRankManagerJDialog(JFrame frame) {
-        this.showJDialog(new RankManagerJDialog(frame, true));
-    }
-
-    default void showThongKeManagerJDialog(JFrame frame) {
-        this.showJDialog(new ThongkeManagerJDialog(frame, true));
-    }
-
     default void showUserManagerJDialog(JFrame frame) {
         this.showJDialog(new UserManagerJDialog(frame, true));
     }
@@ -79,24 +58,7 @@ public interface BoardGameController {
         new FlappyBird(); // Gọi constructor bạn vừa thêm
     }
 
-    default void showRanSanMoiGame() {
-        RanSanMoi.showGame();
-    }
-    
-    default void showPacManGame(){
-        Pacman.showGame1();
-    }
-    
     default void showBanGaGame(){
         BanGa.showGame2();
     }
-    
-    default void showTank(){
-        BattleCity.showGame3();
-    }
-    
-    default void showDoMin(){
-        DoMin.showGame4();
-    }
-
 }
