@@ -17,14 +17,8 @@ import lombok.*;
 public class User {
 
     private String idNguoiDung;    // PK
-    private String tenNguoiDung;
     private String matKhau;
     private boolean trangThai;
     private boolean vaiTro;         // admin / user
-    private String email;
-    private String sdt;
 
-    
-    
-   
 }

@@ -19,23 +19,19 @@ import javax.naming.spi.DirStateFactory;
  */
 public class UserDAOimpl implements UserDAO {
 
-    String createSql = "INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?)";
-    String updateSql = "UPDATE Users SET tennguoidung=?, trangthai=?, vaitro=?, email=?, sdt=? WHERE idnguoidung=?";
+    String createSql = "INSERT INTO Users VALUES (?, ?, ?, ?)";
+    String updateSql = "UPDATE Users SET trangthai=?, vaitro=? WHERE idnguoidung=?";
     String deleteSql = "DELETE FROM Users WHERE idnguoidung=?";
     String findAllSql = "SELECT * FROM Users";
     String findByIdSql = "SELECT * FROM Users WHERE idnguoidung=?";
-    String findByUsernameSql = "SELECT * FROM Users WHERE tennguoidung=?";
 
     @Override
     public User create(User entity) {
         Object[] args = {
             entity.getIdNguoiDung(),
-            entity.getTenNguoiDung(),
             entity.getMatKhau(),
             entity.isTrangThai(),
-            entity.isVaiTro(),
-            entity.getEmail(),
-            entity.getSdt()
+            entity.isVaiTro()
         };
         XJdbc.executeUpdate(createSql, args);
         return entity;
@@ -44,11 +40,8 @@ public class UserDAOimpl implements UserDAO {
     @Override
     public void update(User entity) {
         Object[] args = {
-            entity.getTenNguoiDung(),
             entity.isTrangThai(),
             entity.isVaiTro(),
-            entity.getEmail(),
-            entity.getSdt(),
             entity.getIdNguoiDung()
         };
         XJdbc.executeUpdate(updateSql, args);
@@ -56,6 +49,10 @@ public class UserDAOimpl implements UserDAO {
 
     @Override
     public void deleteById(String id) {
+        // Xóa điểm trước (nếu có), tránh lỗi ràng buộc khóa ngoại
+        XJdbc.executeUpdate("DELETE FROM Diem WHERE idnguoidung = ?", id);
+
+        // Sau đó xóa người dùng
         XJdbc.executeUpdate(deleteSql, id);
     }
 
@@ -92,18 +89,19 @@ public class UserDAOimpl implements UserDAO {
         }
         return "user001";
     }
+
     @Override
-public boolean isUsernameExists(String username) {
-    try {
-        String sql = "SELECT COUNT(*) FROM Users WHERE tennguoidung = ?";
-        ResultSet rs = XJdbc.executeQuery(sql, username);
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
+    public boolean isUsernameExists(String IdNguoiDung) {
+        try {
+            String sql = "SELECT COUNT(*) FROM Users WHERE idnguoidung = ?";
+            ResultSet rs = XJdbc.executeQuery(sql, IdNguoiDung);
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return false;
     }
-    return false;
-}
 
 }

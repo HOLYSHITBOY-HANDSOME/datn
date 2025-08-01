@@ -44,15 +44,9 @@ public class SignUpJDialog extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         txtID = new javax.swing.JTextField();
-        txtUserName = new javax.swing.JTextField();
         txtconfirmpassword = new javax.swing.JTextField();
-        txtEmail = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        txtPhoneNum = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         txtPassWord = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -67,10 +61,6 @@ public class SignUpJDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(51, 0, 102));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Tên người dùng");
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Mật khẩu");
@@ -78,14 +68,6 @@ public class SignUpJDialog extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Xác nhận mật khẩu");
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Email");
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Số điện thoại");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -114,22 +96,16 @@ public class SignUpJDialog extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel7)
                                 .addComponent(jLabel6)
                                 .addComponent(jLabel4)
-                                .addComponent(jLabel3)
                                 .addComponent(txtID)
-                                .addComponent(txtUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
                                 .addComponent(txtconfirmpassword, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-                                .addComponent(txtPhoneNum, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
                                 .addComponent(txtPassWord))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(309, 309, 309)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(292, 292, 292)
+                        .addGap(287, 287, 287)
                         .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
@@ -142,29 +118,17 @@ public class SignUpJDialog extends javax.swing.JDialog {
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(txtPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(txtconfirmpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtPhoneNum, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
                 .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel9.setFont(new java.awt.Font("Source Sans Pro Black", 3, 14)); // NOI18N
@@ -183,7 +147,7 @@ public class SignUpJDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -194,7 +158,7 @@ public class SignUpJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel10)
                             .addComponent(jLabel12)))
                     .addComponent(jLabel9))
-                .addGap(58, 58, 58)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -203,8 +167,8 @@ public class SignUpJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(169, 169, 169)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -214,7 +178,7 @@ public class SignUpJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addGap(276, 276, 276))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,18 +187,14 @@ public class SignUpJDialog extends javax.swing.JDialog {
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         // TODO add your handling code here:
         String id = txtID.getText().trim();
-        String username = txtUserName.getText().trim();
         String password = txtPassWord.getText().trim();
         String confirmPassword = txtconfirmpassword.getText().trim();
-        String email = txtEmail.getText().trim();
-        String phone = txtPhoneNum.getText().trim();
 
         String role = "0";      // người chơi
         String status = "1";    // hoạt động
 
 // Kiểm tra rỗng
-        if (id.isEmpty() || username.isEmpty() || password.isEmpty()
-                || confirmPassword.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+        if (id.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
             return;
         }
@@ -245,46 +205,25 @@ public class SignUpJDialog extends javax.swing.JDialog {
             return;
         }
 
-// Kiểm tra email hợp lệ
-        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-            JOptionPane.showMessageDialog(this, "Email không hợp lệ!");
+        try {
+            String checkSql = "SELECT * FROM Users WHERE idnguoidung = ?";
+            ResultSet rs = board.game.util.XJdbc.executeQuery(checkSql, id);
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "ID người dùng đã tồn tại!");
+                rs.getStatement().getConnection().close();
+                return;
+            }
+            rs.getStatement().getConnection().close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi kiểm tra ID: " + ex.getMessage());
             return;
         }
 
-// Kiểm tra số điện thoại hợp lệ
-        if (!phone.matches("^[0-9]{10,11}$")) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ!");
-            return;
-        }
-       try {
-    String checkSql = "SELECT * FROM Users WHERE tennguoidung = ? OR email = ? OR sdt = ?";
-    ResultSet rs = board.game.util.XJdbc.executeQuery(checkSql, username, email, phone);
-    if (rs.next()) {
-        String existingUser = rs.getString("tennguoidung");
-        String existingEmail = rs.getString("email");
-        String existingPhone = rs.getString("sdt");
-
-        if (username.equalsIgnoreCase(existingUser)) {
-            JOptionPane.showMessageDialog(this, "Tên người dùng đã tồn tại!");
-        } else if (email.equalsIgnoreCase(existingEmail)) {
-            JOptionPane.showMessageDialog(this, "Email đã tồn tại!");
-        } else if (phone.equals(existingPhone)) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại!");
-        }
-        rs.getStatement().getConnection().close();
-        return;
-    }
-    rs.getStatement().getConnection().close();
-} catch (Exception ex) {
-    ex.printStackTrace();
-    JOptionPane.showMessageDialog(this, "Lỗi kiểm tra thông tin tài khoản: " + ex.getMessage());
-    return;
-}
 // Thực hiện thêm dữ liệu
         try {
-            String sql = "INSERT INTO Users (idnguoidung, tennguoidung, matkhau, trangthai, vaitro, email, sdt) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            int result = board.game.util.XJdbc.executeUpdate(sql, id, username, password, status, role, email, phone);
+            String sql = "INSERT INTO Users (idnguoidung, matkhau, trangthai, vaitro) VALUES (?, ?, ?, ?)";
+            int result = board.game.util.XJdbc.executeUpdate(sql, id, password, status, role);
 
             if (result > 0) {
                 JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
@@ -343,24 +282,18 @@ public class SignUpJDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSignUp;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtID;
     private javax.swing.JPasswordField txtPassWord;
-    private javax.swing.JTextField txtPhoneNum;
-    private javax.swing.JTextField txtUserName;
     private javax.swing.JTextField txtconfirmpassword;
     // End of variables declaration//GEN-END:variables
 }

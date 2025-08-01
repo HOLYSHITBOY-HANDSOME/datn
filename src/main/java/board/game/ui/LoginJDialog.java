@@ -18,7 +18,6 @@ public class LoginJDialog extends javax.swing.JDialog {
 
     public boolean loginSuccessful = false;
     private String userId;
-    private String fullName;     // 🔴 Biến lưu tên người dùng
     private boolean isManager;   // 🔵 Biến xác định vai trò
 
     /**
@@ -64,7 +63,7 @@ public class LoginJDialog extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Tên người dùng");
+        jLabel1.setText("Mã người dùng");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -217,9 +216,6 @@ public class LoginJDialog extends javax.swing.JDialog {
         return isManager;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
     private void LoginbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginbtnActionPerformed
         // TODO add your handling code here:
         String user = txtUserName.getText().trim();
@@ -231,7 +227,7 @@ public class LoginJDialog extends javax.swing.JDialog {
         }
 
         try {
-            String sql = "SELECT * FROM Users WHERE tennguoidung = ? AND matkhau = ?";
+            String sql = "SELECT * FROM Users WHERE idnguoidung = ? AND matkhau = ?";
             ResultSet rs = XJdbc.executeQuery(sql, user, pass);
 
             if (rs.next()) {
@@ -244,7 +240,6 @@ public class LoginJDialog extends javax.swing.JDialog {
 
                 // Lưu thông tin đăng nhập
                 this.userId = rs.getString("idnguoidung");
-                fullName = rs.getString("tennguoidung");
                 isManager = rs.getInt("vaitro") == 1;
 
                 loginSuccessful = true;
@@ -290,10 +285,9 @@ public class LoginJDialog extends javax.swing.JDialog {
             // Nếu đăng nhập thành công thì mở giao diện chính
             if (dialog.loginSuccessful) {
                 String userId = dialog.UserId();
-                String fullName = dialog.getFullName();
                 boolean isManager = dialog.isManager();
 
-                BoardGameJFrame mainFrame = new BoardGameJFrame(userId, fullName, isManager);
+                BoardGameJFrame mainFrame = new BoardGameJFrame(userId, isManager);
                 mainFrame.setLocationRelativeTo(null);
                 mainFrame.setVisible(true);
             } else {

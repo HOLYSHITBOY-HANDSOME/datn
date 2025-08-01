@@ -17,6 +17,7 @@ public class FlappyBird {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
     }
 
     public static void main(String[] args) {
@@ -29,6 +30,7 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
     private Image birdImage;
     private Image pipeTopImage;
     private Image pipeBottomImage;
+    private Image background;
 
     private final int WIDTH = 400, HEIGHT = 600;
     private int birdY = HEIGHT / 2, birdVelocity = 0;
@@ -52,7 +54,8 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         birdImage = new ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png")).getImage();
         pipeTopImage = new ImageIcon(getClass().getResource("/board/game/icons/ongtren.png")).getImage();
         pipeBottomImage = new ImageIcon(getClass().getResource("/board/game/icons/ongduoi.png")).getImage();
-
+        background = new ImageIcon(getClass().getResource("/board/game/icons/backgroundflappy.png")).getImage();
+        
         timer = new Timer(20, this);
         timer.start();
 
@@ -122,46 +125,34 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+    Graphics2D g2d = (Graphics2D) g;
 
-        Graphics2D g2d = (Graphics2D) g;
+    // Vẽ ảnh nền (đã đúng kích thước)
+    g.drawImage(background, 0, 0, WIDTH, HEIGHT, this);
 
-        // Vẽ nền trời
-        g.setColor(Color.CYAN);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+    // Vẽ chim
+    g.drawImage(birdImage, 100, birdY, BIRD_SIZE, BIRD_SIZE, this);
 
-        // Vẽ nền đất
-        g.setColor(Color.green.darker());
-        g.fillRect(0, HEIGHT - 100, WIDTH, 100);
-
-        // Vẽ chim
-        g.drawImage(birdImage, 100, birdY, BIRD_SIZE, BIRD_SIZE, this);
-
-        // Vẽ ống
-        for (Rectangle pipe : pipes) {
-            if (pipe.y == 0) {
-                // ======== ỐNG TRÊN ========
-                // Vẽ ống trên (ảnh đã đầy đủ: gồm đầu + thân)
-                g2d.drawImage(pipeTopImage,
-                        pipe.x, pipe.y,
-                        pipe.width, pipe.height,
-                        this);
-            } else {
-                // ======== ỐNG DƯỚI ========
-                // Vẽ ống dưới (ảnh đã đầy đủ: gồm đầu + thân)
-                g2d.drawImage(pipeBottomImage,
-                        pipe.x, pipe.y,
-                        pipe.width, pipe.height,
-                        this);
-            }
+    // Vẽ các ống
+    for (Rectangle pipe : pipes) {
+        if (pipe.y == 0) {
+            // Ống trên
+            g2d.drawImage(pipeTopImage, pipe.x, pipe.y, pipe.width, pipe.height, this);
+        } else {
+            // Ống dưới
+            g2d.drawImage(pipeBottomImage, pipe.x, pipe.y, pipe.width, pipe.height, this);
         }
+    }
 
-        // Vẽ điểm
-        g.setColor(Color.black);
-        g.setFont(new Font("Arial", Font.BOLD, 24));
-        if (!running) {
-            g.drawString("Nhấn SPACE để bắt đầu!", 70, HEIGHT / 2 - 50);
-        }
-        g.drawString("Điểm: " + score, 20, 40);
+    // Vẽ điểm số
+    g.setColor(Color.WHITE);
+    g.setFont(new Font("Arial", Font.BOLD, 24));
+
+    if (!running) {
+        g.drawString("Nhấn SPACE để bắt đầu!", 70, HEIGHT / 2 - 50);
+    }
+
+    g.drawString("Điểm: " + score, 20, 40);
     }
 
     @Override

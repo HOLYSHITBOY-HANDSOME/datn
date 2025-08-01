@@ -16,10 +16,10 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
      * Creates new form boardgameJframe
      */
     
-  public BoardGameJFrame(String userId,String fullName, boolean isManager) {
+  public BoardGameJFrame(String userId, boolean isManager) {
     initComponents();
      lblUserID.setText("User ID: " + userId);
-    lblUser.setText("Chào mừng: " + fullName);
+     lblUser.setText("Chào mừng User: " + userId);
     this.isManager = isManager;
     btnUserManager.setVisible(isManager);
     btnHistoryManager.setVisible(isManager);
@@ -201,8 +201,8 @@ private boolean isManager;
         jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
 
         lblUserID.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblUserID.setText("User ID");
-        jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, -1, -1));
+        lblUserID.setText("User ID:");
+        jPanel5.add(lblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/Bomb.png"))); // NOI18N
         jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 390, -1, -1));
@@ -291,7 +291,7 @@ private boolean isManager;
     login.setVisible(true); 
 
     if (login.loginSuccessful) {
-        new BoardGameJFrame(login.UserId(), login.getFullName(), login.isManager()).setVisible(true);
+        new BoardGameJFrame(login.UserId(), login.isManager()).setVisible(true);
         this.dispose();
     } else {
         System.exit(0);
@@ -320,7 +320,7 @@ private boolean isManager;
 
         if (dialog.loginSuccessful) {
             // gọi constructor có tham số đầy đủ
-            new BoardGameJFrame(dialog.UserId(),dialog.getFullName(), dialog.isManager()).setVisible(true);
+            new BoardGameJFrame(dialog.UserId(), dialog.isManager()).setVisible(true);
         } else {
             System.exit(0);
         }
