@@ -4,6 +4,7 @@
  */
 package board.game.ui;
 
+import board.game.dao.DiemDAO.DiemService;
 import board.game.util.XIcon;
 
 /**
@@ -23,8 +24,19 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         btnChangePassword.setVisible(true);
         lblName.setText(isManager ? "Admin" : "Player");
         setLocationRelativeTo(null);
+        loadScores(userId);
     }
 
+    public void loadScores(String userId) {
+        DiemService diemService = new DiemService();
+
+        int flappyScore = diemService.getScore(userId, "game001"); // Flappy Bird
+        int meteorScore = diemService.getScore(userId, "game002"); // Bắn Gà
+
+        lbbird.setText("Điểm Flappy Bird: " + flappyScore);
+        lbmetoer.setText("Điểm Bắn Gà: " + meteorScore);
+    }
+    
     private boolean isManager;
 
     /**
@@ -49,8 +61,8 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jLabel4 = new javax.swing.JLabel();
         lblUserID = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lbbird = new javax.swing.JLabel();
+        lbmetoer = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -142,13 +154,15 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         });
         jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 140, 30));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setText("Điểm:");
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 240, 210, 30));
+        lbbird.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbbird.setForeground(new java.awt.Color(255, 102, 153));
+        lbbird.setText("Điểm:");
+        jPanel5.add(lbbird, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 240, 210, 30));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel2.setText("Điểm");
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 350, 220, 30));
+        lbmetoer.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbmetoer.setForeground(new java.awt.Color(255, 102, 153));
+        lbmetoer.setText("Điểm");
+        jPanel5.add(lbmetoer, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 350, 220, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background homeplayer.png"))); // NOI18N
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
@@ -242,16 +256,16 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private javax.swing.JButton btnUserManager;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel lbbird;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserID;
+    private javax.swing.JLabel lbmetoer;
     // End of variables declaration//GEN-END:variables
 
     @Override
