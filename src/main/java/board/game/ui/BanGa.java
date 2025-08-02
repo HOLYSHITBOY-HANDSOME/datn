@@ -56,7 +56,7 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
 
     private Timer gameTimer;
     private Timer chickenSpawner;
-    private int spawnDelay = 1500;
+    private int spawnDelay = 1000;
     private boolean paused = false;
     private JButton retryButton;
 

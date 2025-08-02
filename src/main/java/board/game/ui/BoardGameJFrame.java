@@ -16,13 +16,24 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     /**
      * Creates new form boardgameJframe
      */
-    public BoardGameJFrame(String userId, boolean isManager) {
+    public BoardGameJFrame(String userId, int role) {
         initComponents();
+        this.role = role; // gán vai trò
         lblUserID.setText("User ID: " + userId);
-        this.isManager = isManager;
-        btnUserManager.setVisible(isManager);
+
+        // Hiện nút quản lý cho Admin hoặc Dev
+        btnUserManager.setVisible(role == 2 || role == 3);
         btnChangePassword.setVisible(true);
-        lblName.setText(isManager ? "Admin" : "Player");
+
+        // Gán nhãn vai trò
+        String roleName = switch (role) {
+            case 1 -> "Player";
+            case 2 -> "Admin";
+            case 3 -> "Dev";
+            default -> "Unknown";
+        };
+        lblName.setText(roleName);
+
         setLocationRelativeTo(null);
         loadScores(userId);
     }
@@ -34,10 +45,10 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         int meteorScore = diemService.getScore(userId, "game002"); // Bắn Gà
 
         lbbird.setText("Điểm Flappy Bird: " + flappyScore);
-        lbmetoer.setText("Điểm Bắn Gà: " + meteorScore);
+        lbmetoer.setText("Điểm Meteor: " + meteorScore);
     }
     
-    private boolean isManager;
+     private int role;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,7 +146,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 230, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/spaceship.png"))); // NOI18N
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 340, -1, -1));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 340, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/avatar_resized_150x150.jpg"))); // NOI18N
         jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
@@ -157,12 +168,12 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         lbbird.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbbird.setForeground(new java.awt.Color(255, 102, 153));
         lbbird.setText("Điểm:");
-        jPanel5.add(lbbird, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 240, 210, 30));
+        jPanel5.add(lbbird, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 240, 500, 30));
 
         lbmetoer.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbmetoer.setForeground(new java.awt.Color(255, 102, 153));
         lbmetoer.setText("Điểm");
-        jPanel5.add(lbmetoer, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 350, 220, 30));
+        jPanel5.add(lbmetoer, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 350, 500, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background homeplayer.png"))); // NOI18N
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
@@ -213,7 +224,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         login.setVisible(true);
 
         if (login.loginSuccessful) {
-            new BoardGameJFrame(login.UserId(), login.isManager()).setVisible(true);
+            new BoardGameJFrame(login.UserId(), login.role()).setVisible(true);
             this.dispose();
         } else {
             System.exit(0);
@@ -242,7 +253,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
             if (dialog.loginSuccessful) {
                 // gọi constructor có tham số đầy đủ
-                new BoardGameJFrame(dialog.UserId(), dialog.isManager()).setVisible(true);
+                new BoardGameJFrame(dialog.UserId(), dialog.role()).setVisible(true);
             } else {
                 System.exit(0);
             }
@@ -270,7 +281,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
     @Override
     public void init() {
-        this.setIconImage(XIcon.getIcon("Pacman.png").getImage());
+        this.setIconImage(XIcon.getIcon("backgroundflappy.png").getImage());
         //để hiện thị icon trên góc của view khi chạy
         this.setLocationRelativeTo(null);
         this.showLoginJDialog(this);

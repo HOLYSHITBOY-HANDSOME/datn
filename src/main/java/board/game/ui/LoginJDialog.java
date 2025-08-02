@@ -18,7 +18,7 @@ public class LoginJDialog extends javax.swing.JDialog {
 
     public boolean loginSuccessful = false;
     private String userId;
-    private boolean isManager;   // 🔵 Biến xác định vai trò
+    private int role;
 
     /**
      * Creates new form LoginJDialog
@@ -211,10 +211,9 @@ public class LoginJDialog extends javax.swing.JDialog {
     public String UserId() {
         return userId;
     }
-
-    public boolean isManager() {
-        return isManager;
-    }
+    public int role() {
+    return this.role;
+}
 
     private void LoginbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginbtnActionPerformed
         // TODO add your handling code here:
@@ -248,7 +247,7 @@ public class LoginJDialog extends javax.swing.JDialog {
 
                 // Lưu trạng thái login thành công
                 this.userId = rs.getString("idnguoidung");
-                isManager = rs.getInt("vaitro") == 1;
+                role = rs.getInt("vaitro");
 
                 loginSuccessful = true;
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
@@ -293,9 +292,7 @@ public class LoginJDialog extends javax.swing.JDialog {
             // Nếu đăng nhập thành công thì mở giao diện chính
             if (dialog.loginSuccessful) {
                 String userId = dialog.UserId();
-                boolean isManager = dialog.isManager();
-
-                BoardGameJFrame mainFrame = new BoardGameJFrame(userId, isManager);
+                BoardGameJFrame mainFrame = new BoardGameJFrame(dialog.UserId(), dialog.role());
                 mainFrame.setLocationRelativeTo(null);
                 mainFrame.setVisible(true);
             } else {
