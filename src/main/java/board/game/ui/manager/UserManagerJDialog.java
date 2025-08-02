@@ -9,6 +9,7 @@ import board.game.dao.ipml.UserDAOimpl;
 import board.game.entity.User;
 import board.game.util.Auth;
 import java.awt.Color;
+import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -40,9 +41,12 @@ public class UserManagerJDialog extends javax.swing.JDialog {
 
     public UserManagerJDialog(JFrame parent, boolean modal) {
         super(parent, modal);
-        this.parentFrame = parent; // lưu cửa sổ cha để tắt khi cần
+        this.parentFrame = parent;
         initComponents();
         fillTable();
+        txtId.setEditable(false);
+
+        handleRoleVisibilityOnStartup(); // 👈 Gọi xử lý ẩn
     }
 
     public UserManagerJDialog(java.awt.Frame parent, boolean modal) {
@@ -73,18 +77,56 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         return true;
     }
 
+    void handleRoleVisibilityOnStartup() {
+        int role = Auth.user.getVaiTro();
+        if (role == 2) { // Nếu Admin đăng nhập
+            rdbManager.setVisible(false);
+            rdbPlayer.setVisible(false);
+            jLabel5.setVisible(false);
+            // lblVaiTro.setVisible(false); // nếu có label đi kèm
+        } else {
+            rdbManager.setVisible(true);
+            rdbPlayer.setVisible(true);
+        }
+    }
+
     void fillTable() {
         model = (DefaultTableModel) tblUsers.getModel();
         model.setRowCount(0);
 
         try {
             List<User> list = userdao.findAll();
+            int currentRole = Auth.user.getVaiTro(); // Vai trò người đăng nhập
+
             for (User u : list) {
+                int userRole = u.getVaiTro();
+
+                // Nếu Admin đăng nhập → ẩn cả Dev (3) và Admin (2)
+                if (currentRole == 2 && (userRole == 2 || userRole == 3)) {
+                    continue;
+                }
+
+                // Nếu Dev đăng nhập → ẩn Dev, nhưng vẫn hiển thị Admin
+                if (currentRole == 3 && userRole == 3) {
+                    continue;
+                }
+
+                String vaiTroStr = switch (userRole) {
+                    case 1 ->
+                        "Người chơi";
+                    case 2 ->
+                        "Admin";
+                    case 3 ->
+                        "Dev";
+                    default ->
+                        "Không xác định";
+                };
+
                 model.addRow(new Object[]{
                     u.getIdNguoiDung(),
                     u.isTrangThai() ? "Còn hoạt động" : "Ngừng hoạt động",
-                    u.getVaiTro() == 1 ? "Admin" : "Người chơi", // nếu kiểu int
-                    false // checkbox để chọn xóa hoặc sửa
+                    vaiTroStr,
+                    false
                 });
             }
         } catch (Exception e) {
@@ -96,16 +138,47 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         User u = new User();
         u.setIdNguoiDung(txtId.getText());
         u.setTrangThai(rdbActive.isSelected());
-        u.setVaiTro(rdbManager.isSelected() ? 1 : 0);
+        u.setVaiTro(rdbManager.isSelected() ? 2 : 1); // Không có radio Dev nên chỉ 2 hoặc 1
         return u;
     }
 
     void setForm(User u) {
         txtId.setText(u.getIdNguoiDung());
-        rdbManager.setSelected(u.getVaiTro() == 1);
-        rdbPlayer.setSelected(u.getVaiTro() == 0);
+        rdbManager.setSelected(u.getVaiTro() == 2); // Admin
+        rdbPlayer.setSelected(u.getVaiTro() == 1); // Player
         rdbActive.setSelected(u.isTrangThai());
         rdbUnactive.setSelected(!u.isTrangThai());
+
+        rdbActive.setEnabled(true);
+        rdbUnactive.setEnabled(true);
+
+        // Xử lý phân quyền chỉnh vai trò
+        int role = Auth.user.getVaiTro();
+        boolean canEditRole = role == 3 && u.getVaiTro() != 3;
+
+        if (!canEditRole) {
+            rdbManager.setEnabled(false);
+            rdbPlayer.setEnabled(false);
+
+            for (MouseListener ml : rdbManager.getMouseListeners()) {
+                rdbManager.removeMouseListener(ml);
+            }
+            for (MouseListener ml : rdbPlayer.getMouseListeners()) {
+                rdbPlayer.removeMouseListener(ml);
+            }
+        }
+
+        // Nếu người đăng nhập là Admin thì ẩn luôn radio
+        if (role == 2) { // 2 = Admin
+            rdbManager.setVisible(false);
+            rdbPlayer.setVisible(false);
+            // Nếu có label "Vai trò" thì ẩn luôn:
+            // lblVaiTro.setVisible(false);
+        } else {
+            rdbManager.setVisible(true);
+            rdbPlayer.setVisible(true);
+            // lblVaiTro.setVisible(true);
+        }
     }
 
     void insert() {
@@ -180,23 +253,18 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         try {
             String id = (String) tblUsers.getValueAt(index, 0);
             User u = userdao.findById(id);
-            setForm(u);
             currentIndex = index;
 
-            // Mặc định khóa các thành phần
-            setControlsEnabled(false);
+            // Gọi setForm xử lý UI + quyền
+            setForm(u);
 
-            // Luôn cho chỉnh nút Update + trạng thái
+            // Luôn cho phép chỉnh trạng thái và cập nhật
             btnUpdate.setEnabled(true);
-            rdbActive.setEnabled(true);
-            rdbUnactive.setEnabled(true);
-            btnDelete.setEnabled(true); // nếu muốn
+            btnDelete.setEnabled(true);
 
+            // Nếu tài khoản bị khóa, cảnh báo
             if (!u.isTrangThai()) {
-                JOptionPane.showMessageDialog(this, "nếu muốn chỉnh sửa , hãy vào biểu mẫu!");
-            } else {
-                // Nếu tài khoản đang hoạt động, cho chỉnh đầy đủ
-                setControlsEnabled(true);
+                JOptionPane.showMessageDialog(this, "Tài khoản đang ngừng hoạt động.");
             }
 
         } catch (Exception e) {
@@ -400,9 +468,29 @@ public class UserManagerJDialog extends javax.swing.JDialog {
 
         buttonGroup1.add(rdbManager);
         rdbManager.setText("Admin");
+        rdbManager.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rdbManagerMouseClicked(evt);
+            }
+        });
+        rdbManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbManagerActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(rdbPlayer);
         rdbPlayer.setText("Người chơi");
+        rdbPlayer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rdbPlayerMouseClicked(evt);
+            }
+        });
+        rdbPlayer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbPlayerActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Trạng thái");
 
@@ -417,47 +505,51 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(219, 219, 219)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(196, 328, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(rdbManager)
-                                .addGap(18, 18, 18)
-                                .addComponent(rdbPlayer)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(rdbActive)
                                 .addGap(18, 18, 18)
                                 .addComponent(rdbUnactive)))
-                        .addGap(52, 52, 52))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(rdbManager)
+                                .addGap(18, 18, 18)
+                                .addComponent(rdbPlayer)))))
+                .addGap(272, 272, 272))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdbManager)
-                    .addComponent(rdbPlayer)
-                    .addComponent(rdbActive)
-                    .addComponent(rdbUnactive))
-                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(61, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdbManager)
+                            .addComponent(rdbPlayer)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel6)
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdbActive)
+                            .addComponent(rdbUnactive))))
+                .addGap(54, 54, 54))
         );
 
         btnCreate.setText("Tạo mới");
@@ -572,7 +664,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         tabs.addTab("Biền mẫu", jPanel2);
@@ -586,7 +678,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs)
+                .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -655,6 +747,22 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             edit(row);
         }
     }//GEN-LAST:event_tblUsersMouseClicked
+
+    private void rdbManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbManagerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbManagerActionPerformed
+
+    private void rdbPlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPlayerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPlayerActionPerformed
+
+    private void rdbManagerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbManagerMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbManagerMouseClicked
+
+    private void rdbPlayerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbPlayerMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPlayerMouseClicked
 
     /**
      * @param args the command line arguments
