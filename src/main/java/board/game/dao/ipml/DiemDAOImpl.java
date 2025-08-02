@@ -14,9 +14,10 @@ import java.util.List;
  *
  * @author LAPTOP LE SON
  */
-public class DiemDAOImpl implements DiemDAO{
-    String createSql = "INSERT INTO Diem(idnguoidung, idgame, diemso, ngaychoi) VALUES (?, ?, ?, ?)";
-    String updateSql = "UPDATE Diem SET idnguoidung=?, idgame=?, diemso=?, ngaychoi=? WHERE iddiem=?";
+public class DiemDAOImpl implements DiemDAO {
+
+    String createSql = "INSERT INTO Diem(idnguoidung, idgame, diemso) VALUES (?, ?, ?)";
+    String updateSql = "UPDATE Diem SET idnguoidung=?, idgame=?, diemso=? WHERE iddiem=?";
     String deleteSql = "DELETE FROM Diem WHERE iddiem=?";
     String findAllSql = "SELECT * FROM Diem";
     String findByIdSql = "SELECT * FROM Diem WHERE iddiem=?";
@@ -25,21 +26,20 @@ public class DiemDAOImpl implements DiemDAO{
 
     @Override
     public List<Diem> findByUserId(String userId) {
-       return XQuery.getBeanList(Diem.class, findByUserSql, userId);
+        return XQuery.getBeanList(Diem.class, findByUserSql, userId);
     }
 
     @Override
     public List<Diem> findByGameId(String gameId) {
-       return XQuery.getBeanList(Diem.class, findByGameSql, gameId);
+        return XQuery.getBeanList(Diem.class, findByGameSql, gameId);
     }
 
     @Override
     public Diem create(Diem entity) {
-       Object[] args = {
+        Object[] args = {
             entity.getIdNguoiDung(),
             entity.getIdGame(),
-            entity.getDiemSo(),
-            entity.getNgayChoi()
+            entity.getDiemSo()
         };
         XJdbc.executeUpdate(createSql, args);
         return entity;
@@ -51,7 +51,6 @@ public class DiemDAOImpl implements DiemDAO{
             entity.getIdNguoiDung(),
             entity.getIdGame(),
             entity.getDiemSo(),
-            entity.getNgayChoi(),
             entity.getIdDiem()
         };
         XJdbc.executeUpdate(updateSql, args);
@@ -59,16 +58,16 @@ public class DiemDAOImpl implements DiemDAO{
 
     @Override
     public void deleteById(Integer id) {
-      XJdbc.executeUpdate(deleteSql, id);
+        XJdbc.executeUpdate(deleteSql, id);
     }
 
     @Override
     public List<Diem> findAll() {
-      return XQuery.getBeanList(Diem.class, findAllSql);
+        return XQuery.getBeanList(Diem.class, findAllSql);
     }
 
     @Override
     public Diem findById(Integer id) {
-       return XQuery.getSingleBean(Diem.class, findByIdSql, id);
+        return XQuery.getSingleBean(Diem.class, findByIdSql, id);
     }
 }
