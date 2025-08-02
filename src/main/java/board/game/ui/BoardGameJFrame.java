@@ -13,12 +13,26 @@ import board.game.util.XIcon;
  */
 public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameController {
 
+    private String userId;
+    private String currentUserId;
+
+    public String getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public void setCurrentUserId(String id) {
+        this.currentUserId = id;
+    }
+
     /**
      * Creates new form boardgameJframe
      */
     public BoardGameJFrame(String userId, int role) {
         initComponents();
-        this.role = role; // gán vai trò
+        this.userId = userId.trim();
+        this.setCurrentUserId(this.userId);
+
+        this.role = role;
         lblUserID.setText("User ID: " + userId);
 
         // Hiện nút quản lý cho Admin hoặc Dev
@@ -27,10 +41,14 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
         // Gán nhãn vai trò
         String roleName = switch (role) {
-            case 1 -> "Player";
-            case 2 -> "Admin";
-            case 3 -> "Dev";
-            default -> "Unknown";
+            case 1 ->
+                "Player";
+            case 2 ->
+                "Admin";
+            case 3 ->
+                "Dev";
+            default ->
+                "Unknown";
         };
         lblName.setText(roleName);
 
@@ -47,10 +65,8 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         lbbird.setText("Điểm Flappy Bird: " + flappyScore);
         lbmetoer.setText("Điểm Meteor: " + meteorScore);
     }
-    
-     private int role;
-     
-     
+
+    private int role;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,6 +92,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         jButton1 = new javax.swing.JButton();
         lbbird = new javax.swing.JLabel();
         lbmetoer = new javax.swing.JLabel();
+        btnnew = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -141,7 +158,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 btnUserManagerActionPerformed(evt);
             }
         });
-        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 460, 210, 40));
+        jPanel5.add(btnUserManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 540, 210, 40));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/flappy-bird-sprite.png"))); // NOI18N
         jLabel7.setToolTipText("");
@@ -177,6 +194,16 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         lbmetoer.setText("Điểm:");
         jPanel5.add(lbmetoer, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 350, 500, 30));
 
+        btnnew.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnnew.setForeground(new java.awt.Color(255, 0, 51));
+        btnnew.setText("Làm mới điểm");
+        btnnew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnewActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnnew, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 460, 150, 40));
+
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background homeplayer.png"))); // NOI18N
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
 
@@ -210,16 +237,16 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
     private void btnFlappyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFlappyActionPerformed
         // TODO add your handling code here:
-        this.showFlappyBirdGame();
+        new FlappyBird(userId.trim(), this);
     }//GEN-LAST:event_btnFlappyActionPerformed
 
     private void btnShotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShotActionPerformed
         // TODO add your handling code here:
-        this.showBanGaGame();
+        BanGa.showGame2(userId, "BanGa");
     }//GEN-LAST:event_btnShotActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.setVisible(false); // Ẩn khung hiện tại nếu cần
+        this.setVisible(false);
 
         LoginJDialog login = new LoginJDialog(this, true);
         login.setLocationRelativeTo(null);
@@ -232,6 +259,11 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
             System.exit(0);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnnewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnewActionPerformed
+        // TODO add your handling code here:
+        loadScores(getCurrentUserId());
+    }//GEN-LAST:event_btnnewActionPerformed
 
     /**
      * @param args the command line arguments
@@ -267,6 +299,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     private javax.swing.JButton btnFlappy;
     private javax.swing.JButton btnShot;
     private javax.swing.JButton btnUserManager;
+    private javax.swing.JButton btnnew;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel10;

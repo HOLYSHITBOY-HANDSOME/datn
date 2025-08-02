@@ -1,34 +1,63 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package board.game.dao;
 
 import board.game.entity.Diem;
 import board.game.util.XJdbc;
 import java.util.List;
-import java.sql.*;
 
-/**
- *
- * @author LAPTOP LE SON
- */
 public interface DiemDAO extends CrudDAO<Diem, Integer> {
 
-    // Lấy danh sách điểm theo người chơi
     List<Diem> findByUserId(String userId);
 
-    // Lấy danh sách điểm theo game
     List<Diem> findByGameId(String gameId);
 
-//    // Lấy top điểm cao nhất của 1 game
-//    List<Diem> findTopByGameId(String gameId, int limit);
+    // Lớp nội bộ xử lý điểm
     public class DiemService {
 
-        public int getScore(String userId, String gameId) {
-            String sql = "SELECT diemso FROM Diem WHERE idnguoidung = ? AND idgame = ?";
-            Integer score = XJdbc.getValue(sql, userId, gameId);
-            return score != null ? score : 0;
+    private boolean isUserExists(String userId) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE idnguoidung = ?";
+        Integer count = (Integer) XJdbc.getValue(sql, userId);
+        return count != null && count > 0;
+    }
+
+    // Trả về điểm hiện tại hoặc null nếu chưa có
+    private Integer getScoreRaw(String userId, String gameId) {
+        String sql = "SELECT diemso FROM Diem WHERE idnguoidung = ? AND idgame = ?";
+        return (Integer) XJdbc.getValue(sql, userId, gameId); // null nếu chưa có
+    }
+
+    // Trả về điểm (0 nếu không có)
+    public int getScore(String userId, String gameId) {
+        Integer score = getScoreRaw(userId, gameId);
+        return score != null ? score : 0;
+    }
+
+    // Cập nhật điểm nếu cao hơn, hoặc thêm mới nếu chưa có
+    public void capNhatDiemCaoNhat(String userId, String gameId, int diemMoi) {
+        userId = userId.trim();
+
+        if (!isUserExists(userId)) {
+            System.out.println("UserId không tồn tại: " + userId);
+            return;
+        }
+
+        Integer diemCu = getScoreRaw(userId, gameId);
+
+        try {
+            if (diemCu == null) {
+                String insertSql = "INSERT INTO Diem (idnguoidung, idgame, diemso) VALUES (?, ?, ?)";
+                XJdbc.executeUpdate(insertSql, userId, gameId, diemMoi);
+                //System.out.println("Thêm điểm mới lần đầu: " + diemMoi + " cho user " + userId);
+            } else if (diemMoi > diemCu) {
+                String updateSql = "UPDATE Diem SET diemso = ? WHERE idnguoidung = ? AND idgame = ?";
+                XJdbc.executeUpdate(updateSql, diemMoi, userId, gameId);
+                //System.out.println("Cập nhật điểm cao mới: " + diemMoi + " cho user " + userId);
+            } else {
+                //System.out.println("Điểm chưa vượt, giữ nguyên: " + diemCu + " cho user " + userId);
+            }
+        } catch (Exception e) {
+            System.err.println(" Lỗi khi lưu điểm: " + e.getMessage());
         }
     }
+    }
+
 }

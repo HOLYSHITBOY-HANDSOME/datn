@@ -1,5 +1,6 @@
 package board.game.ui;
 
+import board.game.dao.DiemDAO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,18 +10,31 @@ import java.util.Random;
 
 public class FlappyBird {
 
-    public FlappyBird() {
+    private String userId;
+    private BoardGameJFrame parentFrame;
+
+    public FlappyBird(String userId, BoardGameJFrame parentFrame) {
+        this.userId = userId;
+        this.parentFrame = parentFrame;
+
         JFrame frame = new JFrame("Flappy Bird - Java");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
-        frame.add(new GamePanel());
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Close window game");
+                GamePanel gamePanel = (GamePanel) frame.getContentPane().getComponent(0);
+                gamePanel.stopTimer();
+            }
+        });
+
+        GamePanel gamePanel = new GamePanel(userId, parentFrame); // 👈 sửa tại đây
+        frame.add(gamePanel);
+
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new FlappyBird();
     }
 }
 
@@ -44,9 +58,17 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
     private boolean running = false;
     private boolean paused = false; // 🟨 Thêm dòng này
     private int score = 0;
+    private boolean isRestarting = true;
 
-    GamePanel() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT)); // 🔧 Đã sửa
+    private String userId;
+    private BoardGameJFrame parentFrame;
+    private final String gameId = "game001";
+
+    public GamePanel(String userId, BoardGameJFrame parentFrame) {
+        this.userId = userId;
+        this.parentFrame = parentFrame;
+
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.cyan);
         setFocusable(true);
         addKeyListener(this);
@@ -74,18 +96,87 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         pipes.add(new Rectangle(x, height + space, PIPE_WIDTH, HEIGHT - height - space));
     }
 
+    public void stopTimer() {
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+    }
+
+    private void endGame() {
+        if (!running) {
+            return;
+        }
+
+        running = false;
+        timer.stop();
+
+        Window win = SwingUtilities.getWindowAncestor(this);
+        if (win != null && win.isDisplayable()) {
+
+            if (userId == null || userId.trim().isEmpty()) {
+                System.out.println("userId rỗng, không thể lưu điểm.");
+                return;
+            }
+
+            DiemDAO.DiemService diemService = new DiemDAO.DiemService();
+            diemService.capNhatDiemCaoNhat(userId.trim(), gameId, score);
+
+            int result = JOptionPane.showConfirmDialog(
+                    this,
+                    "Game Over!\nĐiểm của bạn là: " + score + "\nBạn muốn chơi lại không?",
+                    "Kết thúc",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            if (result == JOptionPane.YES_OPTION) {
+                resetGameState();
+                isRestarting = true;
+            }
+            if (result == JOptionPane.NO_OPTION) {
+                if (win != null) {
+                    win.dispose();
+                }
+                parentFrame.setVisible(true);
+            }
+
+        }
+    }
+
+    private void resetGameState() {
+        birdY = HEIGHT / 2;
+        birdVelocity = 0;
+        score = 0;
+        pipes.clear();
+        addPipe(true);
+        addPipe(true);
+        addPipe(true);
+        addPipe(true);
+        paused = false;
+        running = false; // ✅ chưa bắt đầu lại
+        repaint(); // cập nhật giao diện ngay
+    }
+
     private void jump() {
         if (!running) {
-            birdY = HEIGHT / 2;
-            birdVelocity = 0;
-            score = 0;
-            pipes.clear();
-            addPipe(true);
-            addPipe(true);
-            addPipe(true);
-            addPipe(true);
+            if (isRestarting) {
+                birdY = HEIGHT / 2;
+                birdVelocity = 0;
+                score = 0;
+                pipes.clear();
+
+                addPipe(true);
+                addPipe(true);
+                addPipe(true);
+                addPipe(true);
+
+                isRestarting = false; // sau khi reset xong thì không cần nữa
+            }
+
             running = true;
+            timer.start();
         }
+
         birdVelocity = -10;
     }
 
@@ -95,13 +186,12 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
             birdVelocity += 1;
             birdY += birdVelocity;
 
-            Iterator<Rectangle> it = pipes.iterator();
-            while (it.hasNext()) {
-                Rectangle pipe = it.next();
+            for (int i = 0; i < pipes.size(); i++) {
+                Rectangle pipe = pipes.get(i);
                 pipe.x -= 5;
 
                 if (pipe.intersects(new Rectangle(100, birdY, BIRD_SIZE, BIRD_SIZE))) {
-                    running = false;
+                    endGame();
                 }
 
                 if (pipe.y == 0 && pipe.x + PIPE_WIDTH == 100) {
@@ -109,16 +199,16 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
                 }
             }
 
-            // 🔧 Đề xuất sửa: đảm bảo xóa & thêm ống đúng cách
+            // Đề xuất sửa: đảm bảo xóa & thêm ống đúng cách
             while (!pipes.isEmpty() && pipes.get(0).x + PIPE_WIDTH < 0) {
                 pipes.remove(0);
                 pipes.remove(0);
                 addPipe(false);
             }
 
-            // 🔧 Va chạm mép trên/dưới màn hình
+            // Va chạm mép trên/dưới màn hình
             if (birdY > HEIGHT - BIRD_SIZE || birdY < 0) {
-                running = false;
+                endGame();
             }
         }
 
@@ -149,7 +239,6 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.drawString("Điểm: " + score, 20, 40);
-        // 💬 Hướng dẫn dừng game ở góc phải
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 18));
         String pauseHint = "Ấn P để tạm dừng";
@@ -195,11 +284,13 @@ class GamePanel extends JPanel implements ActionListener, KeyListener, MouseList
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
-                // 👇 Nếu người chơi bấm OK thì tiếp tục luôn
                 if (result == JOptionPane.OK_OPTION) {
                     paused = false;
-                    timer.start();
+                    running = false;
+                    isRestarting = false; // 👈 Thêm dòng này để không reset
+                    repaint();
                 }
+
             }
 
         }

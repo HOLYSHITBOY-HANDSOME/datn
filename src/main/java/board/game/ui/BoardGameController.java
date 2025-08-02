@@ -50,15 +50,16 @@ public interface BoardGameController {
     default void showChangePasswordJDilog(JFrame frame) {
         this.showJDialog(new ChangePasswordJDialog(frame, true));
     }
+
     default void showUserManagerJDialog(JFrame frame) {
         this.showJDialog(new UserManagerJDialog(frame, true));
     }
 
-    default void showFlappyBirdGame() {
-        new FlappyBird(); // Gọi constructor bạn vừa thêm
+    default void showFlappyBirdGame(String userId, BoardGameJFrame parentFrame) {
+        new FlappyBird(userId, parentFrame);
     }
 
-    default void showBanGaGame(){
-        BanGa.showGame2();
-    }
+    default void showBanGaGame(String userId) {
+    BanGa.showGame2(userId, "BanGa");
+}  
 }

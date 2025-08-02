@@ -1,11 +1,13 @@
 package board.game.ui;
 
+import board.game.dao.DiemDAO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import board.game.ui.BoardGameJFrame;
 
 class Explosion {
 
@@ -35,6 +37,11 @@ class Explosion {
 }
 
 public class BanGa extends JPanel implements ActionListener, KeyListener {
+
+    private BoardGameJFrame parentFrame;
+    private String userId;
+    private DiemDAO.DiemService diemService;
+    private String gameId = "BanGa"; // Giữ nguyên hoặc tùy hệ thống
 
     private final int WIDTH = 1000, HEIGHT = 800;
     private final int PLAYER_WIDTH = 60, PLAYER_HEIGHT = 60;
@@ -69,7 +76,15 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     private long lastShootTime = 0;
     private final int SHOOT_DELAY = 300;
 
-    public BanGa() {
+    public BanGa(String userId, String gameId) {
+        this(userId, gameId, null);
+    }
+
+    public BanGa(String userId, String gameId, BoardGameJFrame parentFrame) {
+        this.parentFrame = parentFrame;
+        this.userId = (userId == null) ? "" : userId.trim();
+        this.gameId = gameId;
+        this.diemService = new DiemDAO.DiemService();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -141,6 +156,11 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         gameTimer.start();
         startChickenSpawner(spawnDelay);
         requestFocusInWindow();
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+        shooting = false;
     }
 
     @Override
@@ -218,11 +238,37 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
         hp--;
         showMinusOne = true;
         minusOneTimer = System.currentTimeMillis();
+        Window win = SwingUtilities.getWindowAncestor(this);
+
         if (hp <= 0) {
             gameOver = true;
             gameTimer.stop();
             chickenSpawner.stop();
             retryButton.setVisible(true);
+
+            diemService.capNhatDiemCaoNhat(userId, "game002", score);
+
+            int result = JOptionPane.showConfirmDialog(
+                    this,
+                    "Game Over!\nĐiểm của bạn là: " + score + "\nBạn muốn chơi lại không?",
+                    "Kết thúc",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            if (result == JOptionPane.NO_OPTION) {
+                if (win != null) {
+                    win.dispose();
+                } else {
+                    // Nếu không lấy được cửa sổ hiện tại, thì thoát toàn chương trình
+                    System.exit(0);
+                }
+
+                if (parentFrame != null) {
+                    parentFrame.setVisible(true);
+                }
+            }
+
         }
     }
 
@@ -299,7 +345,6 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
             case KeyEvent.VK_SPACE ->
                 shooting = true;
 
-            // 🟨 Thêm xử lý phím P để tạm dừng game
             case KeyEvent.VK_P -> {
                 if (!paused && !gameOver) {
                     paused = true;
@@ -345,20 +390,25 @@ public class BanGa extends JPanel implements ActionListener, KeyListener {
     }
 
     public static void main(String[] args) {
+        String userId = "user001";
+        String gameId = "BanGa";
+
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Chicken Invaders - Bắn Gà");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(false);
-            frame.setContentPane(new BanGa());
+            BanGa gamePanel = new BanGa(userId, gameId);
+            frame.setContentPane(gamePanel);
+
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
     }
 
-    public static void showGame2() {
-        JFrame frame = new JFrame("Bắn gà");
-        BanGa gamePanel = new BanGa();
+    public static void showGame2(String userId, String gameId) {
+        BanGa gamePanel = new BanGa(userId, gameId);
+        JFrame frame = new JFrame("Bắn Gà");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(gamePanel);
         frame.pack();
