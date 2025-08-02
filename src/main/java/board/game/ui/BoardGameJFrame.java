@@ -49,6 +49,8 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     }
     
      private int role;
+     
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -172,7 +174,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
         lbmetoer.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbmetoer.setForeground(new java.awt.Color(255, 102, 153));
-        lbmetoer.setText("Điểm");
+        lbmetoer.setText("Điểm:");
         jPanel5.add(lbmetoer, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 350, 500, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/background homeplayer.png"))); // NOI18N

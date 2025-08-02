@@ -21,5 +21,4 @@ public class Diem {
     private String idNguoiDung;    // FK → Users
     private String idGame;         // FK → Game
     private int diemSo;
-    private Date ngayChoi;
 }
