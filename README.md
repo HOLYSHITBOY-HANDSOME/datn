@@ -1,6 +1,6 @@
 ## 🌐 English
 
-- Hello! I am a student at FPT Polytechnic, and this is our project themed around games, within the Information Technology field (Software Development). We are 5 members and we are the ones who have participated in building this application.
+- Hello! We are students at FPT Polytechnic, and this is our project themed around games, within the Information Technology field (Software Development). We are 5 members and we are the ones who have participated in building this application.
 
 - The application was built with Java and developed using the NetBeans IDE. We utilized SQL Server as the database management system to store and manage system data.
 
@@ -8,7 +8,7 @@
 
 ## 🇻🇳 Việt Nam
 
-- Xin chào! Tôi là sinh viên tại FPT Polytechnic, và đây là dự án của chúng tôi với chủ đề về game thuộc lĩnh vực Công nghệ Thông tin (Phát triển phần mềm). Chúng tôi có 5 thành viên và chúng tôi là những người đã tham gia xây dựng ứng dụng này.
+- Xin chào! Chúng tôi là sinh viên  tại FPT Polytechnic, và đây là dự án của chúng tôi với chủ đề về game thuộc lĩnh vực Công nghệ Thông tin (Phát triển phần mềm). Chúng tôi có 5 thành viên và chúng tôi là những người đã tham gia xây dựng ứng dụng này.
 
 - Ứng dụng được phát triển bằng Java trên môi trường NetBeans, sử dụng SQL Server làm hệ quản trị cơ sở dữ liệu để lưu trữ và quản lý dữ liệu hệ thống.
 
