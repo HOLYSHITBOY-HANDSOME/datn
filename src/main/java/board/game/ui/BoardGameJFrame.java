@@ -5,6 +5,7 @@
 package board.game.ui;
 
 import board.game.dao.DiemDAO.DiemService;
+import board.game.util.Auth;
 import board.game.util.XIcon;
 
 /**
@@ -29,6 +30,12 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
      */
     public BoardGameJFrame(String userId, int role) {
         initComponents();
+        if (Auth.user.getVaiTro() == 2) { // Admin
+            btnUserManager.setText("Quản lý người chơi");
+        } else if (Auth.user.getVaiTro() == 3) { // Dev
+            btnUserManager.setText("Quản lý người dùng");
+        }
+
         this.userId = userId.trim();
         this.setCurrentUserId(this.userId);
 
