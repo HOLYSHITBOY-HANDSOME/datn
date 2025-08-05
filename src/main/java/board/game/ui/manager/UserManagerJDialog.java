@@ -264,11 +264,27 @@ public class UserManagerJDialog extends javax.swing.JDialog {
 
     void clearForm() {
         generateUserId();
-        rdbManager.setSelected(false);
-        rdbPlayer.setSelected(false);
-        rdbActive.setSelected(false);
-        rdbUnactive.setSelected(false);
         currentIndex = -1;
+
+        // Bỏ chọn tất cả radio trước
+        buttonGroup1.clearSelection(); // Vai trò
+        buttonGroup2.clearSelection(); // Trạng thái
+
+        // Mặc định vai trò nếu là Admin
+        int role = Auth.user.getVaiTro();
+        if (role == 2) { // Admin
+            rdbPlayer.setSelected(true); // Tạo mặc định là Người chơi
+        }
+
+        // Bật lại tất cả nút radio nếu bị tắt
+        rdbActive.setEnabled(true);
+        rdbUnactive.setEnabled(true);
+        rdbManager.setEnabled(true);
+        rdbPlayer.setEnabled(true);
+
+        // Chuyển sang tab Biểu mẫu
+        tabs.setSelectedIndex(1);
+
     }
 
     void moveFirst() {
@@ -316,7 +332,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Đã xóa các mục đã chọn!");
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
