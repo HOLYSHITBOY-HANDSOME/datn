@@ -45,8 +45,8 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         initComponents();
         fillTable();
         txtId.setEditable(false);
-
-        handleRoleVisibilityOnStartup(); // 👈 Gọi xử lý ẩn
+        generateUserId();
+        handleRoleVisibilityOnStartup();
     }
 
     public UserManagerJDialog(java.awt.Frame parent, boolean modal) {
@@ -54,36 +54,37 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         initComponents();
         fillTable();
         txtId.setEditable(false);
+        generateUserId();
+    }
+
+    private void generateUserId() {
+        String newId = userdao.generateNewUserId();
+        txtId.setText(newId);
     }
 
     boolean validateForm() {
-        String id = txtId.getText().trim();
-
-        if (txtId.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập ID người dùng");
-            txtId.requestFocus();
-            return false;
-        }
-
         if (!rdbActive.isSelected() && !rdbUnactive.isSelected()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái");
             return false;
         }
 
-        if (!rdbManager.isSelected() && !rdbPlayer.isSelected()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn vai trò");
-            return false;
+        int currentRole = Auth.user.getVaiTro();
+        if (currentRole == 3) { // Dev phải chọn vai trò
+            if (!rdbManager.isSelected() && !rdbPlayer.isSelected()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn vai trò");
+                return false;
+            }
         }
+
         return true;
     }
 
     void handleRoleVisibilityOnStartup() {
         int role = Auth.user.getVaiTro();
-        if (role == 2) { // Nếu Admin đăng nhập
+        if (role == 2) {
             rdbManager.setVisible(false);
             rdbPlayer.setVisible(false);
             jLabel5.setVisible(false);
-            // lblVaiTro.setVisible(false); // nếu có label đi kèm
         } else {
             rdbManager.setVisible(true);
             rdbPlayer.setVisible(true);
@@ -96,17 +97,14 @@ public class UserManagerJDialog extends javax.swing.JDialog {
 
         try {
             List<User> list = userdao.findAll();
-            int currentRole = Auth.user.getVaiTro(); // Vai trò người đăng nhập
+            int currentRole = Auth.user.getVaiTro();
 
             for (User u : list) {
                 int userRole = u.getVaiTro();
 
-                // Nếu Admin đăng nhập → ẩn cả Dev (3) và Admin (2)
                 if (currentRole == 2 && (userRole == 2 || userRole == 3)) {
                     continue;
                 }
-
-                // Nếu Dev đăng nhập → ẩn Dev, nhưng vẫn hiển thị Admin
                 if (currentRole == 3 && userRole == 3) {
                     continue;
                 }
@@ -138,21 +136,27 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         User u = new User();
         u.setIdNguoiDung(txtId.getText());
         u.setTrangThai(rdbActive.isSelected());
-        u.setVaiTro(rdbManager.isSelected() ? 2 : 1); // Không có radio Dev nên chỉ 2 hoặc 1
+
+        int role = Auth.user.getVaiTro();
+        if (role == 2) {
+            u.setVaiTro(1); // Admin tạo luôn là người chơi
+        } else {
+            u.setVaiTro(rdbManager.isSelected() ? 2 : 1);
+        }
+
         return u;
     }
 
     void setForm(User u) {
         txtId.setText(u.getIdNguoiDung());
-        rdbManager.setSelected(u.getVaiTro() == 2); // Admin
-        rdbPlayer.setSelected(u.getVaiTro() == 1); // Player
+        rdbManager.setSelected(u.getVaiTro() == 2);
+        rdbPlayer.setSelected(u.getVaiTro() == 1);
         rdbActive.setSelected(u.isTrangThai());
         rdbUnactive.setSelected(!u.isTrangThai());
 
         rdbActive.setEnabled(true);
         rdbUnactive.setEnabled(true);
 
-        // Xử lý phân quyền chỉnh vai trò
         int role = Auth.user.getVaiTro();
         boolean canEditRole = role == 3 && u.getVaiTro() != 3;
 
@@ -168,16 +172,12 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             }
         }
 
-        // Nếu người đăng nhập là Admin thì ẩn luôn radio
-        if (role == 2) { // 2 = Admin
+        if (role == 2) {
             rdbManager.setVisible(false);
             rdbPlayer.setVisible(false);
-            // Nếu có label "Vai trò" thì ẩn luôn:
-            // lblVaiTro.setVisible(false);
         } else {
             rdbManager.setVisible(true);
             rdbPlayer.setVisible(true);
-            // lblVaiTro.setVisible(true);
         }
     }
 
@@ -190,8 +190,10 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Không thể tạo tài khoản với trạng thái 'Ngừng hoạt động'.");
             return;
         }
+
         User u = getForm();
-        u.setMatKhau("pass999");
+        u.setMatKhau("pass123");
+
         try {
             userdao.create(u);
             fillTable();
@@ -207,24 +209,15 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             return;
         }
 
-        User u = getForm(); // Lấy dữ liệu từ form (bao gồm cả trạng thái đã chọn)
+        User u = getForm();
 
         try {
-            userdao.update(u); // Cập nhật xuống cơ sở dữ liệu
-
-            fillTable(); // Cập nhật lại bảng
+            userdao.update(u);
+            fillTable();
 
             if (!u.isTrangThai()) {
                 JOptionPane.showMessageDialog(this, "Tài khoản đã được chuyển sang trạng thái dừng hoạt động.");
-
-                // Vô hiệu hóa các thành phần giao diện
-                btnUpdate.setEnabled(false);
-                btnDelete.setEnabled(false);
-                rdbManager.setEnabled(false);
-                rdbPlayer.setEnabled(false);
-                rdbActive.setEnabled(false);
-                rdbUnactive.setEnabled(false);
-
+                setControlsEnabled(false);
                 return;
             }
 
@@ -255,14 +248,11 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             User u = userdao.findById(id);
             currentIndex = index;
 
-            // Gọi setForm xử lý UI + quyền
             setForm(u);
 
-            // Luôn cho phép chỉnh trạng thái và cập nhật
             btnUpdate.setEnabled(true);
             btnDelete.setEnabled(true);
 
-            // Nếu tài khoản bị khóa, cảnh báo
             if (!u.isTrangThai()) {
                 JOptionPane.showMessageDialog(this, "Tài khoản đang ngừng hoạt động.");
             }
@@ -273,9 +263,11 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     }
 
     void clearForm() {
-        txtId.setText("");
-        rdbManager.setSelected(true);
-        rdbActive.setSelected(true);
+        generateUserId();
+        rdbManager.setSelected(false);
+        rdbPlayer.setSelected(false);
+        rdbActive.setSelected(false);
+        rdbUnactive.setSelected(false);
         currentIndex = -1;
     }
 
@@ -324,6 +316,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Đã xóa các mục đã chọn!");
         }
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -355,7 +348,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         rdbActive = new javax.swing.JRadioButton();
         rdbUnactive = new javax.swing.JRadioButton();
         jPanel5 = new javax.swing.JPanel();
-        btnCreate = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
@@ -363,6 +355,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         btnMoveNext = new javax.swing.JButton();
         btnMovePrevious = new javax.swing.JButton();
         btnMoveLast = new javax.swing.JButton();
+        btnInsert = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -552,13 +545,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
                 .addGap(54, 54, 54))
         );
 
-        btnCreate.setText("Tạo mới");
-        btnCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateActionPerformed(evt);
-            }
-        });
-
         btnUpdate.setText("Cập nhật");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -608,20 +594,27 @@ public class UserManagerJDialog extends javax.swing.JDialog {
             }
         });
 
+        btnInsert.setText("Tạo mới");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(71, 71, 71)
                 .addComponent(btnMoveFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMoveNext, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -634,17 +627,17 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(44, 44, 44)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMoveLast, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMovePrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMoveNext, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMoveFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(btnMoveFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -678,7 +671,7 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(tabs)
                 .addContainerGap())
         );
 
@@ -699,11 +692,6 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         deleteCheckedItems();
     }//GEN-LAST:event_xoacacmucActionPerformed
-
-    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
-        insert();
-    }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
@@ -764,6 +752,11 @@ public class UserManagerJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_rdbPlayerMouseClicked
 
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        // TODO add your handling code here:
+        insert();
+    }//GEN-LAST:event_btnInsertActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -808,8 +801,8 @@ public class UserManagerJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bochontatca;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnMoveFirst;
     private javax.swing.JButton btnMoveLast;
     private javax.swing.JButton btnMoveNext;
