@@ -190,7 +190,7 @@ public class SignUpJDialog extends javax.swing.JDialog {
         String password = new String(txtPassWord.getPassword()).trim();
         String confirmPassword = txtconfirmpassword.getText().trim();
 
-        String role = "0";      // người chơi
+        String role = "1";      // người chơi
         String status = "1";    // hoạt động
 
 // Kiểm tra rỗng
