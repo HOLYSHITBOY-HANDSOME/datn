@@ -39,6 +39,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
 
         lbtitleGlobal = this.lbtitle;
         loadUserTitle();
+        applyUserTitleColor(userId);
         lbtitleGlobal = this.lbtitle;
 
         if (Auth.user.getVaiTro() == 2) { // Admin
@@ -71,12 +72,42 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
     }
 
     private void loadUserTitle() {
-        String sql = "SELECT title FROM Users WHERE idNguoiDung = ?";
+        String sql = "SELECT title, colorHex FROM UserTitleColors WHERE idNguoiDung = ? AND dangChon = 1";
         try {
             ResultSet rs = XJdbc.executeQuery(sql, userId);
             if (rs.next()) {
                 String title = rs.getString("title");
+                String colorHex = rs.getString("colorHex");
+
                 lbtitleGlobal.setText(title);
+
+                if (colorHex != null && !colorHex.trim().isEmpty()) {
+                    try {
+                        java.awt.Color color = java.awt.Color.decode(colorHex.trim());
+                        lbtitleGlobal.setForeground(color);
+                    } catch (NumberFormatException ex) {
+                        lbtitleGlobal.setForeground(java.awt.Color.BLACK);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void applyUserTitleColor(String userId) {
+        try {
+            String sql = "SELECT title, colorHex FROM UserTitleColors WHERE idNguoiDung = ? AND dangChon = 1";
+            ResultSet rs = XJdbc.executeQuery(sql, userId);
+            if (rs.next()) {
+                String title = rs.getString("title");
+                String colorHex = rs.getString("colorHex");
+
+                lbtitleGlobal.setText(title);
+                if (colorHex != null && !colorHex.isEmpty()) {
+                    java.awt.Color color = java.awt.Color.decode(colorHex);
+                    lbtitleGlobal.setForeground(color);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -240,7 +271,7 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
         lbtitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbtitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbtitle.setText("Title");
-        jPanel5.add(lbtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 290, 20));
+        jPanel5.add(lbtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 290, 40));
 
         btnreward.setBackground(new java.awt.Color(51, 91, 160));
         btnreward.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

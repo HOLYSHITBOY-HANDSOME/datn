@@ -19,8 +19,8 @@ import javax.naming.spi.DirStateFactory;
  */
 public class UserDAOimpl implements UserDAO {
 
-    String createSql = "INSERT INTO Users VALUES (?, ?, ?, ?, ?)";
-    String updateSql = "UPDATE Users SET trangthai=?, vaitro=?, title=? WHERE idnguoidung=?";
+    String createSql = "INSERT INTO Users VALUES (?, ?, ?, ?)";
+    String updateSql = "UPDATE Users SET trangthai=?, vaitro=? WHERE idnguoidung=?";
     String deleteSql = "DELETE FROM Users WHERE idnguoidung=?";
     String findAllSql = "SELECT * FROM Users";
     String findByIdSql = "SELECT * FROM Users WHERE idnguoidung=?";
@@ -32,16 +32,9 @@ public class UserDAOimpl implements UserDAO {
             entity.getMatKhau(),
             entity.isTrangThai(),
             entity.getVaiTro(),
-            entity.getTitle() // Thêm vào đây
         };
         XJdbc.executeUpdate(createSql, args);
         return entity;
-    }
-
-    @Override
-    public void updateTitle(String userId, String newTitle) {
-        String sql = "UPDATE Users SET title=? WHERE idnguoidung=?";
-        XJdbc.executeUpdate(sql, newTitle, userId);
     }
 
     @Override
@@ -49,7 +42,6 @@ public class UserDAOimpl implements UserDAO {
         Object[] args = {
             entity.isTrangThai(),
             entity.getVaiTro(),
-            entity.getTitle(), // Thêm vào đây
             entity.getIdNguoiDung()
         };
         XJdbc.executeUpdate(updateSql, args);

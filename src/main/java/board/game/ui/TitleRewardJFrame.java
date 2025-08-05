@@ -33,7 +33,7 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
         updateRewardDisplay();
         btnfb1.setActionCommand("Wobby Wings");
         btnfb2.setActionCommand("Feather Master");
-        btnfb3.setActionCommand("Pipe Doger");
+        btnfb3.setActionCommand("Pipe Dodger");
         btnfb4.setActionCommand("Sky Ruler");
         btnmt1.setActionCommand("Rookie Pilot");
         btnmt2.setActionCommand("First Feather Down");
@@ -41,20 +41,123 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
         btnmt4.setActionCommand("Galactic Legend");
         jButton1.setActionCommand("NewBie");
 
+        btnfb1.setName("btnfb1");
+        btnfb2.setName("btnfb2");
+        btnfb3.setName("btnfb3");
+        btnfb4.setName("btnfb4");
+        btnmt1.setName("btnmt1");
+        btnmt2.setName("btnmt2");
+        btnmt3.setName("btnmt3");
+        btnmt4.setName("btnmt4");
+        jButton1.setName("jButton1");
+
+        jButton3.addActionListener(e -> {
+            java.util.Random rand = new java.util.Random();
+            int r = rand.nextInt(256);
+            int g = rand.nextInt(256);
+            int b = rand.nextInt(256);
+            java.awt.Color color = new java.awt.Color(r, g, b);
+
+            BoardGameJFrame.lbtitleGlobal.setForeground(color);
+
+            String hexColor = String.format("#%02x%02x%02x", r, g, b);
+            String title = BoardGameJFrame.lbtitleGlobal.getText();
+
+            if (title != null && !title.trim().isEmpty()) {
+                try {
+                    String updateSql = "UPDATE UserTitleColors SET colorHex = ? WHERE idNguoiDung = ? AND title = ?";
+                    int rowsAffected = XJdbc.executeUpdate(updateSql, hexColor, userId, title);
+                    if (rowsAffected == 0) {
+                        System.err.println("Không tìm thấy dòng để gán màu cho title: " + title);
+                    } else {
+                        System.out.println("Đã gán màu " + hexColor + " cho title: " + title);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Lỗi khi lưu màu: " + ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Bạn chưa chọn danh hiệu để gán màu.");
+            }
+        });
+
+        try {
+            String sqlTitle = "SELECT title FROM UserTitleColors WHERE idNguoiDung = ?";
+            ResultSet rsTitle = XJdbc.executeQuery(sqlTitle, userId);
+            if (rsTitle.next()) {
+                String title = rsTitle.getString("title");
+
+                String sqlColor = "SELECT colorHex FROM UserTitleColors WHERE idNguoiDung = ? AND title = ?";
+                ResultSet rsColor = XJdbc.executeQuery(sqlColor, userId, title);
+                if (rsColor.next()) {
+                    String colorHex = rsColor.getString("colorHex");
+                    if (colorHex != null && !colorHex.trim().isEmpty()) {
+                        try {
+                            java.awt.Color color = java.awt.Color.decode(colorHex.trim());
+                            BoardGameJFrame.lbtitleGlobal.setForeground(color);
+                        } catch (NumberFormatException ex) {
+                            System.err.println("Mã màu không đúng: " + colorHex);
+                            BoardGameJFrame.lbtitleGlobal.setForeground(java.awt.Color.BLACK);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ActionListener titleListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedTitle = e.getActionCommand();
-                BoardGameJFrame.lbtitleGlobal.setText(selectedTitle);
+                String btnName = ((JButton) e.getSource()).getName();
+                int required = titleConditions.getOrDefault(btnName, 0);
 
-                java.util.Random rand = new java.util.Random();
-                int r = rand.nextInt(256);
-                int g = rand.nextInt(256);
-                int b = rand.nextInt(256);
-                BoardGameJFrame.lbtitleGlobal.setForeground(new java.awt.Color(r, g, b));
+                String game = btnName.startsWith("btnfb") ? "game001" : "game002";
+                int score = getLatestScoreForGame(game);
 
-                String sql = "UPDATE Users SET title = ? WHERE idNguoiDung = ?";
-                XJdbc.executeUpdate(sql, selectedTitle, userId);
+                if (score >= required) {
+                    BoardGameJFrame.lbtitleGlobal.setText(selectedTitle);
+
+                    try {
+
+                        String sqlColor = "SELECT colorHex FROM UserTitleColors WHERE idNguoiDung = ? AND title = ?";
+                        ResultSet rsColor = XJdbc.executeQuery(sqlColor, userId, selectedTitle);
+                        if (rsColor.next()) {
+                            String colorHex = rsColor.getString("colorHex");
+                            if (colorHex != null && !colorHex.isEmpty()) {
+                                try {
+                                    java.awt.Color color = java.awt.Color.decode(colorHex.trim());
+                                    BoardGameJFrame.lbtitleGlobal.setForeground(color);
+                                } catch (NumberFormatException ex) {
+                                    BoardGameJFrame.lbtitleGlobal.setForeground(java.awt.Color.BLACK);
+                                }
+                            }
+                        }
+
+                        String checkSql = "SELECT COUNT(*) AS total FROM UserTitleColors WHERE idNguoiDung = ? AND title = ?";
+                        ResultSet rsCheck = XJdbc.executeQuery(checkSql, userId, selectedTitle);
+                        if (rsCheck.next()) {
+                            int count = rsCheck.getInt("total");
+                            if (count == 0) {
+                                String insertSql = "INSERT INTO UserTitleColors (idNguoiDung, title, colorHex, dangChon) VALUES (?, ?, NULL, 1)";
+                                XJdbc.executeUpdate(insertSql, userId, selectedTitle);
+                            } else {
+
+                                String clearSQL = "UPDATE UserTitleColors SET dangChon = 0 WHERE idNguoiDung = ?";
+                                XJdbc.executeUpdate(clearSQL, userId);
+
+                                String setSQL = "UPDATE UserTitleColors SET dangChon = 1 WHERE idNguoiDung = ? AND title = ?";
+                                XJdbc.executeUpdate(setSQL, userId, selectedTitle);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Bạn chưa đủ điểm để nhận danh hiệu này!");
+                }
             }
         };
 
@@ -85,8 +188,8 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-        updateButtonStates("game001", scoreMap.getOrDefault("game001", 0)); // Flappy Bird
-        updateButtonStates("game002", scoreMap.getOrDefault("game002", 0)); // Meteor
+        updateButtonStates("game001", scoreMap.getOrDefault("game001", 0));
+        updateButtonStates("game002", scoreMap.getOrDefault("game002", 0));
     }
 
     private void initTitleConditions() {
@@ -105,34 +208,50 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
             String btnName = entry.getKey();
             int requiredScore = entry.getValue();
 
-            JButton btn = getButtonByName(btnName); // bạn tạo hàm này để lấy JButton theo tên
-            String titleText;
+            if (!isMatchingGame(btnName, currentGame)) {
+                continue;
+            }
 
-            if (currentScore >= requiredScore && isMatchingGame(btnName, currentGame)) {
+            JButton btn = getButtonByName(btnName);
+            if (btn == null) {
+                continue;
+            }
+
+            String titleText;
+            if (currentScore >= requiredScore) {
                 titleText = "Đã nhận";
-                btn.setEnabled(true);
             } else {
-                titleText = "Đạt " + requiredScore + " điểm để nhận";
-                btn.setEnabled(true);
+                titleText = "Hiện tại: " + currentScore + "/" + requiredScore + " điểm";
             }
 
             btn.setText(titleText);
-            btn.addActionListener(e -> handleButtonClick(currentScore, requiredScore, currentGame, btnName));
+            btn.setEnabled(true);
         }
-        jButton1.setText("Đã nhận");
-        jButton1.setEnabled(true);
-        jButton1.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Chào mừng bạn đến với thế giới trò chơi!");
-        });
-
     }
 
-    private void handleButtonClick(int score, int required, String game, String btnName) {
-        if (score >= required && isMatchingGame(btnName, game)) {
+    private void handleButtonClick(String btnName) {
+        String game = btnName.startsWith("btnfb") ? "game001" : "game002";
+        int score = getLatestScoreForGame(game);
+        int required = titleConditions.get(btnName);
+
+        if (score >= required) {
             JOptionPane.showMessageDialog(this, "Bạn đã nhận được danh hiệu này rồi!");
         } else {
             JOptionPane.showMessageDialog(this, "Bạn chưa đủ điểm để nhận danh hiệu này!");
         }
+    }
+
+    private int getLatestScoreForGame(String gameId) {
+        String sql = "SELECT diemso FROM Diem WHERE idnguoidung = ? AND idgame = ?";
+        try {
+            ResultSet rs = XJdbc.executeQuery(sql, userId, gameId);
+            if (rs.next()) {
+                return rs.getInt("diemso");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private JButton getButtonByName(String name) {
@@ -167,14 +286,14 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
         String sql = "SELECT Diem.diemso, Game.tengame FROM Diem JOIN Game ON Diem.idgame = Game.idgame WHERE Diem.idnguoidung = ?";
 
         try {
-            ResultSet rs = XJdbc.executeQuery(sql, userId); // chỉ khai báo rs ở đây
+            ResultSet rs = XJdbc.executeQuery(sql, userId);
             while (rs.next()) {
                 String gameName = rs.getString("tengame");
                 int score = rs.getInt("diemso");
                 System.out.println(gameName + ": " + score);
             }
         } catch (Exception e) {
-            e.printStackTrace(); // Xem lỗi thật sự là gì
+            e.printStackTrace();
         }
     }
 
@@ -205,6 +324,7 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnfb4 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -376,6 +496,7 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 610, 610));
 
+        jButton2.setBackground(new java.awt.Color(235, 232, 216));
         jButton2.setFont(new java.awt.Font("Serif", 0, 20)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 102, 102));
         jButton2.setText("Thoát");
@@ -385,6 +506,12 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 100, 50));
+
+        jButton3.setBackground(new java.awt.Color(0, 0, 0));
+        jButton3.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Đổi màu");
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 94, 130, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/board/game/icons/BackgroundTitle.png"))); // NOI18N
@@ -464,6 +591,7 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnmt4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

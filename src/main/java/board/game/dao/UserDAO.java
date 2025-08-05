@@ -15,6 +15,4 @@ public interface UserDAO extends CrudDAO<User, String> {
 
     boolean isUsernameExists(String username);
 
-    void updateTitle(String userId, String newTitle); // Tùy chọn, nếu bạn cần dùng riêng
-
 }

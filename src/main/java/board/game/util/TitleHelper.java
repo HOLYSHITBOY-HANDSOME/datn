@@ -12,7 +12,7 @@ public class TitleHelper {
             try {
                 ResultSet rs = XJdbc.executeQuery(sql);
                 while (rs.next()) {
-                    int idDiem = rs.getInt("iddiem"); // ✅ đúng rồi nè
+                    int idDiem = rs.getInt("iddiem");
                     String idNguoiDung = rs.getString("idnguoidung");
                     String idGame = rs.getString("idgame");
                     int diemSo = rs.getInt("diemso");
@@ -24,4 +24,5 @@ public class TitleHelper {
             }
         }
     }
+
 }
