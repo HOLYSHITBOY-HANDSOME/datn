@@ -20,5 +20,5 @@ public class User {
     private String matKhau;
     private boolean trangThai;
     private int  vaiTro;         // admin / user
-
+    private String title; // Danh hiệu người chơi
 }

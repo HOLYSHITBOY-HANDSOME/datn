@@ -60,6 +60,6 @@ public interface BoardGameController {
     }
 
     default void showBanGaGame(String userId) {
-    BanGa.showGame2(userId, "BanGa");
-}  
+        BanGa.showGame2(userId, "BanGa");
+    }
 }
