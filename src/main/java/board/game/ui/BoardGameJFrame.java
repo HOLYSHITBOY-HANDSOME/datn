@@ -104,10 +104,15 @@ public class BoardGameJFrame extends javax.swing.JFrame implements BoardGameCont
                 String colorHex = rs.getString("colorHex");
 
                 lbtitleGlobal.setText(title);
-                if (colorHex != null && !colorHex.isEmpty()) {
-                    java.awt.Color color = java.awt.Color.decode(colorHex);
-                    lbtitleGlobal.setForeground(color);
+                if (colorHex != null && !colorHex.trim().isEmpty()) {
+                    try {
+                        java.awt.Color color = java.awt.Color.decode(colorHex.trim());
+                        lbtitleGlobal.setForeground(color);
+                    } catch (NumberFormatException ex) {
+                        lbtitleGlobal.setForeground(java.awt.Color.BLACK); // hoặc màu mặc định
+                    }
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();

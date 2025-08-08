@@ -70,7 +70,7 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
                     if (rowsAffected == 0) {
                         System.err.println("Không tìm thấy dòng để gán màu cho title: " + title);
                     } else {
-                        System.out.println("Đã gán màu " + hexColor + " cho title: " + title);
+                        System.out.println("Color code " + hexColor + " for title: " + title);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -82,26 +82,14 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
         });
 
         try {
-            String sqlTitle = "SELECT title FROM UserTitleColors WHERE idNguoiDung = ?";
+            String sqlTitle = "SELECT title, colorHex FROM UserTitleColors WHERE idNguoiDung = ? AND dangChon = 1";
             ResultSet rsTitle = XJdbc.executeQuery(sqlTitle, userId);
             if (rsTitle.next()) {
                 String title = rsTitle.getString("title");
-
-                String sqlColor = "SELECT colorHex FROM UserTitleColors WHERE idNguoiDung = ? AND title = ?";
-                ResultSet rsColor = XJdbc.executeQuery(sqlColor, userId, title);
-                if (rsColor.next()) {
-                    String colorHex = rsColor.getString("colorHex");
-                    if (colorHex != null && !colorHex.trim().isEmpty()) {
-                        try {
-                            java.awt.Color color = java.awt.Color.decode(colorHex.trim());
-                            BoardGameJFrame.lbtitleGlobal.setForeground(color);
-                        } catch (NumberFormatException ex) {
-                            System.err.println("Mã màu không đúng: " + colorHex);
-                            BoardGameJFrame.lbtitleGlobal.setForeground(java.awt.Color.BLACK);
-                        }
-                    }
-                }
+                String colorHex = rsTitle.getString("colorHex");
+                applyColorToLabel(colorHex, BoardGameJFrame.lbtitleGlobal);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,21 +108,15 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
                     BoardGameJFrame.lbtitleGlobal.setText(selectedTitle);
 
                     try {
-
+                        // Gán màu nếu có
                         String sqlColor = "SELECT colorHex FROM UserTitleColors WHERE idNguoiDung = ? AND title = ?";
                         ResultSet rsColor = XJdbc.executeQuery(sqlColor, userId, selectedTitle);
                         if (rsColor.next()) {
                             String colorHex = rsColor.getString("colorHex");
-                            if (colorHex != null && !colorHex.isEmpty()) {
-                                try {
-                                    java.awt.Color color = java.awt.Color.decode(colorHex.trim());
-                                    BoardGameJFrame.lbtitleGlobal.setForeground(color);
-                                } catch (NumberFormatException ex) {
-                                    BoardGameJFrame.lbtitleGlobal.setForeground(java.awt.Color.BLACK);
-                                }
-                            }
+                            applyColorToLabel(colorHex, BoardGameJFrame.lbtitleGlobal);
                         }
 
+                        // Kiểm tra xem danh hiệu đã tồn tại chưa
                         String checkSql = "SELECT COUNT(*) AS total FROM UserTitleColors WHERE idNguoiDung = ? AND title = ?";
                         ResultSet rsCheck = XJdbc.executeQuery(checkSql, userId, selectedTitle);
                         if (rsCheck.next()) {
@@ -143,7 +125,6 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
                                 String insertSql = "INSERT INTO UserTitleColors (idNguoiDung, title, colorHex, dangChon) VALUES (?, ?, NULL, 1)";
                                 XJdbc.executeUpdate(insertSql, userId, selectedTitle);
                             } else {
-
                                 String clearSQL = "UPDATE UserTitleColors SET dangChon = 0 WHERE idNguoiDung = ?";
                                 XJdbc.executeUpdate(clearSQL, userId);
 
@@ -294,6 +275,19 @@ public class TitleRewardJFrame extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void applyColorToLabel(String colorHex, javax.swing.JLabel label) {
+        if (colorHex != null && !colorHex.trim().isEmpty()) {
+            try {
+                java.awt.Color color = java.awt.Color.decode(colorHex.trim());
+                label.setForeground(color);
+            } catch (NumberFormatException ex) {
+                label.setForeground(java.awt.Color.BLACK);
+            }
+        } else {
+            label.setForeground(java.awt.Color.BLACK);
         }
     }
 
